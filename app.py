@@ -1,29 +1,40 @@
-from flask import Flask, flash, render_template, request, redirect, url_for
+from flask import Flask, render_template
 import mysql.connector
 import connect
 
 app = Flask(__name__)
 
-dbconn = None
+db_conn = None
 connection = None
 
-def getCursor():
-    global dbconn
+
+def get_cursor():
+    global db_conn
     global connection
     connection = mysql.connector.connect(
-        user=connect.dbuser,
-        password=connect.dbpass,
-        host=connect.dbhost,
-        database=connect.dbname,
+        user=connect.db_user,
+        password=connect.db_pass,
+        host=connect.db_host,
+        database=connect.db_name,
         autocommit=True
     )
-    dbconn = connection.cursor(dictionary=True, buffered=True)
-    return dbconn
+    db_conn = connection.cursor(dictionary=True, buffered=True)
+    return db_conn
 
 
 @app.route("/")
 def home():
     return render_template('base.html')
+
+
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+
+@app.route("/register")
+def register():
+    return render_template('register.html')
 
 
 if __name__ == '__main__':

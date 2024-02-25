@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block nav_links %}
+<li class="nav-item">
+    <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{{ url_for('login') }}">Login</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="card mb-3" style="max-width: 800px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://cdn.pixabay.com/photo/2015/10/21/17/22/fern-1000052_1280.jpg" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">Register</h3>
+                        <form method="post" id="registration-form">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm-password" name="confirm_password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="first-name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="first-name" name="first_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last-name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last-name" name="last_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-outline-success btn-lg">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('registration-form').onsubmit = function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Validate if password and confirm password match
+        if (document.getElementById('password').value === document.getElementById('confirm-password').value) {
+            // Perform registration logic (this would involve backend communication, e.g., using AJAX)
+
+            // Redirect to login page upon successful registration
+            window.location.href = 'login.html';
+        } else {
+            alert('Passwords do not match!'); // Alert user if passwords do not match
+        }
+    };
+</script>
+{% endblock %}
