@@ -11,7 +11,7 @@
  Target Server Version : 80200
  File Encoding         : 65001
 
- Date: 27/02/2024 10:37:26
+ Date: 28/02/2024 10:37:16
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `agriculture_items`  (
   `impacts` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `control` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`agriculture_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of agriculture_items
@@ -134,7 +134,7 @@ CREATE TABLE `agronomists`  (
   PRIMARY KEY (`agronomist_id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `agronomists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of agronomists
@@ -159,6 +159,11 @@ INSERT INTO `agronomists` VALUES (6, 17, 'Chieh Lun', 'Mo', 'mo2@icloud.com', '(
 INSERT INTO `agronomists` VALUES (8, 18, 'Tin Wing', 'Lai', 'lai928@gmail.com', '11-897-8162', 'Rm. 25, 13-3-12 Toyohira 3 Jo, Toyohira Ward, Sapporo, Japan', '2016-03-17', 'inactive');
 INSERT INTO `agronomists` VALUES (1, 19, 'Jacqueline', 'West', 'westjacqueline04@icloud.com', '74-365-3098', '28-kai, 1-7-5 Saidaiji Akodacho, Nara, Japan', '2014-04-28', 'inactive');
 INSERT INTO `agronomists` VALUES (5, 20, 'Daisuke', 'Hashimoto', 'hasdaisuke61@mail.com', '213-428-7555', '349 Wall Street Apartment 2, Los Angeles, CA 90003, United States', '2008-12-30', 'active');
+INSERT INTO `agronomists` VALUES (61, 21, 'Chan', 'Meng', 'tomoko230311@outlook.com', '0226926685', 'Birchs Road, Lincoln, Selwyn District', '2024-02-27', 'active');
+INSERT INTO `agronomists` VALUES (66, 22, 'Zitao', 'Qiu', 'qiz430@gmail.com', '760-0272-3101', 'Room 19, CR Building, 130 Zhongshan 5th Rd, Zimaling Shangquan, Zhongshan, China', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (67, 23, 'Sara', 'Ferguson', 'saraf622@gmail.com', '(161) 856 8061', 'Unit 24, Oxford Eco Centre, 465 Portland St, Manchester, M1 3LA, United Kingdom', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (68, 24, 'Ayato', 'Ando', 'andoayato@mail.com', '3-2262-8181', 'Rm. 44, 5-2-1 Higashi Gotanda, Shinagawa-ku , Tokyo, Japan', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (69, 25, 'Kasumi', 'Koyama', 'koyama216@gmail.com', '(20) 0968 8882', 'Flat 41, 539 Hanover Street, London, W1S 1YD, United Kingdom', '2024-02-28', 'active');
 
 -- ----------------------------
 -- Table structure for images
@@ -172,7 +177,7 @@ CREATE TABLE `images`  (
   PRIMARY KEY (`image_id`) USING BTREE,
   INDEX `agriculture_id`(`agriculture_id` ASC) USING BTREE,
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`agriculture_id`) REFERENCES `agriculture_items` (`agriculture_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 445 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of images
@@ -640,7 +645,7 @@ CREATE TABLE `staff_and_administrators`  (
   PRIMARY KEY (`staff_number`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `staff_and_administrators_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of staff_and_administrators
@@ -685,6 +690,10 @@ INSERT INTO `staff_and_administrators` VALUES (57, 37, 'Roy', 'Gomez', 'gomezro3
 INSERT INTO `staff_and_administrators` VALUES (58, 38, 'Wayne', 'Payne', 'payneway@icloud.com', '10-021-4334', '2018-02-14', 'Operations manager', 'Research & Development', 'inactive');
 INSERT INTO `staff_and_administrators` VALUES (59, 39, 'Daisuke', 'Yamaguchi', 'dyama808@mail.com', '7337 220775', '2009-08-29', 'Dentist', 'Production', 'inactive');
 INSERT INTO `staff_and_administrators` VALUES (60, 40, 'Wai Man', 'Sheh', 'sheh5@gmail.com', '213-754-2693', '2023-07-21', 'Groomer', 'Administrative & Management', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (62, 41, 'Lan', 'Han', 'hla3@outlook.com', '760-2949-4919', '2024-02-28', 'Housekeeper', 'Administrative & Management', 'active');
+INSERT INTO `staff_and_administrators` VALUES (63, 42, 'Victoria', 'Smith', 'smivictoria5@gmail.com', '614-403-4776', '2024-02-28', 'UX/UI designer', 'Administrative & Management', 'active');
+INSERT INTO `staff_and_administrators` VALUES (64, 43, 'Kwok Ming', 'Lok', 'kwokming74@icloud.com', '21-6453-9745', '2024-02-28', 'Engineer', 'Marketing', 'active');
+INSERT INTO `staff_and_administrators` VALUES (65, 44, 'Sheila', 'Simpson', 'sheilasimpson@gmail.com', '7083 461482', '2024-02-28', 'Operations manager', 'Legal Department', 'active');
 
 -- ----------------------------
 -- Table structure for users
@@ -697,15 +706,15 @@ CREATE TABLE `users`  (
   `role_name` enum('agronomist','staff','administrator') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'qji8', 'YCfACxhsWo', 'agronomist', 'inactive');
-INSERT INTO `users` VALUES (2, 'cha6', 'fr7ihrBIOT', 'agronomist', 'active');
-INSERT INTO `users` VALUES (3, 'mo201', 'ZM4fWU2F27', 'agronomist', 'active');
-INSERT INTO `users` VALUES (4, 'suzukiayano11', 'mMdjN52zOm', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (1, 'qji8', 'pbkdf2:sha256:600000$OTTXgB5uQSjh8Aml$6a720025159fb23edae51875204e71e5c26a429172bd79fbf521b1af1362264a', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (2, 'cha6', 'pbkdf2:sha256:600000$XCGjr8LPweFy8eDC$53ebbbd94facefcf21c5026961227d3d27d51cc90df6b65fee9124d8a5bae0c4', 'agronomist', 'active');
+INSERT INTO `users` VALUES (3, 'mo201', 'pbkdf2:sha256:600000$jNNBdjBI5ylDBFP2$6b80e94e4f70684928ff583e6da49ce12ed68f19dc5bf5894a2cc675a8373189', 'agronomist', 'active');
+INSERT INTO `users` VALUES (4, 'suzukiayano11', 'pbkdf2:sha256:600000$T0QB3jTn9wCbtniS$78ea339c927e4d7e4f8892a5bdf38a8168552d2f90c9986cb48b58aac21f8730', 'agronomist', 'inactive');
 INSERT INTO `users` VALUES (5, 'zoujialun', 'Y8ZhD2Lbwv', 'agronomist', 'active');
 INSERT INTO `users` VALUES (6, 'rcl3', 'cEC1tWfM1z', 'agronomist', 'active');
 INSERT INTO `users` VALUES (7, 'kao4', 'qmwCIM8DCe', 'agronomist', 'inactive');
@@ -722,9 +731,9 @@ INSERT INTO `users` VALUES (17, 'naos4', 'JM7ZZdZn9J', 'agronomist', 'active');
 INSERT INTO `users` VALUES (18, 'sairik', 'tuZjUzzNev', 'agronomist', 'active');
 INSERT INTO `users` VALUES (19, 'wongkali820', 'Q7t4vdKN4V', 'agronomist', 'active');
 INSERT INTO `users` VALUES (20, 'rogerdun', 'gS0dkPH6zU', 'agronomist', 'active');
-INSERT INTO `users` VALUES (21, 'sumwinglam', 'AlCZzumXFi', 'staff', 'active');
-INSERT INTO `users` VALUES (22, 'paurobinson', 'Q5WXwr0Dn3', 'staff', 'active');
-INSERT INTO `users` VALUES (23, 'maedm2018', 'zwHxVujuc9', 'staff', 'inactive');
+INSERT INTO `users` VALUES (21, 'sumwinglam', 'pbkdf2:sha256:600000$hiA7RvDSGNhVxEl6$2b7cd78fae38cda7156b6ec65398787fa52985a19f84aa4b4c97a2a816e98415', 'staff', 'active');
+INSERT INTO `users` VALUES (22, 'paurobinson', 'pbkdf2:sha256:600000$N8SEM4RZVPKS5kYN$6d8862926f6d69b01314b7d46508d178da0e25a389e652cf4456eebda0c8061b', 'staff', 'active');
+INSERT INTO `users` VALUES (23, 'maedm2018', 'pbkdf2:sha256:600000$N5xlaJynnT7Dx3dK$6612cacf5c16133db5856b216bccc3887fe0ee35d71c027b6d3ec6efd071e25d', 'staff', 'inactive');
 INSERT INTO `users` VALUES (24, 'sakaisara', 'Kd4xFGWgp5', 'staff', 'active');
 INSERT INTO `users` VALUES (25, 'ht88', 'TImczPrpjh', 'staff', 'inactive');
 INSERT INTO `users` VALUES (26, 'saitokai', 'BGNPFGwdNn', 'staff', 'inactive');
@@ -742,7 +751,7 @@ INSERT INTO `users` VALUES (37, 'kevmartin', '8KJhK0dMT2', 'staff', 'active');
 INSERT INTO `users` VALUES (38, 'gonr515', 'NTmoDhnPeT', 'staff', 'active');
 INSERT INTO `users` VALUES (39, 'wingsze2', 'AXr7hFzrHs', 'staff', 'inactive');
 INSERT INTO `users` VALUES (40, 'mo622', 'E1GizJdUu9', 'staff', 'inactive');
-INSERT INTO `users` VALUES (41, 'chsauman310', 'VTxyFPBBer', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (41, 'chsauman310', 'pbkdf2:sha256:600000$AAzZjBavUz2uCLpb$b0bfc1bd38fe3265deabca8fb8f0854e4e9d24c62e551fd889bf3b20736452ee', 'administrator', 'inactive');
 INSERT INTO `users` VALUES (42, 'aoishida7', 'yD98bDu7C6', 'administrator', 'inactive');
 INSERT INTO `users` VALUES (43, 'ruicai', 'XngOm0ePvt', 'administrator', 'active');
 INSERT INTO `users` VALUES (44, 'head', 'jMAHyhOKiG', 'administrator', 'inactive');
@@ -762,5 +771,14 @@ INSERT INTO `users` VALUES (57, 'szekwan805', '11aEQjTC1f', 'administrator', 'in
 INSERT INTO `users` VALUES (58, 'nocampbell', '7xKoxAjMMO', 'administrator', 'inactive');
 INSERT INTO `users` VALUES (59, 'ikkishi5', 'GdMY58xIT9', 'administrator', 'active');
 INSERT INTO `users` VALUES (60, 'ylku', 'cnn2SYsIej', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (61, 'chan', 'pbkdf2:sha256:600000$svJYomAHuBhWJUG2$cb6ba98e46e5669726995b1d3893bd4cc1ffd263f7120a0624347db86ac97cd2', 'agronomist', 'active');
+INSERT INTO `users` VALUES (62, 'lan', 'pbkdf2:sha256:600000$Sm7vfYwv72UmTS3U$d545a01bb1c25acd89c167af5d86f47a59078ae6c5a1a90428acd3e8c1b64039', 'staff', 'active');
+INSERT INTO `users` VALUES (63, 'victoria', 'pbkdf2:sha256:600000$zPXep98hpcLsMeou$d1a4b42d7bfc8fe023b1aa157b72d50c0e91a03382fef926144cd5ee2765da5c', 'administrator', 'active');
+INSERT INTO `users` VALUES (64, 'lok', 'pbkdf2:sha256:600000$nlGJKdf79886kCPf$736bf28f40e5d92f770970e39a729d1d46123539b482166e35a5c2358196e4ca', 'staff', 'active');
+INSERT INTO `users` VALUES (65, 'sheila', 'pbkdf2:sha256:600000$3iDNuzuhUQIw65us$43a6a447d16d1d07ac10da1e2b91a271776a509d37a56890c8d85818db7d7267', 'staff', 'active');
+INSERT INTO `users` VALUES (66, 'zitao', 'pbkdf2:sha256:600000$OPWN60liWGQ1rOmo$b544dfc4fefe49211aa38bc81a59ed45e5f96e4c7f01fb6ba44129b6e661d888', 'agronomist', 'active');
+INSERT INTO `users` VALUES (67, 'sara', 'pbkdf2:sha256:600000$it2kzmB3lkhc5nrB$7934810a108bed82c81792e190f35abd3186e292d7b3f11b9e65a8102b27756f', 'agronomist', 'active');
+INSERT INTO `users` VALUES (68, 'ayato', 'pbkdf2:sha256:600000$YTNv4Srp9fkM8vKL$58d59e1308121de9f27640c79968e610eff24d2be7ad75b15d41cf01d4335956', 'agronomist', 'active');
+INSERT INTO `users` VALUES (69, 'kasumi', 'pbkdf2:sha256:600000$DhPiefRF7PwlbDJ5$24c7756c7b5453885cf9bedb67f75ebe1612fa9cf7822be7918631fd1ebe787a', 'agronomist', 'active');
 
 SET FOREIGN_KEY_CHECKS = 1;
