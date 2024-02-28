@@ -117,11 +117,11 @@ def login():
         if user and check_password_hash(user['password_hash'], password):
             role = user['role_name']
             if role == 'agronomist':
-                return redirect(url_for('agronomist_profile'))
+                return redirect(url_for('agronomist_dashboard'))
             elif role == 'staff':
-                return redirect(url_for('staff_profile'))
+                return redirect(url_for('staff_dashboard'))
             elif role == 'administrator':
-                return redirect(url_for('administrator_profile'))
+                return redirect(url_for('administrator_dashboard'))
         return 'Login Failed', 401
 
 
@@ -267,6 +267,20 @@ def check_username():
     user_exists = cursor.fetchone()
     return {'exists': bool(user_exists)}
 
+
+
+
+@app.route("/agronomist_dashboard")
+def agronomist_dashboard():
+    return render_template('agronomist_dashboard.html')
+
+@app.route("/staff_dashboard")
+def staff_dashboard():
+    return render_template('staff_dashboard.html')
+
+@app.route("/administrator_dashboard")
+def administrator_dashboard():
+    return render_template('administrator_dashboard.html')
 
 
 
