@@ -1,3 +1,4 @@
+from string import punctuation
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
@@ -21,6 +22,16 @@ def get_cursor():
     )
     db_conn = connection.cursor(dictionary=True, buffered=True)
     return db_conn
+
+# Define the validate_password function once time to reuse it throughout the application
+def validate_password(password):
+    if len(password) < 8:
+        return False
+    has_upper = any(c.isupper() for c in password)
+    has_lower = any(c.islower() for c in password)
+    has_digit = any(c.isdigit() for c in password)
+    has_special = any(c in punctuation for c in password)
+    return has_upper and has_lower and has_digit and has_special
 
 
 @app.route("/")
@@ -56,6 +67,11 @@ def register():
             phone = request.form['phone']
             address = request.form['address']
 
+            # Check if password is complex enough
+            if not validate_password(password):  # Assuming validate_password is a function defined elsewhere
+                return render_template('register.html',
+                                       error_message='Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.')
+
             # Hash password
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
@@ -84,6 +100,8 @@ def register():
         # Redirect to the login page
         return redirect(url_for('login'))
 
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -105,18 +123,6 @@ def login():
             elif role == 'administrator':
                 return redirect(url_for('administrator_profile'))
         return 'Login Failed', 401
-
-@app.route("/agronomist_profile")
-def agronomist_profile():
-    return render_template('agronomist_profile.html')
-
-@app.route("/staff_profile")
-def staff_profile():
-    return render_template('staff_profile.html')
-
-@app.route("/administrator_profile")
-def administrator_profile():
-    return render_template('administrator_profile.html')
 
 
 # 测试用：
@@ -150,6 +156,10 @@ def register_for_staff():
             position = request.form['position']
             department = request.form['department']
 
+            # Check if password is complex enough
+            if not validate_password(password):  # Assuming validate_password is a function defined elsewhere
+                return render_template('register.html',
+                                       error_message='Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.')
 
             # Hash password
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
@@ -178,6 +188,9 @@ def register_for_staff():
 
         # Redirect to the login page
         return redirect(url_for('login'))
+
+
+
 
 
 # 测试用：
@@ -211,6 +224,10 @@ def register_for_admin():
             position = request.form['position']
             department = request.form['department']
 
+            # Check if password is complex enough
+            if not validate_password(password):  # Assuming validate_password is a function defined elsewhere
+                return render_template('register.html',
+                                       error_message='Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.')
 
             # Hash password
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
@@ -239,6 +256,33 @@ def register_for_admin():
 
         # Redirect to the login page
         return redirect(url_for('login'))
+
+
+
+@app.route("/check_username")
+def check_username():
+    username = request.args.get('username')
+    cursor = get_cursor()
+    cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+    user_exists = cursor.fetchone()
+    return {'exists': bool(user_exists)}
+
+
+
+
+
+@app.route("/agronomist_profile")
+def agronomist_profile():
+    return render_template('agronomist_profile.html')
+
+@app.route("/staff_profile")
+def staff_profile():
+    return render_template('staff_profile.html')
+
+@app.route("/administrator_profile")
+def administrator_profile():
+    return render_template('administrator_profile.html')
+
 
 
 if __name__ == '__main__':

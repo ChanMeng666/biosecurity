@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Register
+    Register for Agronomist
 {% endblock %}
 
 {% block nav_links %}
@@ -29,14 +29,16 @@
                                   <span class="input-group-text">
                                     <svg t="1709007048543" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2070" width="20" height="20"><path d="M340.954172 541.097707C265.372714 486.967445 216.135217 398.419914 216.135217 298.418616 216.135217 133.731882 349.671188 0 514.498858 0S812.862499 133.621932 812.862499 298.308667c0 100.745957-50.014142 189.907208-126.560159 243.955507 181.482059 65.771941 316.140517 231.391249 335.168821 432.515331 2.338931 24.730698-15.812773 46.676668-40.543471 49.016598-24.730698 2.338931-46.675668-15.812773-49.015599-40.543471C911.531406 767.82009 729.974381 601.724999 512 601.724999c-217.435627 0-398.709781 165.298455-419.773155 380.081294-2.423892 24.722701-24.431834 42.79944-49.154535 40.374548-24.722701-2.423892-42.79944-24.431834-40.374548-49.154535 19.767966-201.575875 155.686848-367.162199 338.25641-431.928599z m173.544686-36.463336c113.924934 0 206.364687-92.421761 206.364687-206.325704 0-113.903943-92.329803-206.325705-206.364687-206.325705s-206.364687 92.421761-206.364687 206.325705c0 113.903943 92.329803 206.325705 206.364687 206.325704z" fill="#000000" p-id="2071"></path></svg>
                                   </span>
-                                  <input type="text" name="username" aria-label="Username" class="form-control" placeholder="Username" required>
+                                  <input type="text" name="username" id="username" aria-label="Username" class="form-control" placeholder="Username" required>
+                                    <div id="usernameFeedback" class="invalid-feedback"></div>
                                 </div>
 
                                 <div class="input-group mb-2">
                                   <span class="input-group-text">
                                     <svg t="1709027640945" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8483" width="20" height="20"><path d="M230 331v-28.5C230 146.48 356.48 20 512.5 20 668.52 20 795 146.48 795 302.5V331h33c72.902 0 132 59.098 132 132v423c0 72.902-59.098 132-132 132H197c-72.902 0-132-59.098-132-132V463c0-72.902 59.098-132 132-132h33z m88 0h389v-28.5C707 195.08 619.92 108 512.5 108S318 195.08 318 302.5V331z m-121 88c-24.3 0-44 19.7-44 44v423c0 24.3 19.7 44 44 44h631c24.3 0 44-19.7 44-44V463c0-24.3-19.7-44-44-44H197z m315 404c-83.947 0-152-68.053-152-152s68.053-152 152-152 152 68.053 152 152-68.053 152-152 152z m0-88c35.346 0 64-28.654 64-64 0-35.346-28.654-64-64-64-35.346 0-64 28.654-64 64 0 35.346 28.654 64 64 64z" fill="#000000" p-id="8484"></path></svg>
                                   </span>
-                                  <input type="password" name="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                                  <input type="password" name="password" id="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                                    <div id="passwordFeedback" class="invalid-feedback"></div>
                                 </div>
 
                                 <div class="input-group mb-2">
@@ -60,15 +62,16 @@
                                   </span>
                                   <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="phone" name="phone" required>
                                 </div>
-
-                                <div class="input-group mb-2">
-                                  <span class="input-group-text">
-                                    <svg t="1709007470499" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2946" width="20" height="20"><path d="M511.954 147.095L86.983 572.067c-17.183 17.183-45.043 17.183-62.226 0s-17.183-45.043 0-62.226L511.954 22.645 999.15 509.84c17.183 17.183 17.183 45.043 0 62.226-17.184 17.183-45.043 17.183-62.226 0L511.954 147.095zM861 149H716c-24.3 0-44-19.7-44-44s19.7-44 44-44h233v233c0 24.3-19.7 44-44 44s-44-19.7-44-44V149zM457.879 927.227c0 24.3-19.7 44-44 44H160c-24.3 0-44-19.7-44-44V609c0-24.3 19.7-44 44-44s44 19.7 44 44v274.227h165.879v-149.72c0-24.3 19.699-44 44-44h193.566c24.3 0 44 19.7 44 44v149.72h167.223V616.666c0-24.3 19.699-44 44-44 24.3 0 44 19.7 44 44v310.56c0 24.301-19.7 44-44 44H607.445c-24.3 0-44-19.699-44-44V777.508H457.88v149.72z" fill="#000000" p-id="2947"></path></svg>
-                                  </span>
-                                  <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="address" name="address" required>
-                                </div>
+                                {% block extra_fields %}
+                                    <div class="input-group mb-2">
+                                      <span class="input-group-text">
+                                        <svg t="1709007470499" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2946" width="20" height="20"><path d="M511.954 147.095L86.983 572.067c-17.183 17.183-45.043 17.183-62.226 0s-17.183-45.043 0-62.226L511.954 22.645 999.15 509.84c17.183 17.183 17.183 45.043 0 62.226-17.184 17.183-45.043 17.183-62.226 0L511.954 147.095zM861 149H716c-24.3 0-44-19.7-44-44s19.7-44 44-44h233v233c0 24.3-19.7 44-44 44s-44-19.7-44-44V149zM457.879 927.227c0 24.3-19.7 44-44 44H160c-24.3 0-44-19.7-44-44V609c0-24.3 19.7-44 44-44s44 19.7 44 44v274.227h165.879v-149.72c0-24.3 19.699-44 44-44h193.566c24.3 0 44 19.7 44 44v149.72h167.223V616.666c0-24.3 19.699-44 44-44 24.3 0 44 19.7 44 44v310.56c0 24.301-19.7 44-44 44H607.445c-24.3 0-44-19.699-44-44V777.508H457.88v149.72z" fill="#000000" p-id="2947"></path></svg>
+                                      </span>
+                                      <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="address" name="address" required>
+                                    </div>
+                                {% endblock %}
                                 <div class="d-grid mb-3">
-                                    <button type="submit" class="btn btn-outline-success btn-lg">Register</button>
+                                    <button type="submit" class="btn btn-outline-success btn-lg" id="registerButton">Register</button>
                                 </div>
                             </form>
                         </div>
@@ -80,5 +83,67 @@
 {% endblock %}
 
 {% block scripts %}
+{#<script>#}
+{#    document.addEventListener('DOMContentLoaded', function() {#}
+{#        var usernameInput = document.getElementById('username');#}
+{#        var passwordInput = document.getElementById('password');#}
+{#        var registerButton = document.querySelector('button[type="submit"]');#}
+{#        var usernameFeedback = document.getElementById('usernameFeedback');#}
+{#        var passwordFeedback = document.getElementById('passwordFeedback');#}
+{##}
+{#        function validatePassword(password) {#}
+{#            var hasUpperCase = /[A-Z]/.test(password);#}
+{#            var hasLowerCase = /[a-z]/.test(password);#}
+{#            var hasNumbers = /\d/.test(password);#}
+{#            var hasNonalphas = /\W/.test(password);#}
+{##}
+{#            if (password.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumbers || !hasNonalphas)#}
+{#            {#}
+{#                return false;#}
+{#            }#}
+{#            return true;#}
+            {#Simplified writing of IF statements：#}
+            {#return !(password.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumbers || !hasNonalphas);#}
+{#        }#}
+{##}
+{#        passwordInput.addEventListener('input', function() {#}
+{#            var password = passwordInput.value;#}
+{#            if (!validatePassword(password)) {#}
+{#                passwordFeedback.textContent = 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.';#}
+{#                passwordFeedback.style.display = 'block';#}
+{#                passwordInput.classList.add('is-invalid');#}
+{#                registerButton.disabled = true;#}
+{#            } else {#}
+{#                passwordFeedback.textContent = '';#}
+{#                passwordFeedback.style.display = 'none';#}
+{#                passwordInput.classList.remove('is-invalid');#}
+{#                registerButton.disabled = false;#}
+{#            }#}
+{#        });#}
+{##}
+{#        usernameInput.addEventListener('blur', function() {#}
+{#            var username = usernameInput.value;#}
+{#            if (username) {#}
+{#                fetch('/check_username?username=' + encodeURIComponent(username))#}
+{#                    .then(response => response.json())#}
+{#                    .then(data => {#}
+{#                        if (data.exists) {#}
+{#                            usernameFeedback.textContent = 'Username already exists, please choose another one.';#}
+{#                            usernameFeedback.style.display = 'block';#}
+{#                            usernameInput.classList.add('is-invalid');#}
+{#                            registerButton.disabled = true;#}
+{#                        } else {#}
+{#                            usernameFeedback.textContent = '';#}
+{#                            usernameFeedback.style.display = 'none';#}
+{#                            usernameInput.classList.remove('is-invalid');#}
+{#                            registerButton.disabled = !passwordInput.classList.contains('is-invalid');#}
+{#                        }#}
+{#                    });#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
+
+    {% include 'password_validation_scripts.html' %}
 
 {% endblock %}

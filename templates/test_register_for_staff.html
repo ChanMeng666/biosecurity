@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Register for Agronomist
+    Register for Staff
 {% endblock %}
 
 {% block nav_links %}
@@ -34,7 +34,8 @@
                                 <div class="input-group mb-2">
                                   <span class="input-group-text">
                                   </span>
-                                  <input type="password" name="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                                  <input type="password" name="password" id="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                                    <div id="passwordFeedback" class="invalid-feedback"></div>
                                 </div>
 
                                 <div class="input-group mb-2">
@@ -59,7 +60,13 @@
                                 <div class="input-group mb-2">
                                   <span class="input-group-text">
                                   </span>
-                                  <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="address" name="address" required>
+                                  <input type="text" aria-label="Position" class="form-control" placeholder="Position" id="position" name="position" required>
+                                </div>
+
+                                <div class="input-group mb-2">
+                                  <span class="input-group-text">
+                                  </span>
+                                  <input type="text" aria-label="Department" class="form-control" placeholder="Department" id="department" name="department" required>
                                 </div>
                                 <div class="d-grid mb-3">
                                     <button type="submit" class="btn btn-outline-success btn-lg">Register</button>
