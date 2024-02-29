@@ -11,39 +11,11 @@
  Target Server Version : 80200
  File Encoding         : 65001
 
- Date: 23/02/2024 23:43:08
+ Date: 28/02/2024 10:37:16
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for administrators
--- ----------------------------
-DROP TABLE IF EXISTS `administrators`;
-CREATE TABLE `administrators`  (
-  `administrator_id` int NOT NULL,
-  INDEX `administrator_id`(`administrator_id` ASC) USING BTREE,
-  CONSTRAINT `administrators_ibfk_1` FOREIGN KEY (`administrator_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of administrators
--- ----------------------------
-INSERT INTO `administrators` VALUES (1);
-INSERT INTO `administrators` VALUES (5);
-INSERT INTO `administrators` VALUES (6);
-INSERT INTO `administrators` VALUES (10);
-INSERT INTO `administrators` VALUES (14);
-INSERT INTO `administrators` VALUES (15);
-INSERT INTO `administrators` VALUES (20);
-INSERT INTO `administrators` VALUES (25);
-INSERT INTO `administrators` VALUES (26);
-INSERT INTO `administrators` VALUES (28);
-INSERT INTO `administrators` VALUES (35);
-INSERT INTO `administrators` VALUES (36);
-INSERT INTO `administrators` VALUES (40);
-INSERT INTO `administrators` VALUES (41);
 
 -- ----------------------------
 -- Table structure for agriculture_items
@@ -53,11 +25,11 @@ CREATE TABLE `agriculture_items`  (
   `agriculture_id` int NOT NULL AUTO_INCREMENT,
   `item_type` enum('pest','weed') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `common_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `scientific_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `key_characteristics` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `biology` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `impacts` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `control` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `scientific_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `key_characteristics` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `biology` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `impacts` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `control` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`agriculture_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
@@ -150,28 +122,48 @@ INSERT INTO `agriculture_items` VALUES (80, 'weed', 'Bracken', 'Pteridium escule
 -- ----------------------------
 DROP TABLE IF EXISTS `agronomists`;
 CREATE TABLE `agronomists`  (
-  `agronomist_id` int NOT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  INDEX `agronomist_id`(`agronomist_id` ASC) USING BTREE,
-  CONSTRAINT `agronomists_ibfk_1` FOREIGN KEY (`agronomist_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+  `user_id` int NOT NULL,
+  `agronomist_id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `phone_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `date_joined` date NOT NULL,
+  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`agronomist_id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `agronomists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of agronomists
 -- ----------------------------
-INSERT INTO `agronomists` VALUES (21, '830 Alameda Street Suite 50, Los Angeles, CA 90002, United States');
-INSERT INTO `agronomists` VALUES (2, '17F, 3-9-1 Gakuenminami, Nara, Japan');
-INSERT INTO `agronomists` VALUES (4, 'Rm. 18, 1-5-19, Higashi-Shimbashi, Minato-ku, Tokyo, Japan');
-INSERT INTO `agronomists` VALUES (8, '139 Alameda Street Suite 4, Los Angeles, CA 90002, United States');
-INSERT INTO `agronomists` VALUES (17, 'No.20 building, 542 Shennan E Rd, Cai Wu Wei, Luohu District, Shenzhen, China');
-INSERT INTO `agronomists` VALUES (11, '156 Bergen St Suite 32, Brooklyn, NY 11217, United States');
-INSERT INTO `agronomists` VALUES (18, '844 Central Avenue Apt 42, Albany, NY 12206, United States');
-INSERT INTO `agronomists` VALUES (22, 'Flat 32, 52 Park End St, Oxford, OX1 1JD, United Kingdom');
-INSERT INTO `agronomists` VALUES (27, '9F, 4 4-20 Kawagishicho, Mizuho Ward, Nagoya, Japan');
-INSERT INTO `agronomists` VALUES (30, '891 Wicklow Road Apt 50, Columbus, GA 43204, United States');
-INSERT INTO `agronomists` VALUES (31, 'Flat 28, 238 Portland St, Manchester, M1 3LA, United Kingdom');
-INSERT INTO `agronomists` VALUES (32, '33 Bergen St Suite 20, Brooklyn, NY 11217, United States');
-INSERT INTO `agronomists` VALUES (37, '789 Oak Road');
+INSERT INTO `agronomists` VALUES (19, 1, 'Daichi', 'Abe', 'daichi10@outlook.com', '718-265-7180', '775 Flatbush Ave 3rd Floor, Brooklyn, NY 11225, United States', '2000-10-22', 'inactive');
+INSERT INTO `agronomists` VALUES (11, 2, 'Chiu Wai', 'Kwok', 'kwocw9@outlook.com', '755-3468-7397', 'Room 16, CR Building, 474 Xue Yuan Yi Xiang, Longgang, Shenzhen, China', '2009-06-03', 'inactive');
+INSERT INTO `agronomists` VALUES (4, 3, 'Ka Keung', 'Kam', 'kakakeung@mail.com', '28-9440-8987', 'No.32 building, No. 474, Shuangqing Rd, Chenghua District, Chengdu, China', '2006-05-21', 'active');
+INSERT INTO `agronomists` VALUES (12, 4, 'Amanda', 'Ramirez', 'ramiramanda6@outlook.com', '66-601-0161', '11-kai, 3-27-13 Higashitanabe, Higashisumiyoshi Ward, Osaka, Japan', '2022-09-26', 'active');
+INSERT INTO `agronomists` VALUES (18, 5, 'Zhennan', 'Yan', 'yazhe@icloud.com', '614-457-2925', '586 East Cooke Road Apartment 4, Columbus, GA 43214, United States', '2019-12-24', 'inactive');
+INSERT INTO `agronomists` VALUES (20, 6, 'Sara', 'Hashimoto', 'hashimoto69@gmail.com', '28-4457-1575', 'No.40 building, No.970, Dongsan Road, Erxianqiao, Chenghua District, Chengdu, China', '2022-02-12', 'inactive');
+INSERT INTO `agronomists` VALUES (13, 7, 'Angela', 'Henderson', 'angelahe@icloud.com', '(1223) 16 3022', 'Unit 11, Oxford Eco Centre, 779 Papworth Rd, Trumpington, Cambridge, CB2 0AY, United Kingdom', '2002-07-27', 'active');
+INSERT INTO `agronomists` VALUES (16, 8, 'Lu', 'Wang', 'luwang@gmail.com', '28-0696-3291', '44F, No. 759, Shuangqing Rd, Chenghua District, Chengdu, China', '2001-12-17', 'active');
+INSERT INTO `agronomists` VALUES (14, 9, 'Lu', 'Shen', 'lushe@gmail.com', '66-196-5681', 'Rm. 37, 1-7-14 Omido, Higashiosaka, Osaka, Japan', '2022-02-16', 'inactive');
+INSERT INTO `agronomists` VALUES (3, 10, 'Nanami', 'Yamazaki', 'yamaznan@mail.com', '213-428-1773', '931 Grape Street 3rd Floor, Los Angeles, CA 90002, United States', '2003-12-10', 'inactive');
+INSERT INTO `agronomists` VALUES (17, 11, 'Xiaoming', 'Cui', 'cui227@icloud.com', '10-8076-6789', 'Room 17, CR Building, 147 West Chang\'an Avenue, Xicheng District, Beijing, China', '2021-03-25', 'inactive');
+INSERT INTO `agronomists` VALUES (9, 12, 'Xiaoming', 'Wei', 'wexia@mail.com', '213-678-1310', '426 Grape Street Apt 25, Los Angeles, CA 90002, United States', '2002-10-03', 'inactive');
+INSERT INTO `agronomists` VALUES (2, 13, 'Jason', 'Gardner', 'gardner13@icloud.com', '140-6535-1034', 'No.31 building, 204 Jiangnan West Road, Haizhu District, Guangzhou, China', '2017-04-20', 'inactive');
+INSERT INTO `agronomists` VALUES (10, 14, 'Matthew', 'West', 'mwest@gmail.com', '90-5887-4470', '4-kai, 3-15-6 Ginza, Chuo-ku, Tokyo, Japan', '2011-09-28', 'inactive');
+INSERT INTO `agronomists` VALUES (15, 15, 'Daisuke', 'Hirano', 'daisuh@gmail.com', '143-6233-1360', 'Room 10, CR Building, 272 Lefeng 6th Rd, Zhongshan, China', '2021-01-20', 'active');
+INSERT INTO `agronomists` VALUES (7, 16, 'Jialun', 'Liang', 'liang911@gmail.com', '212-139-0373', '421 Wooster Street Apt 39, New York, NY 10012, United States', '2007-12-06', 'inactive');
+INSERT INTO `agronomists` VALUES (6, 17, 'Chieh Lun', 'Mo', 'mo2@icloud.com', '(1865) 37 1555', 'Block 29, 777 Abingdon Rd, Cumnor, Oxford, OX2 9QN, United Kingdom', '2017-10-11', 'inactive');
+INSERT INTO `agronomists` VALUES (8, 18, 'Tin Wing', 'Lai', 'lai928@gmail.com', '11-897-8162', 'Rm. 25, 13-3-12 Toyohira 3 Jo, Toyohira Ward, Sapporo, Japan', '2016-03-17', 'inactive');
+INSERT INTO `agronomists` VALUES (1, 19, 'Jacqueline', 'West', 'westjacqueline04@icloud.com', '74-365-3098', '28-kai, 1-7-5 Saidaiji Akodacho, Nara, Japan', '2014-04-28', 'inactive');
+INSERT INTO `agronomists` VALUES (5, 20, 'Daisuke', 'Hashimoto', 'hasdaisuke61@mail.com', '213-428-7555', '349 Wall Street Apartment 2, Los Angeles, CA 90003, United States', '2008-12-30', 'active');
+INSERT INTO `agronomists` VALUES (61, 21, 'Chan', 'Meng', 'tomoko230311@outlook.com', '0226926685', 'Birchs Road, Lincoln, Selwyn District', '2024-02-27', 'active');
+INSERT INTO `agronomists` VALUES (66, 22, 'Zitao', 'Qiu', 'qiz430@gmail.com', '760-0272-3101', 'Room 19, CR Building, 130 Zhongshan 5th Rd, Zimaling Shangquan, Zhongshan, China', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (67, 23, 'Sara', 'Ferguson', 'saraf622@gmail.com', '(161) 856 8061', 'Unit 24, Oxford Eco Centre, 465 Portland St, Manchester, M1 3LA, United Kingdom', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (68, 24, 'Ayato', 'Ando', 'andoayato@mail.com', '3-2262-8181', 'Rm. 44, 5-2-1 Higashi Gotanda, Shinagawa-ku , Tokyo, Japan', '2024-02-28', 'active');
+INSERT INTO `agronomists` VALUES (69, 25, 'Kasumi', 'Koyama', 'koyama216@gmail.com', '(20) 0968 8882', 'Flat 41, 539 Hanover Street, London, W1S 1YD, United Kingdom', '2024-02-28', 'active');
 
 -- ----------------------------
 -- Table structure for images
@@ -181,10 +173,10 @@ CREATE TABLE `images`  (
   `image_id` int NOT NULL AUTO_INCREMENT,
   `agriculture_id` int NOT NULL,
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `is_primary` tinyint(1) NULL DEFAULT 0,
+  `is_primary` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`image_id`) USING BTREE,
   INDEX `agriculture_id`(`agriculture_id` ASC) USING BTREE,
-  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`agriculture_id`) REFERENCES `agriculture_items` (`agriculture_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`agriculture_id`) REFERENCES `agriculture_items` (`agriculture_id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 445 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -636,50 +628,72 @@ INSERT INTO `images` VALUES (443, 80, 'https://live-agpest.pantheonsite.io/wp-co
 INSERT INTO `images` VALUES (444, 80, 'https://live-agpest.pantheonsite.io/wp-content/uploads/2015/06/Pteridium-esculentum-k1-595x700.jpg', 0);
 
 -- ----------------------------
--- Table structure for roles
+-- Table structure for staff_and_administrators
 -- ----------------------------
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE `roles`  (
-  `role_id` int NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`role_id`) USING BTREE,
-  UNIQUE INDEX `role_name`(`role_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+DROP TABLE IF EXISTS `staff_and_administrators`;
+CREATE TABLE `staff_and_administrators`  (
+  `user_id` int NOT NULL,
+  `staff_number` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `work_phone_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `hire_date` date NOT NULL,
+  `position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `department` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`staff_number`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `staff_and_administrators_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of roles
+-- Records of staff_and_administrators
 -- ----------------------------
-INSERT INTO `roles` VALUES (3, 'Administrator');
-INSERT INTO `roles` VALUES (1, 'Agronomist');
-INSERT INTO `roles` VALUES (2, 'Staff');
-
--- ----------------------------
--- Table structure for staff
--- ----------------------------
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE `staff`  (
-  `staff_id` int NOT NULL,
-  INDEX `staff_id`(`staff_id` ASC) USING BTREE,
-  CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of staff
--- ----------------------------
-INSERT INTO `staff` VALUES (3);
-INSERT INTO `staff` VALUES (7);
-INSERT INTO `staff` VALUES (9);
-INSERT INTO `staff` VALUES (12);
-INSERT INTO `staff` VALUES (13);
-INSERT INTO `staff` VALUES (16);
-INSERT INTO `staff` VALUES (19);
-INSERT INTO `staff` VALUES (23);
-INSERT INTO `staff` VALUES (24);
-INSERT INTO `staff` VALUES (29);
-INSERT INTO `staff` VALUES (33);
-INSERT INTO `staff` VALUES (34);
-INSERT INTO `staff` VALUES (38);
-INSERT INTO `staff` VALUES (39);
+INSERT INTO `staff_and_administrators` VALUES (21, 1, 'Esther', 'Flores', 'estherf@outlook.com', '7256 689595', '2002-05-12', 'Chief operations officer', 'Sales', 'active');
+INSERT INTO `staff_and_administrators` VALUES (22, 2, 'Xiaoming', 'Ma', 'maxi@gmail.com', '213-846-0926', '2023-01-24', 'Farmer', 'Marketing', 'active');
+INSERT INTO `staff_and_administrators` VALUES (23, 3, 'Misaki', 'Fujita', 'fujmisak@hotmail.com', '163-4319-9437', '2019-05-22', 'Office clerk', 'Public Relations', 'active');
+INSERT INTO `staff_and_administrators` VALUES (24, 4, 'Mai', 'Murata', 'mai10@gmail.com', '10-001-6829', '2005-07-19', 'Actuary', 'Accounting & Finance', 'active');
+INSERT INTO `staff_and_administrators` VALUES (25, 5, 'Momoka', 'Ikeda', 'ikedamomok1961@icloud.com', '52-088-3143', '2004-12-19', 'Insurance sales agent', 'Product Quality', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (26, 6, 'Jiehong', 'Wang', 'wangjie@icloud.com', '74-950-1417', '2006-09-21', 'Database manager', 'Export', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (27, 7, 'Zhiyuan', 'Yin', 'zhyin@icloud.com', '80-7139-2563', '2016-05-01', 'Auditor', 'Administrative & Management', 'active');
+INSERT INTO `staff_and_administrators` VALUES (28, 8, 'Xiuying', 'Cao', 'cax8@icloud.com', '90-8799-4366', '2007-04-12', 'Housekeeper', 'Export', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (29, 9, 'Sau Man', 'Tin', 'tinsm@hotmail.com', '(161) 208 1061', '2007-07-21', 'Office manager', 'Information Technology Support', 'active');
+INSERT INTO `staff_and_administrators` VALUES (30, 10, 'Kazuma', 'Sakai', 'kazusa6@outlook.com', '90-5878-5931', '2011-05-24', 'Singer', 'Sales', 'active');
+INSERT INTO `staff_and_administrators` VALUES (31, 11, 'Xiaoming', 'Hao', 'xiaominghao205@gmail.com', '11-286-1271', '2003-09-21', 'Nurse', 'Sales', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (32, 12, 'Lik Sun', 'Ma', 'mals@icloud.com', '52-400-6037', '2019-07-28', 'teacher', 'Accounting & Finance', 'active');
+INSERT INTO `staff_and_administrators` VALUES (33, 13, 'Anna', 'Green', 'green1110@outlook.com', '(1865) 60 7991', '2017-05-25', 'Insurance sales agent', 'Purchasing', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (34, 14, 'Johnny', 'Baker', 'bakerj@icloud.com', '(1223) 04 0327', '2006-02-06', 'Technical support', 'Custom Service Support', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (35, 15, 'Paula', 'Patterson', 'ppaula@gmail.com', '28-916-2734', '2018-09-02', 'Event manager', 'Research & Development', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (36, 16, 'Tak Wah', 'Choi', 'choita@gmail.com', '21-968-4737', '2012-10-30', 'Veterinary assistant', 'Export', 'active');
+INSERT INTO `staff_and_administrators` VALUES (37, 17, 'Xiaoming', 'Zhong', 'xiaoz88@hotmail.com', '213-871-7834', '2006-03-11', 'Biochemist', 'Production', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (38, 18, 'Crystal', 'Hall', 'hcrystal@mail.com', '(161) 895 8563', '2012-06-10', 'Web developer', 'Human resource', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (39, 19, 'Yamato', 'Takeda', 'takedayamato@gmail.com', '7693 032169', '2012-06-12', 'Account coordinator', 'Export', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (40, 20, 'Kwok Kuen', 'Sheh', 'shekk@icloud.com', '614-634-3720', '2019-02-03', 'Dentist', 'Engineering', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (41, 21, 'Ka Fai', 'Han', 'kafaih@outlook.com', '7875 965122', '2006-05-13', 'Project manager', 'Research & Development', 'active');
+INSERT INTO `staff_and_administrators` VALUES (42, 22, 'Kwok Kuen', 'Han', 'kkhan7@gmail.com', '330-420-9786', '2009-08-17', 'Barber', 'Legal Department', 'active');
+INSERT INTO `staff_and_administrators` VALUES (43, 23, 'Kwok Ming', 'Yuen', 'ykwokming@hotmail.com', '194-3851-1918', '2018-11-27', 'Food scientist', 'Information Technology Support', 'active');
+INSERT INTO `staff_and_administrators` VALUES (44, 24, 'Hiu Tung', 'Lok', 'hiutunglok@mail.com', '(161) 079 6389', '2010-02-05', 'Spa manager', 'Marketing', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (45, 25, 'Ming Sze', 'Chic', 'msch220@gmail.com', '212-414-1433', '2001-05-27', 'Farmer', 'Purchasing', 'active');
+INSERT INTO `staff_and_administrators` VALUES (46, 26, 'Eita', 'Sakai', 'eitasaka@gmail.com', '7744 961633', '2016-03-17', 'Orthodontist', 'Product Quality', 'active');
+INSERT INTO `staff_and_administrators` VALUES (47, 27, 'Jeffery', 'Tucker', 'tuckerjef@mail.com', '20-168-0198', '2002-09-24', 'Architect', 'Product Quality', 'active');
+INSERT INTO `staff_and_administrators` VALUES (48, 28, 'Judy', 'Foster', 'fojudy10@yahoo.com', '74-889-3200', '2010-10-15', 'teacher', 'Custom Service Support', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (49, 29, 'Lan', 'Cai', 'cala@hotmail.com', '70-6110-0423', '2001-03-10', 'Nurse', 'Legal Department', 'active');
+INSERT INTO `staff_and_administrators` VALUES (50, 30, 'Kar Yan', 'Fong', 'kaf@outlook.com', '28-6864-4214', '2001-06-27', 'Architect', 'Production', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (51, 31, 'Rui', 'Han', 'ruhan@gmail.com', '838-442-8454', '2013-04-22', 'Spa manager', 'Export', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (52, 32, 'Dorothy', 'Dixon', 'dordi10@outlook.com', '66-045-2362', '2007-07-10', 'Event manager', 'Legal Department', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (53, 33, 'Wai Man', 'Lok', 'wmlo@yahoo.com', '718-244-8104', '2020-11-24', 'Food scientist', 'Marketing', 'active');
+INSERT INTO `staff_and_administrators` VALUES (54, 34, 'Mio', 'Uchida', 'muchid04@yahoo.com', '10-6259-9221', '2005-08-22', 'Producer', 'Public Relations', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (55, 35, 'Hui Mei', 'Wu', 'hmw@mail.com', '(151) 422 4404', '2005-04-09', 'Dentist', 'Production', 'active');
+INSERT INTO `staff_and_administrators` VALUES (56, 36, 'Kasumi', 'Ueda', 'kasumi615@gmail.com', '5179 199903', '2005-08-23', 'Team leader', 'Public Relations', 'active');
+INSERT INTO `staff_and_administrators` VALUES (57, 37, 'Roy', 'Gomez', 'gomezro329@outlook.com', '769-591-9410', '2012-12-19', 'Chief operations officer', 'Product Quality', 'active');
+INSERT INTO `staff_and_administrators` VALUES (58, 38, 'Wayne', 'Payne', 'payneway@icloud.com', '10-021-4334', '2018-02-14', 'Operations manager', 'Research & Development', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (59, 39, 'Daisuke', 'Yamaguchi', 'dyama808@mail.com', '7337 220775', '2009-08-29', 'Dentist', 'Production', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (60, 40, 'Wai Man', 'Sheh', 'sheh5@gmail.com', '213-754-2693', '2023-07-21', 'Groomer', 'Administrative & Management', 'inactive');
+INSERT INTO `staff_and_administrators` VALUES (62, 41, 'Lan', 'Han', 'hla3@outlook.com', '760-2949-4919', '2024-02-28', 'Housekeeper', 'Administrative & Management', 'active');
+INSERT INTO `staff_and_administrators` VALUES (63, 42, 'Victoria', 'Smith', 'smivictoria5@gmail.com', '614-403-4776', '2024-02-28', 'UX/UI designer', 'Administrative & Management', 'active');
+INSERT INTO `staff_and_administrators` VALUES (64, 43, 'Kwok Ming', 'Lok', 'kwokming74@icloud.com', '21-6453-9745', '2024-02-28', 'Engineer', 'Marketing', 'active');
+INSERT INTO `staff_and_administrators` VALUES (65, 44, 'Sheila', 'Simpson', 'sheilasimpson@gmail.com', '7083 461482', '2024-02-28', 'Operations manager', 'Legal Department', 'active');
 
 -- ----------------------------
 -- Table structure for users
@@ -689,63 +703,82 @@ CREATE TABLE `users`  (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `role_id` int NOT NULL,
-  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `phone_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `date_joined` datetime NOT NULL,
-  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`user_id`) USING BTREE,
-  UNIQUE INDEX `username`(`username` ASC) USING BTREE,
-  UNIQUE INDEX `email`(`email` ASC) USING BTREE,
-  INDEX `role_id`(`role_id` ASC) USING BTREE,
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+  `role_name` enum('agronomist','staff','administrator') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`user_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'mryota', '1vSTvwge5C', 3, 'Ryota', 'Matsumoto', 'matsr@gmail.com', '614-231-6631', '2000-04-24 00:00:00', 'active');
-INSERT INTO `users` VALUES (2, 'jiehong1', 'ED37lxbzAq', 1, 'Jiehong', 'Xie', 'xjieh06@outlook.com', '20-4640-9990', '2021-08-17 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (3, 'anqixiang', 'KcLjwdSCt8', 2, 'Anqi', 'Xiang', 'anqix1@outlook.com', '(121) 532 8733', '2005-11-03 00:00:00', 'active');
-INSERT INTO `users` VALUES (4, 'waiman520', 'ncxj7jU0gg', 1, 'Wai Man', 'Fu', 'waifu@icloud.com', '838-897-1524', '2016-05-04 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (5, 'debochen', 'P9hoyl6tRY', 3, 'Deborah', 'Chen', 'chen96@mail.com', '166-3177-8021', '2002-01-03 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (6, 'bewarren', 'EG8naW2PrQ', 3, 'Betty', 'Warren', 'betty96@icloud.com', '330-251-9190', '2001-12-27 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (7, 'rogejonathan', 'cCPx1UofQm', 2, 'Jonathan', 'Rogers', 'rogers413@icloud.com', '212-923-2726', '2015-09-07 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (8, 'aoisu17', 'CFkEB3G7lf', 1, 'Aoi', 'Suzuki', 'suzuki10@mail.com', '66-935-8133', '2006-09-22 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (9, 'zitaoxia', 'npFV4PpVUx', 2, 'Zitao', 'Xia', 'xia10@icloud.com', '80-1052-0958', '2023-06-05 00:00:00', 'active');
-INSERT INTO `users` VALUES (10, 'apwilson10', '25teCPX1ZA', 3, 'April', 'Wilson', 'aprwilson4@yahoo.com', '(1223) 82 2227', '2001-05-30 00:00:00', 'active');
-INSERT INTO `users` VALUES (11, 'wmmeng118', 'DJgzQ6x05C', 1, 'Wai Man', 'Meng', 'meng515@hotmail.com', '185-5286-6977', '2018-02-20 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (12, 'liksun2', 'cbLDZr0uGg', 2, 'Lik Sun', 'Siu', 'siu8@gmail.com', '11-028-4660', '2012-04-13 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (13, 'ylk', 'RsC9uYi5PL', 2, 'Yu Ling', 'Ku', 'ylku@icloud.com', '7344 297633', '2001-01-20 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (14, 'amor', 'zGUZkE2cLD', 3, 'Aoi', 'Morita', 'aomor@gmail.com', '718-826-4633', '2007-11-02 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (15, 'kookwokwing', 'RL0oJ9alLE', 3, 'Kwok Wing', 'Koo', 'koo115@gmail.com', '70-4976-0477', '2015-03-22 00:00:00', 'active');
-INSERT INTO `users` VALUES (16, 'liujieho00', 'b5EZ2qXEA8', 2, 'Jiehong', 'Liu', 'liu4@gmail.com', '74-659-1484', '2019-03-03 00:00:00', 'active');
-INSERT INTO `users` VALUES (17, 'ayamashita', 'yC11fGjn4F', 1, 'Aoshi', 'Yamashita', 'aoyamashita46@hotmail.com', '(121) 743 5080', '2002-09-25 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (18, 'hecollins', 'KcODvTMoeW', 1, 'Heather', 'Collins', 'collinsheath2@mail.com', '28-725-5540', '2019-05-08 00:00:00', 'active');
-INSERT INTO `users` VALUES (19, 'evelymendo929', '0VgF2rJn53', 2, 'Evelyn', 'Mendoza', 'emendoza00@yahoo.com', '(151) 795 5132', '2001-12-08 00:00:00', 'active');
-INSERT INTO `users` VALUES (20, 'peterrodriguez', 'EJYCAtOokS', 3, 'Peter', 'Rodriguez', 'peterrodri1967@mail.com', '3-4707-5958', '2005-03-14 00:00:00', 'active');
-INSERT INTO `users` VALUES (21, 'reyesu', 'RiDl7ktRd0', 1, 'Susan', 'Reyes', 'reysusan@outlook.com', '74-236-4743', '2013-08-08 00:00:00', 'active');
-INSERT INTO `users` VALUES (22, 'bobbytu', 'DSQH64zvCn', 1, 'Bobby', 'Turner', 'bobbytur@icloud.com', '718-379-8830', '2002-08-24 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (23, 'jialunt', 'kLKBMl2W5Y', 2, 'Jialun', 'Tao', 'jiata@yahoo.com', '330-102-0641', '2022-03-29 00:00:00', 'active');
-INSERT INTO `users` VALUES (24, 'saraa', '0Q0gOA3RO2', 2, 'Sara', 'Abe', 'saraabe606@gmail.com', '212-162-7190', '2015-02-21 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (25, 'luozi5', 'bBFxrnKF1H', 3, 'Ziyi', 'Luo', 'ziyi6@mail.com', '(151) 791 2285', '2017-11-25 00:00:00', 'active');
-INSERT INTO `users` VALUES (26, 'kazuma1978', 'UbAK56jYn1', 3, 'Kazuma', 'Ono', 'kazumaono@hotmail.com', '52-336-3147', '2008-03-06 00:00:00', 'active');
-INSERT INTO `users` VALUES (27, 'turnerj511', 'Cc77v39XvJ', 1, 'Jeff', 'Turner', 'tjeff@outlook.com', '52-799-0737', '2014-04-22 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (28, 'wlwu62', 'kcilNRveZf', 3, 'Wai Lam', 'Wu', 'wwailam@gmail.com', '90-0165-1229', '2023-08-03 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (29, 'xiaoming5', 'l7MsY3jvpf', 2, 'Xiaoming', 'Hu', 'huxiaoming@mail.com', '7180 388599', '2009-07-28 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (30, 'emmajen', 'so5QmqxZGs', 1, 'Emma', 'Jenkins', 'ej78@icloud.com', '144-7007-1202', '2007-10-07 00:00:00', 'active');
-INSERT INTO `users` VALUES (31, 'yingkm', 'NJZWO0R1o6', 1, 'Kwok Ming', 'Ying', 'ying74@outlook.com', '90-2075-9411', '2017-08-01 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (32, 'hujialun', 'dxGBvr6btI', 1, 'Jialun', 'Hu', 'hu223@outlook.com', '90-6384-3663', '2010-10-31 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (33, 'lyu', 'zXjQyr8mnL', 2, 'Lan', 'Yu', 'ylan215@yahoo.com', '7790 708974', '2010-02-13 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (34, 'grant9', 'Uxg007JzOJ', 2, 'Emily', 'Grant', 'gemil@yahoo.com', '3-1032-6121', '2016-04-04 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (35, 'rosemend', 'mGKTYiuFwO', 3, 'Rose', 'Mendoza', 'rosemen7@icloud.com', '145-2485-5805', '2016-08-30 00:00:00', 'inactive');
-INSERT INTO `users` VALUES (36, 'jisher', 'mT3H9DfWWl', 3, 'Sherry', 'Jimenez', 'jimesher@gmail.com', '90-8160-8323', '2000-01-22 00:00:00', 'active');
-INSERT INTO `users` VALUES (37, 'lucywhite', 'hash', 1, 'Lucy', 'White', 'lucy.white@example.com', '555-3456', '2024-02-23 00:33:53', 'inactive');
-INSERT INTO `users` VALUES (38, 'brianross', 'hash', 2, 'Brian', 'Ross', 'brian.ross@example.com', '555-4567', '2024-02-23 00:33:53', 'active');
-INSERT INTO `users` VALUES (39, 'samanthalee', 'hash', 2, 'Samantha', 'Lee', 'samantha.lee@example.com', '555-5678', '2024-02-23 00:33:53', 'inactive');
-INSERT INTO `users` VALUES (40, 'michaelbrown', 'hash', 3, 'Michael', 'Brown', 'michael.brown@example.com', '555-6789', '2024-02-23 00:33:53', 'active');
-INSERT INTO `users` VALUES (41, 'claireholt', 'hash', 3, 'Claire', 'Holt', 'claire.holt@example.com', '555-7890', '2024-02-23 00:33:53', 'inactive');
+INSERT INTO `users` VALUES (1, 'qji8', 'pbkdf2:sha256:600000$OTTXgB5uQSjh8Aml$6a720025159fb23edae51875204e71e5c26a429172bd79fbf521b1af1362264a', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (2, 'cha6', 'pbkdf2:sha256:600000$XCGjr8LPweFy8eDC$53ebbbd94facefcf21c5026961227d3d27d51cc90df6b65fee9124d8a5bae0c4', 'agronomist', 'active');
+INSERT INTO `users` VALUES (3, 'mo201', 'pbkdf2:sha256:600000$jNNBdjBI5ylDBFP2$6b80e94e4f70684928ff583e6da49ce12ed68f19dc5bf5894a2cc675a8373189', 'agronomist', 'active');
+INSERT INTO `users` VALUES (4, 'suzukiayano11', 'pbkdf2:sha256:600000$T0QB3jTn9wCbtniS$78ea339c927e4d7e4f8892a5bdf38a8168552d2f90c9986cb48b58aac21f8730', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (5, 'zoujialun', 'Y8ZhD2Lbwv', 'agronomist', 'active');
+INSERT INTO `users` VALUES (6, 'rcl3', 'cEC1tWfM1z', 'agronomist', 'active');
+INSERT INTO `users` VALUES (7, 'kao4', 'qmwCIM8DCe', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (8, 'zhongyunx', 'XYL8TmgYbi', 'agronomist', 'active');
+INSERT INTO `users` VALUES (9, 'luren', 'SV3HuRI84o', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (10, 'zhennan1', 'wFRZ8WNHzl', 'agronomist', 'active');
+INSERT INTO `users` VALUES (11, 'lishih', 'arDJ5e8h5P', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (12, 'chowwings', 'LJzk6JdHjV', 'agronomist', 'active');
+INSERT INTO `users` VALUES (13, 'fk812', '4qFXj66PAz', 'agronomist', 'active');
+INSERT INTO `users` VALUES (14, 'cyu', 'arJWH80HyA', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (15, 'waimanc612', 'zouDH8BygM', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (16, 'ycm', 'sKL1ESiEU5', 'agronomist', 'inactive');
+INSERT INTO `users` VALUES (17, 'naos4', 'JM7ZZdZn9J', 'agronomist', 'active');
+INSERT INTO `users` VALUES (18, 'sairik', 'tuZjUzzNev', 'agronomist', 'active');
+INSERT INTO `users` VALUES (19, 'wongkali820', 'Q7t4vdKN4V', 'agronomist', 'active');
+INSERT INTO `users` VALUES (20, 'rogerdun', 'gS0dkPH6zU', 'agronomist', 'active');
+INSERT INTO `users` VALUES (21, 'sumwinglam', 'pbkdf2:sha256:600000$hiA7RvDSGNhVxEl6$2b7cd78fae38cda7156b6ec65398787fa52985a19f84aa4b4c97a2a816e98415', 'staff', 'active');
+INSERT INTO `users` VALUES (22, 'paurobinson', 'pbkdf2:sha256:600000$N8SEM4RZVPKS5kYN$6d8862926f6d69b01314b7d46508d178da0e25a389e652cf4456eebda0c8061b', 'staff', 'active');
+INSERT INTO `users` VALUES (23, 'maedm2018', 'pbkdf2:sha256:600000$N5xlaJynnT7Dx3dK$6612cacf5c16133db5856b216bccc3887fe0ee35d71c027b6d3ec6efd071e25d', 'staff', 'inactive');
+INSERT INTO `users` VALUES (24, 'sakaisara', 'Kd4xFGWgp5', 'staff', 'active');
+INSERT INTO `users` VALUES (25, 'ht88', 'TImczPrpjh', 'staff', 'inactive');
+INSERT INTO `users` VALUES (26, 'saitokai', 'BGNPFGwdNn', 'staff', 'inactive');
+INSERT INTO `users` VALUES (27, 'traj402', 'NBC4aWZKdl', 'staff', 'inactive');
+INSERT INTO `users` VALUES (28, 'seiko99', '5g8FVdfZn0', 'staff', 'active');
+INSERT INTO `users` VALUES (29, 'makw', 'DRjREpup5v', 'staff', 'inactive');
+INSERT INTO `users` VALUES (30, 'karyan2', '3YuOTxS7DB', 'staff', 'inactive');
+INSERT INTO `users` VALUES (31, 'kwan704', 'JKuzrNDpSj', 'staff', 'inactive');
+INSERT INTO `users` VALUES (32, 'kmkong', 'fVZ1w5DRJR', 'staff', 'active');
+INSERT INTO `users` VALUES (33, 'saraarai', 'PgvJvwrXoz', 'staff', 'active');
+INSERT INTO `users` VALUES (34, 'te2', 'dMy66Jqk1T', 'staff', 'active');
+INSERT INTO `users` VALUES (35, 'lanca', 'uoPCNeOhA2', 'staff', 'inactive');
+INSERT INTO `users` VALUES (36, 'kaitomori', 'F2WNncQZGw', 'staff', 'inactive');
+INSERT INTO `users` VALUES (37, 'kevmartin', '8KJhK0dMT2', 'staff', 'active');
+INSERT INTO `users` VALUES (38, 'gonr515', 'NTmoDhnPeT', 'staff', 'active');
+INSERT INTO `users` VALUES (39, 'wingsze2', 'AXr7hFzrHs', 'staff', 'inactive');
+INSERT INTO `users` VALUES (40, 'mo622', 'E1GizJdUu9', 'staff', 'inactive');
+INSERT INTO `users` VALUES (41, 'chsauman310', 'pbkdf2:sha256:600000$AAzZjBavUz2uCLpb$b0bfc1bd38fe3265deabca8fb8f0854e4e9d24c62e551fd889bf3b20736452ee', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (42, 'aoishida7', 'yD98bDu7C6', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (43, 'ruicai', 'XngOm0ePvt', 'administrator', 'active');
+INSERT INTO `users` VALUES (44, 'head', 'jMAHyhOKiG', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (45, 'wailan', 'z4GSh2kxiB', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (46, 'leslpeterson918', '4AYb6mtfO0', 'administrator', 'active');
+INSERT INTO `users` VALUES (47, 'chibashin', 'uXcZBQErjg', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (48, 'anqihao', 'IAseqKuWHx', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (49, 'hokyau608', 'KLIgMCBoWa', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (50, 'caoji', 'xQVZ82tcov', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (51, 'wkleun13', 'BilXakGQLs', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (52, 'jyun', '9dNIyD8hWn', 'administrator', 'active');
+INSERT INTO `users` VALUES (53, 'yamatomi', '3Jz5RqRL9G', 'administrator', 'active');
+INSERT INTO `users` VALUES (54, 'jizhang', 'BrqXXmfvKw', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (55, 'zhili', 'epyGsjpVW5', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (56, 'yhas', 'FJTmgycGeG', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (57, 'szekwan805', '11aEQjTC1f', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (58, 'nocampbell', '7xKoxAjMMO', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (59, 'ikkishi5', 'GdMY58xIT9', 'administrator', 'active');
+INSERT INTO `users` VALUES (60, 'ylku', 'cnn2SYsIej', 'administrator', 'inactive');
+INSERT INTO `users` VALUES (61, 'chan', 'pbkdf2:sha256:600000$svJYomAHuBhWJUG2$cb6ba98e46e5669726995b1d3893bd4cc1ffd263f7120a0624347db86ac97cd2', 'agronomist', 'active');
+INSERT INTO `users` VALUES (62, 'lan', 'pbkdf2:sha256:600000$Sm7vfYwv72UmTS3U$d545a01bb1c25acd89c167af5d86f47a59078ae6c5a1a90428acd3e8c1b64039', 'staff', 'active');
+INSERT INTO `users` VALUES (63, 'victoria', 'pbkdf2:sha256:600000$zPXep98hpcLsMeou$d1a4b42d7bfc8fe023b1aa157b72d50c0e91a03382fef926144cd5ee2765da5c', 'administrator', 'active');
+INSERT INTO `users` VALUES (64, 'lok', 'pbkdf2:sha256:600000$nlGJKdf79886kCPf$736bf28f40e5d92f770970e39a729d1d46123539b482166e35a5c2358196e4ca', 'staff', 'active');
+INSERT INTO `users` VALUES (65, 'sheila', 'pbkdf2:sha256:600000$3iDNuzuhUQIw65us$43a6a447d16d1d07ac10da1e2b91a271776a509d37a56890c8d85818db7d7267', 'staff', 'active');
+INSERT INTO `users` VALUES (66, 'zitao', 'pbkdf2:sha256:600000$OPWN60liWGQ1rOmo$b544dfc4fefe49211aa38bc81a59ed45e5f96e4c7f01fb6ba44129b6e661d888', 'agronomist', 'active');
+INSERT INTO `users` VALUES (67, 'sara', 'pbkdf2:sha256:600000$it2kzmB3lkhc5nrB$7934810a108bed82c81792e190f35abd3186e292d7b3f11b9e65a8102b27756f', 'agronomist', 'active');
+INSERT INTO `users` VALUES (68, 'ayato', 'pbkdf2:sha256:600000$YTNv4Srp9fkM8vKL$58d59e1308121de9f27640c79968e610eff24d2be7ad75b15d41cf01d4335956', 'agronomist', 'active');
+INSERT INTO `users` VALUES (69, 'kasumi', 'pbkdf2:sha256:600000$DhPiefRF7PwlbDJ5$24c7756c7b5453885cf9bedb67f75ebe1612fa9cf7822be7918631fd1ebe787a', 'agronomist', 'active');
 
 SET FOREIGN_KEY_CHECKS = 1;
