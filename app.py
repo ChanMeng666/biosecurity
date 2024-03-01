@@ -1,7 +1,10 @@
 from flask import Flask
 import views
+from admin_routes import admin_bp
 
 app = Flask(__name__)
+
+app.secret_key = '123456'  # Set a secret key for session management
 
 # Define URL rules using functions from views.py
 app.add_url_rule('/', 'home', views.home)
@@ -16,6 +19,8 @@ app.add_url_rule('/administrator_dashboard', 'administrator_dashboard', views.ad
 app.add_url_rule('/agronomist_profile', 'agronomist_profile', views.agronomist_profile)
 app.add_url_rule('/staff_profile', 'staff_profile', views.staff_profile)
 app.add_url_rule('/administrator_profile', 'administrator_profile', views.administrator_profile)
+
+app.register_blueprint(admin_bp, url_prefix='/admin')
 
 if __name__ == '__main__':
     app.run(debug=True)

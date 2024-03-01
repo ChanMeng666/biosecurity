@@ -4,6 +4,7 @@ from auth import validate_password
 from flask import render_template, redirect, url_for
 import mysql.connector
 import connect
+from flask import session
 
 def register_user(form):
     # Initialize variables to None
@@ -158,6 +159,11 @@ def login_user(username, password):
 
         if user and check_password_hash(user['password_hash'], password):
             role = user['role_name']
+
+            session['user_id'] = user['user_id']  # Save user_id to session
+            session['username'] = username  # Save username to session
+            session['role'] = role  # Save user role to session
+
             # Depending on the role, redirect to the appropriate dashboard
             if role == 'agronomist':
                 return redirect(url_for('agronomist_dashboard'))
@@ -192,7 +198,8 @@ def check_if_user_exists(username):
         cursor = get_cursor(connection)
 
         cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
-        return bool(cursor.fetchone())
+        # return bool(cursor.fetchone())
+        return cursor.fetchone() is not None
 
     except mysql.connector.Error as err:
         print("Something went wrong: {}".format(err))
@@ -203,4 +210,93 @@ def check_if_user_exists(username):
             cursor.close()
         if connection is not None:
             connection.close()
+
+
+
+def get_administrator_details(user_id):
+    connection = get_db_connection()
+    cursor = get_cursor(connection)
+
+    try:
+        cursor.execute("""
+            SELECT u.username, sa.first_name, sa.last_name, sa.email, sa.work_phone_number, sa.hire_date, sa.position, sa.department
+            FROM users AS u
+            JOIN staff_and_administrators AS sa ON u.user_id = sa.user_id
+            WHERE u.user_id = %s
+        """, (user_id,))
+        admin_details = cursor.fetchone()
+        return admin_details  # Return the details as a dictionary
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+
+
+
+
+def update_administrator_detail(user_id, field, value):
+
+    # 验证字段是否合法，防止SQL注入
+    valid_fields_users = ['username']
+    valid_fields_staff_admins = ['first_name', 'last_name', 'email', 'work_phone_number']
+
+    connection = get_db_connection()
+    cursor = get_cursor(connection)
+
+    try:
+        if field in valid_fields_users:
+            # 更新users表
+            sql = "UPDATE users SET {} = %s WHERE user_id = %s".format(field)
+            cursor.execute(sql, (value, user_id))
+
+        elif field in valid_fields_staff_admins:
+            # 更新staff_and_administrators表
+            sql = "UPDATE staff_and_administrators SET {} = %s WHERE user_id = %s".format(field)
+            cursor.execute(sql, (value, user_id))
+
+        else:
+            # 如果字段不在任何一个有效列表中，就返回False
+            return False
+
+        connection.commit()
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+    return True
+
+
+def update_administrator_password(user_id, new_password):
+    if not validate_password(new_password):
+        return False, 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.'
+
+    hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
+
+    connection = get_db_connection()
+    cursor = get_cursor(connection)
+
+    try:
+        sql = "UPDATE users SET password_hash = %s WHERE user_id = %s"
+        cursor.execute(sql, (hashed_password, user_id))
+        connection.commit()
+        return True, 'Password updated successfully.'
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False, 'Failed to update password.'
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if connection is not None:
+            connection.close()
+
 
