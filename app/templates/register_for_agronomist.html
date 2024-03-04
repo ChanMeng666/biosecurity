@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register for Agronomist
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card mb-3" style="max-width: 800px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://cdn.pixabay.com/photo/2015/10/21/17/22/fern-1000052_1280.jpg" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <h3 class="card-title">Register</h3>
+                        <form method="post" id="registration-form">
+                            <div class="input-group mb-2">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="text" name="username" id="username" aria-label="Username" class="form-control" placeholder="Username" value="{{ form_data.username if form_data else '' }}" required>
+                                <div id="usernameFeedback" class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="input-group mb-2">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="password" name="password" id="password" aria-label="Password" class="form-control" placeholder="Password"  value="{{ form_data.password if form_data else '' }}" required>
+                                <div id="passwordFeedback" class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="input-group mb-2">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="text" name="first_name" aria-label="First name" placeholder="First name" class="form-control" value="{{ form_data.first_name if form_data else '' }}"  required>
+                              <input type="text" name="last_name" aria-label="Last name" placeholder="Last name" class="form-control" value="{{ form_data.last_name if form_data else '' }}"  required>
+                            </div>
+
+                            <div class="input-group mb-2">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="email" value="{{ form_data.email if form_data else '' }}"  required>
+                            </div>
+
+                            <div class="input-group mb-2">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="phone" name="phone" value="{{ form_data.phone_number if form_data else '' }}"  required>
+                            </div>
+                            {% block extra_fields %}
+                                <div class="input-group mb-2">
+                                  <span class="input-group-text">
+                                  </span>
+                                  <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="address" name="address" value="{{ form_data.address if form_data else '' }}"  required>
+                                </div>
+                            {% endblock %}
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-outline-success btn-lg" id="registerButton">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

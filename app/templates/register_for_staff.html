@@ -1,0 +1,19 @@
+{% extends "register_for_agronomist.html" %}
+
+{% block title %}
+Register for Staff
+{% endblock %}
+
+{% block extra_fields %}
+    <div class="input-group mb-2">
+      <span class="input-group-text">
+      </span>
+      <input type="text" aria-label="Position" class="form-control" placeholder="Position" id="position" name="position" required>
+    </div>
+
+    <div class="input-group mb-2">
+      <span class="input-group-text">
+      </span>
+      <input type="text" aria-label="Department" class="form-control" placeholder="Department" id="department" name="department" required>
+    </div>
+{% endblock %}

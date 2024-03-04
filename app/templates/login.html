@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card mb-3" style="max-width: 800px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://cdn.pixabay.com/photo/2015/05/28/21/26/detective-788592_1280.jpg" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">Login</h3>
+                        <form method="POST">
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="text" name="username" aria-label="Username" class="form-control" placeholder="Username" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">
+                              </span>
+                              <input type="password" name="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-outline-success btn-lg">Login</button>
+                            </div>
+                        </form>
+                        <p class="card-text">
+                            Don't have an account yet? Register as <a href="{{ url_for('auth.register_agronomist') }}" style="color: #38DB44;">agronomist</a> now!
+                        </p>
+                    </div>
+                </div>
+                {% if error %}
+                <p class="alert alert-danger">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
