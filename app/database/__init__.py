@@ -1,5 +1,4 @@
 from .db_connection import get_db_connection
-
 def check_db_connection():
     global connection
     try:

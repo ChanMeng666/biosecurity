@@ -8,42 +8,43 @@ Login
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="card mb-3" style="max-width: 800px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="https://cdn.pixabay.com/photo/2015/05/28/21/26/detective-788592_1280.jpg" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h3 class="card-title">Login</h3>
-                        <form method="POST">
-                            <div class="input-group mb-3">
-                              <span class="input-group-text">
-                              </span>
-                              <input type="text" name="username" aria-label="Username" class="form-control" placeholder="Username" required>
-                            </div>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card mb-3" style="max-width: 800px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://cdn.pixabay.com/photo/2015/05/28/21/26/detective-788592_1280.jpg" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    {% if error %}
+                        <p class="alert alert-danger">{{ error }}</p>
+                    {% endif %}
+                    <form method="POST">
+                        <div class="input-group input-group-lg mb-3">
+                            <span class="input-group-text">
+                                <svg t="1709607318489" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2222" width="20" height="20"><path d="M512 321.6m-262.6 0a262.6 262.6 0 1 0 525.2 0 262.6 262.6 0 1 0-525.2 0Z" fill="#242424" p-id="2223"></path><path d="M924.3 903.6c0-0.1 0-0.1 0 0-0.1-2.1-0.3-4-0.6-5.9C901.2 690.1 725.5 528.6 512 528.6c-213.8 0-389.7 161.9-411.8 369.8-0.2 1.5-0.4 2.9-0.4 4.4 0 0.2-0.1 0.5-0.1 0.7h0.1v1.2c0 22.6 18.3 40.9 40.9 40.9h742.8c22.6 0 40.9-18.3 40.9-40.9 0-0.4-0.1-0.8-0.1-1.1z" fill="#242424" p-id="2224"></path></svg>
+                            </span>
+                            <input type="text" name="username" aria-label="Username" class="form-control" placeholder="Username" required>
+                        </div>
 
-                            <div class="input-group mb-3">
-                              <span class="input-group-text">
-                              </span>
-                              <input type="password" name="password" aria-label="Password" class="form-control" placeholder="Password" required>
-                            </div>
-                            <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-outline-success btn-lg">Login</button>
-                            </div>
-                        </form>
-                        <p class="card-text">
-                            Don't have an account yet? Register as <a href="{{ url_for('auth.register_agronomist') }}" style="color: #38DB44;">agronomist</a> now!
-                        </p>
-                    </div>
+                        <div class="input-group input-group-lg mb-3">
+                            <span class="input-group-text">
+                                <svg t="1709607366991" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2441" width="20" height="20"><path d="M309.4 244.9c22.6 0 41 18.3 41 41v170.8c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V285.9c0.1-22.6 18.4-41 41-41zM713.5 240.9c22.6 0 41 18.3 41 41v23.4c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41v-23.4c0.1-22.6 18.4-41 41-41z" fill="#242424" p-id="2442"></path><path d="M511.5 120.9c89 0 161.1 72.1 161.1 161.1h81.9c0-134.2-108.8-243-243-243s-243 108.8-243 243h81.9c0-89 72.1-161.1 161.1-161.1zM877.4 932.6V476.8c-3.4-33.4-31-59.7-64.9-61H212.7c-37.5 0-68 30.4-68.1 67.9V928c4 30.2 27.8 54.2 57.9 58.5H824c27-5.5 48.2-26.8 53.4-53.9z" fill="#242424" p-id="2443"></path><path d="M436.9 701.1c0-22.6 18.3-41 41-41h66.2c22.6 0 41 18.3 41 41 0 22.6-18.3 41-41 41h-66.2c-22.6-0.1-41-18.4-41-41z" fill="#FFFFFF" p-id="2444"></path></svg>
+                            </span>
+                            <input type="password" name="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <div class="d-grid mb-5">
+                            <button type="submit" class="btn btn-outline-success btn-lg">Login</button>
+                        </div>
+                    </form>
+                    <p class="card-text">
+                        Don't have an account yet? Register as <a href="{{ url_for('auth.register_agronomist') }}" style="color: #38DB44;">agronomist</a> now!
+                    </p>
                 </div>
-                {% if error %}
-                <p class="alert alert-danger">{{ error }}</p>
-                {% endif %}
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

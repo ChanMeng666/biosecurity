@@ -38,7 +38,13 @@
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                            {% if session.get('user_id') %}
+                                <!-- If the user is logged in, Logout is displayed. -->
+                                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                            {% else %}
+                                <!-- If the user is not logged in, set the class of Login according to whether the user is currently on the Login page or not. -->
+                                <a class="nav-link{{ ' active' if request.endpoint == 'auth.login' else '' }}" href="{{ url_for('auth.login') }}">Login</a>
+                            {% endif %}
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Register</a>
