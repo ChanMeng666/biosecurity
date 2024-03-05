@@ -1,46 +1,50 @@
 {% extends "admin/admin_base.html" %}
 
+{% block title %}
+Admin Profile
+{% endblock title %}
+
 {% block my_profile %}
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">Username</span>
     <input value="{{ session['username'] }}" type="text" id="username" class="form-control" aria-label="username" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-username"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="username" id="button-username">Edit</button>
   </div>
 
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">Password</span>
     <input value="" type="text" id="password" class="form-control" aria-label="password" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-password"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="password" id="button-password">Edit</button>
   </div>
 
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">First Name</span>
     <input value="{{ admin_info[0] }}" type="text" id="first_name" class="form-control" aria-label="first_name" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-first_name"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="first_name" id="button-first_name">Edit</button>
   </div>
 
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">Last Name</span>
     <input value="{{ admin_info[1] }}" type="text" id="last_name" class="form-control" aria-label="last_name" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-last_name"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="last_name" id="button-last_name">Edit</button>
   </div>
 
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">Email</span>
     <input value="{{ admin_info[2] }}" type="text" id="email" class="form-control" aria-label="email" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-email"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="email" id="button-email">Edit</button>
   </div>
 
   <div class="input-group mb-2">
     <span class="input-group-text"></span>
     <span class="input-group-text" id="basic-addon1">Work Phone Number</span>
     <input value="{{ admin_info[3] }}" type="text" id="work_phone_number" class="form-control" aria-label="work_phone_number" aria-describedby="button-addon2" readonly>
-    <button class="btn btn-outline-success" type="button" id="button-work_phone_number"></button>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="work_phone_number" id="button-work_phone_number">Edit</button>
   </div>
 
   <div class="input-group mb-2">
@@ -61,3 +65,7 @@
     <input value="{{ admin_info[6] }}" type="text" id="department" class="form-control" aria-label="department" aria-describedby="button-addon2" readonly>
   </div>
 {% endblock my_profile %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock scripts %}

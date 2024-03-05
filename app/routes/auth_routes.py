@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from ..database.db_connection import get_db_connection
 import re
@@ -69,6 +69,17 @@ def sources():
     return render_template('sources.html')
 
 
+
+
+# Function to check password complexity
+def is_password_complex(password):
+    complexity_check = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$')
+    return complexity_check.match(password)
+
+
+
+
+
 @auth_bp.route('/register/agronomist', methods=['GET', 'POST'])
 def register_agronomist():
     if request.method == 'POST':
@@ -84,8 +95,8 @@ def register_agronomist():
         }
 
         # Check password complexity
-        password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
-        if not password_complexity_regex.match(form_data['password']):
+        # password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
+        if not is_password_complex(form_data['password']):
             flash('Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.', 'danger')
             return render_template('register_for_agronomist.html', form_data=form_data)
 
@@ -145,8 +156,8 @@ def register_admin():
         }
 
         # Check password complexity
-        password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
-        if not password_complexity_regex.match(form_data['password']):
+        # password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
+        if not is_password_complex(form_data['password']):
             flash('Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.', 'danger')
             return render_template('register_for_admin.html', form_data=form_data)
 
@@ -204,8 +215,8 @@ def register_staff():
         }
 
         # Check password complexity
-        password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
-        if not password_complexity_regex.match(form_data['password']):
+        # password_complexity_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$')
+        if not is_password_complex(form_data['password']):
             flash('Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.', 'danger')
             return render_template('register_for_staff.html', form_data=form_data)
 
@@ -245,3 +256,52 @@ def register_staff():
         return render_template('register_for_staff.html', form_data=form_data)
 
     return render_template('register_for_staff.html', form_data=None)
+
+
+@auth_bp.route('/update_user_info', methods=['POST'])
+def update_user_info():
+    data = request.json
+    field = data.get('field')
+    new_value = data.get('value')
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return jsonify(success=False, message="Unauthorized access."), 401
+
+    connection = get_db_connection()
+    cursor = connection.cursor(prepared=True)
+
+    try:
+        # Replace 'password' field with 'password_hash'
+        if field == 'password':
+            field = 'password_hash'
+
+            # Check password complexity before proceeding
+            if not is_password_complex(new_value):
+                return jsonify(success=False, message="Password does not meet complexity requirements."), 422
+
+            # Hash the new password
+            new_value = generate_password_hash(new_value)
+
+        # Check for unique username if the username field is being updated
+        if field == "username":
+            cursor.execute("SELECT user_id FROM users WHERE username = %s", (new_value,))
+            if cursor.fetchone():
+                return jsonify(success=False, message="Username is already taken"), 409
+
+        # Construct the update query dynamically based on the field
+        update_query = f"UPDATE users SET {field} = %s WHERE user_id = %s" if field in ['username',
+                                                                                        'password_hash'] else "UPDATE staff_and_administrators SET " + field + " = %s WHERE user_id = %s"
+
+        cursor.execute(update_query, (new_value, user_id))
+        connection.commit()
+        return jsonify(success=True)
+
+    except Exception as e:
+        # Proper logging should replace the print statement
+        print(f"An error occurred: {e}")
+        return jsonify(success=False, message="Update failed due to server error."), 500
+
+    finally:
+        cursor.close()
+        connection.close()
