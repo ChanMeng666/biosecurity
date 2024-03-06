@@ -30,13 +30,31 @@ def login():
             cursor.close()
 
             if session['role'] == 'agronomist':
-                connection.close()
                 redirect_url = url_for('agronomist.agronomist_home')
+
+                connection = get_db_connection()
+                cursor = connection.cursor(prepared=True)
+
+                agronomist_info_sql = "SELECT first_name, last_name, email, phone_number, address, date_joined FROM agronomists WHERE user_id=%s"
+                cursor.execute(agronomist_info_sql, (session['user_id'],))
+                agronomist_info = cursor.fetchone()
+                session['agronomist_info'] = agronomist_info
+                cursor.close()
+                connection.close()
 
 
             elif session['role'] == 'staff':
-                connection.close()
                 redirect_url = url_for('staff.staff_home')
+
+                connection = get_db_connection()
+                cursor = connection.cursor(prepared=True)
+
+                staff_info_sql = "SELECT first_name, last_name, email, work_phone_number, hire_date, position, department FROM staff_and_administrators WHERE user_id=%s"
+                cursor.execute(staff_info_sql, (session['user_id'],))
+                staff_info = cursor.fetchone()
+                session['staff_info'] = staff_info
+                cursor.close()
+                connection.close()
 
 
             elif session['role'] == 'administrator':
@@ -237,6 +255,7 @@ def update_user_info():
     field = data.get('field')
     new_value = data.get('value')
     user_id = session.get('user_id')
+    role = session.get('role')
 
     if not user_id:
         toast = render_toast('danger', 'Unauthorized access. Please log in.')
@@ -261,10 +280,33 @@ def update_user_info():
                 toast = render_toast('success', 'Username is already taken.')
                 return jsonify(success=False, toast=toast), 409
 
-        update_query = f"UPDATE users SET {field} = %s WHERE user_id = %s" if field in ['username',
-                                                                                        'password_hash'] else "UPDATE staff_and_administrators SET " + field + " = %s WHERE user_id = %s"
 
-        cursor.execute(update_query, (new_value, user_id))
+
+        # update_query = f"UPDATE users SET {field} = %s WHERE user_id = %s" if field in ['username',
+        #                                                                                 'password_hash'] else "UPDATE staff_and_administrators SET " + field + " = %s WHERE user_id = %s"
+        #
+        # cursor.execute(update_query, (new_value, user_id))
+
+        # Update logic based on role
+        if role == 'agronomist':
+            if field in ['phone_number', 'address']:
+                update_query = f"UPDATE agronomists SET {field} = %s WHERE user_id = %s"
+                cursor.execute(update_query, (new_value, user_id))
+            else:
+                toast = render_toast('danger', f'An error occurred: Unknown field {field}')
+                return jsonify(success=False, toast=toast), 400
+        else:
+            if field in ['username', 'password_hash']:
+                update_query = f"UPDATE users SET {field} = %s WHERE user_id = %s"
+                cursor.execute(update_query, (new_value, user_id))
+            else:
+                update_query = f"UPDATE staff_and_administrators SET {field} = %s WHERE user_id = %s"
+                cursor.execute(update_query, (new_value, user_id))
+
+
+
+
+
         connection.commit()
         toast = render_toast('success', 'Information updated successfully.')
         return jsonify(success=True, toast=toast)

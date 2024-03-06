@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "agronomist/agronomist_base.html" %}
 
-</body>
-</html>
+{% block title %}
+Agronomist Home
+{% endblock title %}
+
+{% block my_profile %}
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Username</span>
+    <input value="{{ session['username'] }}" type="text" id="username" class="form-control" aria-label="username" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="username" id="button-username">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Password</span>
+    <input value="" type="text" id="password" class="form-control" aria-label="password" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="password" id="button-password">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">First Name</span>
+    <input value="{{ agronomist_info[0] }}" type="text" id="first_name" class="form-control" aria-label="first_name" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="first_name" id="button-first_name">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Last Name</span>
+    <input value="{{ agronomist_info[1] }}" type="text" id="last_name" class="form-control" aria-label="last_name" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="last_name" id="button-last_name">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Email</span>
+    <input value="{{ agronomist_info[2] }}" type="text" id="email" class="form-control" aria-label="email" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="email" id="button-email">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Phone Number</span>
+    <input value="{{ agronomist_info[3] }}" type="text" id="phone_number" class="form-control" aria-label="phone_number" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="phone_number" id="button-phone_number">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Address</span>
+    <input value="{{ agronomist_info[4] }}" type="text" id="address" class="form-control" aria-label="address" aria-describedby="button-addon2" readOnly>
+    <button class="btn btn-outline-success btn-edit-save" type="button" data-field="address" id="button-address">Edit</button>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text"></span>
+    <span class="input-group-text" id="basic-addon1">Date Joined</span>
+    <input value="{{ agronomist_info[5] }}" type="text" id="date_joined" class="form-control" aria-label="date_joined" aria-describedby="button-addon2" readOnly>
+  </div>
+
+{% endblock my_profile %}
+
+{% block scripts %}
+
+{% endblock scripts %}
