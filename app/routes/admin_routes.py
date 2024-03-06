@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, redirect, url_for
 
 admin_bp = Blueprint('admin', __name__, template_folder='../templates/admin')
 
@@ -8,4 +8,4 @@ def admin_home():
         admin_info = session['admin_info']
         return render_template('admin/admin_home.html', admin_info=admin_info)
     else:
-        return 'User not found or not logged in', 404
+        return redirect(url_for('errors.errors_index'))

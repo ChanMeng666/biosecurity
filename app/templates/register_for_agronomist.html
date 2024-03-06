@@ -16,15 +16,15 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
+{#            {% with messages = get_flashed_messages(with_categories=true) %}#}
+{#              {% if messages %}#}
+{#                {% for category, message in messages %}#}
+{#                  <div class="alert alert-{{ category }}">{{ message }}</div>#}
+{#                {% endfor %}#}
+{#              {% endif %}#}
+{#            {% endwith %}#}
 
-            <form method="post" id="registration-form">
+            <form method="post" id="registration-form" {% block form %}action="/auth/register/agronomist"{% endblock %}>
               <div class="input-group mb-2">
                 <span class="input-group-text">
                     <svg t="1709607318489" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2222" width="20" height="20"><path d="M512 321.6m-262.6 0a262.6 262.6 0 1 0 525.2 0 262.6 262.6 0 1 0-525.2 0Z" fill="#242424" p-id="2223"></path><path d="M924.3 903.6c0-0.1 0-0.1 0 0-0.1-2.1-0.3-4-0.6-5.9C901.2 690.1 725.5 528.6 512 528.6c-213.8 0-389.7 161.9-411.8 369.8-0.2 1.5-0.4 2.9-0.4 4.4 0 0.2-0.1 0.5-0.1 0.7h0.1v1.2c0 22.6 18.3 40.9 40.9 40.9h742.8c22.6 0 40.9-18.3 40.9-40.9 0-0.4-0.1-0.8-0.1-1.1z" fill="#242424" p-id="2224"></path></svg>
@@ -84,4 +84,5 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ url_for('static', filename='js/registration.js') }}"></script>
 {% endblock %}

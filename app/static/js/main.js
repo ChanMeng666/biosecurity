@@ -1,40 +1,4 @@
-function sendUpdate(field, value) {
-    fetch('/auth/update_user_info', {
-        method: 'POST',
-        body: JSON.stringify({ 'field': field, 'value': value }),
-        headers: {
-            'Content-Type': 'application/json',
-            // Assuming CSRF token is set in a cookie named 'csrf_token'
-            'X-CSRFToken': getCookie('csrf_token') // Function to get cookie by name
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            alert('Information updated successfully!');
-            const button = document.getElementById(`button-${field}`);
-            button.textContent = 'Edit'; // Reset the button to 'Edit' state
-        } else {
-            alert(`Failed to update information: ${data.message}`);
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function toggleEditSave(button, input) {
-    const field = input.getAttribute('id');
-    if(button.textContent === 'Edit'){
-        input.readOnly = false;
-        button.textContent = 'Save';
-        input.focus();
-    } else {
-        const value = input.value;
-        sendUpdate(field, value);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.btn-edit-save').forEach(button => {
         button.addEventListener('click', function() {
             const field = this.dataset.field;
@@ -44,19 +8,64 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-// Function to get a cookie by name
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+
+// Function to toggle between editing and saving
+function toggleEditSave(button, input) {
+    // const field = input.getAttribute('id');
+    if(button.textContent === 'Edit'){
+        input.readOnly = false;
+        button.textContent = 'Save';
+        input.focus();
+    } else if(button.textContent === 'Save') {
+        const value = input.value;
+        input.readOnly = true;
+        button.textContent = 'Edit';
+        // sendUpdate(field, value);
+        sendUpdate(input.id, value); // Use input.id instead of field
     }
-    return cookieValue;
 }
+
+function sendUpdate(field, value) {
+    fetch('/auth/update_user_info', {
+        method: 'POST',
+        body: JSON.stringify({ 'field': field, 'value': value }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            showToast('Information updated successfully!');
+            const button = document.getElementById(`button-${field}`);
+            button.textContent = 'Edit'; // Reset the button to 'Edit' state
+        } else {
+            showToast(`Failed to update information: ${data.toast.message}`);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+// showToast function to display Bootstrap toast messages
+function showToast(message, type='success') {
+    const toastContainer = document.getElementById('toastContainer');
+    const toastTemplate = document.getElementById('toastTemplate').cloneNode(true);
+    toastTemplate.id = '';
+    toastTemplate.classList.remove('hide');
+
+    // Set message content and category
+    const toastHeaderClass = (type === 'danger') ? 'bg-danger text-white' : 'bg-success text-white';
+    toastTemplate.querySelector('.toast-header').className += ` ${toastHeaderClass}`;
+    toastTemplate.querySelector('.toast-body').textContent = message;
+
+    // Append the cloned template to the DOM
+    toastContainer.appendChild(toastTemplate);
+
+    // Show the toast
+    const toast = new bootstrap.Toast(toastTemplate);
+    toast.show();
+}
+
+

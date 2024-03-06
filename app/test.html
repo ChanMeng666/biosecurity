@@ -1,0 +1,26 @@
+{% extends "register_for_agronomist.html" %}
+
+{% block title %}
+  Register for Staff
+{% endblock %}
+
+{% block extra_fields %}
+
+    <div class="input-group mb-2">
+        <span class="input-group-text">
+        </span>
+        <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="phone" name="phone" value="{{ form_data.work_phone_number if form_data else '' }}" required>
+    </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text">
+    </span>
+    <input type="text" aria-label="Position" class="form-control" placeholder="Position" id="position" name="position" value="{{ form_data.position if form_data else '' }}" required>
+  </div>
+
+  <div class="input-group mb-2">
+    <span class="input-group-text">
+    </span>
+    <input type="text" aria-label="Department" class="form-control" placeholder="Department" id="department" name="department" value="{{ form_data.department if form_data else '' }}" required>
+  </div>
+{% endblock %}
