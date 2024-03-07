@@ -12,29 +12,53 @@
     <div class="card-header bg-success">
       <ul class="nav nav-underline" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" style="color: #FFFFFF;">My Profile</button>
+          <a class="nav-link {% block active_staff %}{% endblock active_staff %} " id="home-tab" href="{{ url_for('staff.staff_home') }}" role="tab" aria-controls="home-tab-pane" aria-selected="true" style="color: #FFFFFF;">
+{#          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" style="color: #FFFFFF;">#}
+                            &nbsp;&nbsp;&nbsp;
+                <svg t="1709796703862" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3008" id="mx_n_1709796703862" width="20" height="20"><path d="M798.7 1003.5H225.3c-67.8 0-122.9-55.1-122.9-122.9V757.8C102.4 599.7 231 471 389.1 471h245.8c158.1 0 286.7 128.6 286.7 286.7v122.9c0 67.8-55.1 122.9-122.9 122.9zM389.1 553c-112.9 0-204.8 91.9-204.8 204.8v122.9c0 22.6 18.4 41 41 41h573.4c22.6 0 41-18.4 41-41V757.8c0-112.9-91.9-204.8-204.8-204.8H389.1zM512 102.4c67.8 0 122.9 55.1 122.9 122.9S579.8 348.2 512 348.2 389.1 293 389.1 225.3 444.2 102.4 512 102.4m0-81.9c-113.1 0-204.8 91.7-204.8 204.8S398.9 430.1 512 430.1s204.8-91.7 204.8-204.8S625.1 20.5 512 20.5z" fill="#ffffff" p-id="3009"></path><path d="M512.9 665.3c-22.5 0-41 18.4-41 41v81.9c0 22.5 18.4 41 41 41 22.5 0 41-18.4 41-41v-81.9c0-22.6-18.5-41-41-41z" fill="#ffffff" p-id="3010"></path></svg>
+              &nbsp;
+              My Profile
+              &nbsp;&nbsp;&nbsp;
+{#          </button>#}
+          </a>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" style="color: #FFFFFF;">View Agronomist</button>
+          <a class="nav-link {% block active_agronomist %}{% endblock active_agronomist %}" id="contact-tab" href="{{ url_for('staff.staff_view_agronomist') }}" role="tab" aria-controls="contact-tab-pane" aria-selected="false" style="color: #FFFFFF;">
+{#          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" style="color: #FFFFFF;">#}
+                           &nbsp;&nbsp;&nbsp;
+                <svg t="1709796644707" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2377" width="20" height="20"><path d="M235.5 286.7c-22.5 0-41 18.4-41 41 0 22.5 18.4 41 41 41h245.8c22.5 0 41-18.4 41-41 0-22.5-18.4-41-41-41H235.5zM378.9 450.6H235.5c-22.5 0-41 18.4-41 41 0 22.5 18.4 41 41 41h143.4c22.5 0 41-18.4 41-41-0.1-22.6-18.5-41-41-41zM378.9 614.4H235.5c-22.5 0-41 18.4-41 41 0 22.5 18.4 41 41 41h143.4c22.5 0 41-18.4 41-41-0.1-22.6-18.5-41-41-41z" p-id="2378" fill="#ffffff"></path><path d="M235.5 901.1h-81.9c-22.6 0-41-18.4-41-41V163.8c0-22.6 18.4-41 41-41h696.3c22.6 0 41 18.4 41 41v81.9c0 22.6 18.3 41 41 41 22.6 0 41-18.3 41-41v-81.9C972.8 96.1 917.7 41 849.9 41H153.6C85.8 41 30.7 96.1 30.7 163.8v696.3c0 67.8 55.1 122.9 122.9 122.9h81.9c22.6 0 41-18.3 41-41s-18.4-40.9-41-40.9z" p-id="2379" fill="#ffffff"></path><path d="M839.5 664c37-33.5 60.4-81.8 60.4-135.7 0-101.2-82-183.2-183.2-183.2s-183.2 82-183.2 183.2c0 53.9 23.4 102.2 60.4 135.7-91 45.3-153.7 139-153.7 247.4v30.7c0 22.6 18.3 41 41 41s41-18.3 41-41v-30.7c0-107.3 87.3-194.6 194.6-194.6s194.6 87.3 194.6 194.6v30.7c0 22.6 18.3 41 41 41s41-18.3 41-41v-30.7C993.3 803 930.5 709.3 839.5 664zM716.8 427c55.8 0 101.3 45.4 101.3 101.3s-45.4 101.3-101.3 101.3-101.3-45.4-101.3-101.3S661 427 716.8 427z" p-id="2380" fill="#ffffff"></path></svg>
+              &nbsp;
+              View Agronomist
+              &nbsp;&nbsp;&nbsp;
+{#          </button>#}
+          </a>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" style="color: #FFFFFF;">Manage Guide</button>
+          <a class="nav-link {% block active_guide %}{% endblock active_guide %}" id="disabled-tab" href="{{ url_for('staff.staff_manage_guide') }}" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" style="color: #FFFFFF;">
+{#          <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" style="color: #FFFFFF;">#}
+                          &nbsp;&nbsp;&nbsp;
+                <svg t="1709796606984" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2197" id="mx_n_1709796606985" width="20" height="20"><path d="M839.7 1003.5H184.3c-67.8 0-122.9-55.1-122.9-122.9V225.3c0-67.8 55.1-122.9 122.9-122.9 22.6 0 41 18.3 41 41s-18.3 41-41 41c-22.6 0-41 18.4-41 41v655.4c0 22.6 18.4 41 41 41h655.4c22.6 0 41-18.4 41-41V225.3c0-22.6-18.4-41-41-41s-41-18.3-41-41 18.3-41 41-41c67.8 0 122.9 55.1 122.9 122.9v655.4c0 67.8-55.2 122.9-122.9 122.9z" p-id="2198" fill="#ffffff"></path><path d="M604.2 266.2H419.8c-62.1 0-112.6-50.5-112.6-112.6v-20.5c0-62.1 50.5-112.6 112.6-112.6h184.3c62.1 0 112.6 50.5 112.6 112.6v20.5c0.1 62.1-50.4 112.6-112.5 112.6zM419.8 102.4c-16.9 0-30.7 13.8-30.7 30.7v20.5c0 16.9 13.8 30.7 30.7 30.7h184.3c16.9 0 30.7-13.8 30.7-30.7v-20.5c0-16.9-13.8-30.7-30.7-30.7H419.8zM737.3 491.5H286.7c-22.5 0-41-18.4-41-41 0-22.5 18.4-41 41-41h450.6c22.5 0 41 18.4 41 41-0.1 22.6-18.5 41-41 41zM614.4 737.3H286.7c-22.5 0-41-18.4-41-41 0-22.5 18.4-41 41-41h327.7c22.5 0 41 18.4 41 41 0 22.5-18.5 41-41 41z" p-id="2199" fill="#ffffff"></path></svg>
+              &nbsp;
+              Manage Guide
+              &nbsp;&nbsp;&nbsp;
+{#          </button>#}
+          </a>
         </li>
       </ul>
     </div>
     <div class="card-body">
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="tab-pane fade {% block active_staff_show %}{% endblock active_staff_show %}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             {% block my_profile %}
             {% endblock my_profile %}
         </div>
 
-        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+        <div class="tab-pane fade {% block active_agronomist_show %}{% endblock active_agronomist_show %}" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
             {% block view_agronomist %}
             {% endblock view_agronomist %}
         </div>
 
-        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+        <div class="tab-pane fade {% block active_guide_show %}{% endblock active_guide_show %}" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
             {% block manage_guide %}
             {% endblock manage_guide %}
         </div>

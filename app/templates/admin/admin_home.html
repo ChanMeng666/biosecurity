@@ -4,63 +4,84 @@
 Admin Home
 {% endblock title %}
 
+{% block active_admin %}active{% endblock active_admin %}
+{% block active_admin_show %}show active{% endblock active_admin_show %}
+
 {% block my_profile %}
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607318489" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2222" width="20" height="20"><path d="M512 321.6m-262.6 0a262.6 262.6 0 1 0 525.2 0 262.6 262.6 0 1 0-525.2 0Z" fill="#242424" p-id="2223"></path><path d="M924.3 903.6c0-0.1 0-0.1 0 0-0.1-2.1-0.3-4-0.6-5.9C901.2 690.1 725.5 528.6 512 528.6c-213.8 0-389.7 161.9-411.8 369.8-0.2 1.5-0.4 2.9-0.4 4.4 0 0.2-0.1 0.5-0.1 0.7h0.1v1.2c0 22.6 18.3 40.9 40.9 40.9h742.8c22.6 0 40.9-18.3 40.9-40.9 0-0.4-0.1-0.8-0.1-1.1z" fill="#242424" p-id="2224"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Username</span>
     <input value="{{ session['username'] }}" type="text" id="username" class="form-control" aria-label="username" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="username" id="button-username">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607732614" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2665" width="20" height="20"><path d="M297.4 250.2c22.6 0 41 18.3 41 41V462c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V291.2c0-22.6 18.4-41 41-41zM701.5 246.2c22.6 0 41 18.3 41 41v169.1c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V287.2c0-22.6 18.4-41 41-41z" fill="#242424" p-id="2666"></path><path d="M499.4 126.2c89 0 161.1 72.1 161.1 161.1h81.9c0-134.2-108.8-243-243-243s-243 108.8-243 243h81.9c0-89 72.2-161.1 161.1-161.1zM865.4 938V482.1c-3.4-33.4-31-59.7-64.9-61H200.6c-37.5 0-68 30.4-68.1 67.9v444.3c4 30.2 27.8 54.2 57.9 58.5h621.5c27-5.4 48.3-26.8 53.5-53.8z" fill="#242424" p-id="2667"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Password</span>
     <input value="" type="text" id="password" class="form-control" aria-label="password" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="password" id="button-password">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607788930" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2888" width="20" height="20"><path d="M663.4 541.2m-40.9 0a40.9 40.9 0 1 0 81.8 0 40.9 40.9 0 1 0-81.8 0Z" fill="#242424" p-id="2889"></path><path d="M643.1 149.2m-40.9 0a40.9 40.9 0 1 0 81.8 0 40.9 40.9 0 1 0-81.8 0Z" fill="#242424" p-id="2890"></path><path d="M989 854.6c0-143.7-85.3-267.5-208-323.6 54.8-43.4 90-110.6 90-185.9 0-127.8-101.2-232-227.9-236.8v81.8c81 4.7 145.2 72.9 145.2 155 0 78.8-56.1 146.7-132.3 156.1-5.6 0.7-12.9 7.4-12.9 13v60.6c0-20 3.1-0.6 7.2-0.3l5 7c143.3 8.7 251.8 127.6 251.8 273.1h0.1v0.8c0 22.6 18.3 40.9 40.9 40.9S989 878 989 855.4v-0.8z" fill="#242424" p-id="2891"></path><path d="M393.5 344.7m-233.4 0a233.4 233.4 0 1 0 466.8 0 233.4 233.4 0 1 0-466.8 0Z" fill="#242424" p-id="2892"></path><path d="M759.9 861.9c-0.1-1.8-0.2-3.6-0.5-5.3-20-184.4-176.2-328-365.9-328-190 0-346.3 143.9-366 328.7-0.2 1.3-0.3 2.6-0.4 4 0 0.2 0 0.4-0.1 0.7v1.1c0 20.1 16.3 36.4 36.4 36.4h660.2c20.1 0 36.4-16.3 36.4-36.4 0-0.5-0.1-0.8-0.1-1.2z" fill="#242424" p-id="2893"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">First Name</span>
     <input value="{{ admin_info[0] }}" type="text" id="first_name" class="form-control" aria-label="first_name" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="first_name" id="button-first_name">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607788930" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2888" width="20" height="20"><path d="M663.4 541.2m-40.9 0a40.9 40.9 0 1 0 81.8 0 40.9 40.9 0 1 0-81.8 0Z" fill="#242424" p-id="2889"></path><path d="M643.1 149.2m-40.9 0a40.9 40.9 0 1 0 81.8 0 40.9 40.9 0 1 0-81.8 0Z" fill="#242424" p-id="2890"></path><path d="M989 854.6c0-143.7-85.3-267.5-208-323.6 54.8-43.4 90-110.6 90-185.9 0-127.8-101.2-232-227.9-236.8v81.8c81 4.7 145.2 72.9 145.2 155 0 78.8-56.1 146.7-132.3 156.1-5.6 0.7-12.9 7.4-12.9 13v60.6c0-20 3.1-0.6 7.2-0.3l5 7c143.3 8.7 251.8 127.6 251.8 273.1h0.1v0.8c0 22.6 18.3 40.9 40.9 40.9S989 878 989 855.4v-0.8z" fill="#242424" p-id="2891"></path><path d="M393.5 344.7m-233.4 0a233.4 233.4 0 1 0 466.8 0 233.4 233.4 0 1 0-466.8 0Z" fill="#242424" p-id="2892"></path><path d="M759.9 861.9c-0.1-1.8-0.2-3.6-0.5-5.3-20-184.4-176.2-328-365.9-328-190 0-346.3 143.9-366 328.7-0.2 1.3-0.3 2.6-0.4 4 0 0.2 0 0.4-0.1 0.7v1.1c0 20.1 16.3 36.4 36.4 36.4h660.2c20.1 0 36.4-16.3 36.4-36.4 0-0.5-0.1-0.8-0.1-1.2z" fill="#242424" p-id="2893"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Last Name</span>
     <input value="{{ admin_info[1] }}" type="text" id="last_name" class="form-control" aria-label="last_name" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="last_name" id="button-last_name">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607808930" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3110" width="20" height="20"><path d="M963.8 212.3c-2.1 7.6-6.5 14.7-13 20.1L531.7 584.3c-0.2 0.2-0.4 0.4-0.7 0.5-16.4 13.2-40.3 11.6-54.8-3.3L126.6 288.9c-17.2-14.4-19.5-40.3-5.1-57.6 14.4-17.2 40.3-19.5 57.6-5.1l326.4 273.3 392.7-329.6c5.1-4.3 10.9-7.1 17-8.5-6.5-1.9-13.3-3-20.4-3H113.2c-39.1 0-71.1 32-71.1 71.1V822c0 39.1 32 71.1 71.1 71.1h781.6c39.1 0 71.1-32 71.1-71.1V229.5c0-5.9-0.7-11.7-2.1-17.2z" fill="#242424" p-id="3111"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Email</span>
     <input value="{{ admin_info[2] }}" type="text" id="email" class="form-control" aria-label="email" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="email" id="button-email">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709607828248" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3332" width="20" height="20"><path d="M532.7 100.4l22 78.9c85.2-28 182.7-8.1 250.5 59.7 62.8 62.8 79.5 161.7 60.1 242.1 20.1 7.9 52.2 17.7 77.1 27.9 28.3-111.1 8.8-241.7-78.3-328.9-89.8-89.6-218.3-115.2-331.4-79.7z" fill="#242424" p-id="3333"></path><path d="M516.178373 168.417637a40.9 40.9 0 1 0 57.840325-57.842345 40.9 40.9 0 1 0-57.840325 57.842345Z" fill="#242424" p-id="3334"></path><path d="M728.960896 471.541445a40.9 40.9 0 1 0 57.840325-57.842344 40.9 40.9 0 1 0-57.840325 57.842344Z" fill="#242424" p-id="3335"></path><path d="M576.789113 319.277565a40.9 40.9 0 1 0 57.840325-57.842345 40.9 40.9 0 1 0-57.840325 57.842345Z" fill="#242424" p-id="3336"></path><path d="M873.974908 526.213272a40.9 40.9 0 1 0 57.840325-57.842344 40.9 40.9 0 1 0-57.840325 57.842344Z" fill="#242424" p-id="3337"></path><path d="M597.5 250.1l13.8 80.7c28-3.7 57.4 5.3 78.9 26.8 21.1 21.1 30.1 49.8 27 77.4l64 17.3c0.4-0.5 0.9-1.1 1.4-1.6 4.5-4.5 10.8-6.1 16.1-4.6 6.5-52.2-10.3-106.7-50.3-146.7-40.6-40.5-98.1-56.5-150.9-49.3z" fill="#242424" p-id="3338"></path><path d="M938.2 840.4c1.8-3.2 3.2-6.7 4.1-10.4 4.8-17 7.4-34.9 7.4-53.5 0-108.8-88.2-197-197-197-92.3 0-169.8 63.6-191.2 149.3-121.8-54.4-216.3-159.6-255.9-289.2 84.6-22.1 147.1-99 147.1-190.6v-0.9-0.9c0-108.1-87.7-195.8-195.8-195.8-27.3 0-53.3 5.6-76.9 15.7-71.2 29.8-121.3 100-121.3 182 0 2.8 0.1 5.6 0.2 8.4-0.1 4.8-0.2 9.6-0.2 14.4 0 387.5 314.2 700.6 701.7 700.6 2.9 0 5.8-0.2 8.6-0.2 3.4-0.1 6.8-0.7 9.9-1.7 74.4-9.8 135.5-61.3 159.3-130.2z" fill="#242424" p-id="3339"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Work Phone Number</span>
     <input value="{{ admin_info[3] }}" type="text" id="work_phone_number" class="form-control" aria-label="work_phone_number" aria-describedby="button-addon2" readOnly>
     <button class="btn btn-outline-success btn-edit-save" type="button" data-field="work_phone_number" id="button-work_phone_number">Edit</button>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709797169015" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4066" width="20" height="20"><path d="M287.1 51.8c22.6 0 41 18.3 41 41v98.1c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V92.7c0.1-22.6 18.4-40.9 41-40.9zM731.1 51.8c22.6 0 41 18.3 41 41v98.1c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V92.7c0-22.6 18.4-40.9 41-40.9z" fill="#242424" p-id="4067"></path><path d="M78.3 309.3h865.5c22.6 0 41 12 41 28V170.9c0-38.7-31.3-70-70-70H804V192c0 39.2-31.7 70.9-70.9 70.9s-70.9-31.7-70.9-70.9v-91.1H361V192c0 39.2-31.7 70.9-70.9 70.9s-70.9-31.7-70.9-70.9v-91.1H108.8c-38.7 0-70 31.3-70 70v168.4c4.8-17.3 20.7-30 39.5-30zM943.7 391.2H78.3c-18.8 0-34.7-12.7-39.5-30v543.4c0 38.7 31.3 70 70 70h805.9c38.7 0 70-31.3 70-70V364.3c-4 14.9-18.3 26.9-41 26.9z" fill="#242424" p-id="4068"></path><path d="M759.3 488.1c-16-16-41.9-16-57.9 0L456.1 733.4 332.2 609.5c-16-16-41.9-16-57.9 0s-16 41.9 0 57.9l150.5 150.5c8.6 8.6 20.1 12.6 31.4 11.9 11.3 0.7 22.8-3.3 31.4-11.9l271.8-271.8c15.9-16 15.9-42-0.1-58z" fill="#FFFFFF" p-id="4069"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Hire Date</span>
     <input value="{{ admin_info[4] }}" type="text" id="hire_date" class="form-control" aria-label="hire_date" aria-describedby="button-addon2" readOnly>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709608111065" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3772" width="20" height="20"><path d="M929.2 228.4L523.5 34.9c-11.9-8.1-27.8-9.7-41.6-2.8L60.6 244.2c-0.5 0.2-0.9 0.5-1.4 0.7-8.2 3.9-15.1 10.5-19.3 19.3-9.7 20.4-1.1 44.9 19.3 54.6l412 196.5c2 0.9 4 1.7 6 2.3 9.9 3.3 21.2 2.8 31.2-2.3l346-174.2v261c0 22.6 18.3 41 41 41 22.6 0 41-18.3 41-41v-303c8.4-6.4 13.7-15.6 15.4-25.6 3.6-18-5.3-36.8-22.6-45.1z" fill="#242424" p-id="3773"></path><path d="M818.1 458.3c-7.5-13.3-22.8-20.8-38.4-20.2h-1.3c-6.5 0.4-12.6 2.2-17.9 5L489.3 565.7 255.5 465.6c-5.8-2.8-12.3-4.3-19.3-4.3-22.6 0-41 16.5-41 36.7v219.4c0 0.6 0 1.3 0.1 1.9 2.3 99.8 141.8 180.3 313.4 180.3 170.8 0 309.7-79.7 313.4-178.7 0.1-0.8 0.1-1.5 0.1-2.3V478.4c0.8-6.7-0.5-13.7-4.1-20.1z" fill="#242424" p-id="3774"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Position</span>
     <input value="{{ admin_info[5] }}" type="text" id="position" class="form-control" aria-label="position" aria-describedby="button-addon2" readOnly>
   </div>
 
   <div class="input-group mb-2">
-    <span class="input-group-text"></span>
+    <span class="input-group-text">
+        <svg t="1709608144108" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3991" width="20" height="20"><path d="M70.6 267.1c11.3-19.6 36.4-26.3 55.9-15l372.8 215.3 369.1-213.1c19.6-11.3 44.6-4.6 55.9 15 0.2 0.3 0.3 0.5 0.4 0.8-3.5-7-8.9-13-16.2-17.2L521.7 29.5c-7.5-6.1-16.9-9.3-26.4-9.2-9.5-0.1-18.9 3.1-26.4 9.2l-383 221.1c-10.1 5.8-16.8 15.4-19.3 25.9 0.9-3.1 2.2-6.3 4-9.4z" fill="#242424" p-id="3992"></path><path d="M925.5 271.5c9.6 19.2 2.7 42.9-16.2 53.8L543.4 536.5v429c0 22.6-18.3 41-41 41-22.6 0-41-18.3-41-41V540.1l-375.9-217c-11.9-6.9-19.1-18.8-20.3-31.6v446.1c-1.5 15.5 5.9 31.1 20.3 39.4l387.4 223.7c7.5 6.1 16.9 9.3 26.4 9.2 9.5 0.1 18.9-3.1 26.4-9.2l376-217.1c16.6-5.2 28.7-20.7 28.7-39.1V290.9c0-7.1-1.8-13.7-4.9-19.4z" fill="#242424" p-id="3993"></path></svg>
+    </span>
     <span class="input-group-text" id="basic-addon1">Department</span>
     <input value="{{ admin_info[6] }}" type="text" id="department" class="form-control" aria-label="department" aria-describedby="button-addon2" readOnly>
   </div>

@@ -9,3 +9,13 @@ def staff_home():
         return render_template('staff/staff_home.html', staff_info=staff_info)
     else:
         return redirect(url_for('errors.errors_index'))
+
+@staff_bp.route('/staff/view-agronomist')
+def staff_view_agronomist():
+
+    return render_template('staff/staff_view_agronomist.html')
+
+@staff_bp.route('/staff/manage-guide')
+def staff_manage_guide():
+
+    return render_template('staff/staff_manage_guide.html')

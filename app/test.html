@@ -1,26 +1,87 @@
-{% extends "register_for_agronomist.html" %}
+{% extends "base.html" %}
 
 {% block title %}
-  Register for Staff
-{% endblock %}
+{% endblock title %}
 
-{% block extra_fields %}
+{% block style %}
+{% endblock style %}
 
-    <div class="input-group mb-2">
-        <span class="input-group-text">
-        </span>
-        <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="phone" name="phone" value="{{ form_data.work_phone_number if form_data else '' }}" required>
+{% block content %}
+<div class="container">
+  <div class="card text-center border-success mb-3">
+    <div class="card-header bg-success">
+      <ul class="nav nav-underline" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" style="color: #FFFFFF;">
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;
+              My Profile
+              &nbsp;&nbsp;&nbsp;
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false" style="color: #FFFFFF;">
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;
+              Manage Staff
+               &nbsp;&nbsp;&nbsp;
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" style="color: #FFFFFF;">
+             &nbsp;&nbsp;&nbsp;
+              &nbsp;
+              Manage Agronomist
+              &nbsp;&nbsp;&nbsp;
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" style="color: #FFFFFF;">
+            &nbsp;&nbsp;&nbsp;
+              &nbsp;
+              Manage Guide
+              &nbsp;&nbsp;&nbsp;
+          </button>
+        </li>
+      </ul>
     </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            {% block my_profile %}
+            {% endblock my_profile %}
+        </div>
 
-  <div class="input-group mb-2">
-    <span class="input-group-text">
-    </span>
-    <input type="text" aria-label="Position" class="form-control" placeholder="Position" id="position" name="position" value="{{ form_data.position if form_data else '' }}" required>
-  </div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            {% block manage_staff %}
+            {% endblock manage_staff %}
+        </div>
 
-  <div class="input-group mb-2">
-    <span class="input-group-text">
-    </span>
-    <input type="text" aria-label="Department" class="form-control" placeholder="Department" id="department" name="department" value="{{ form_data.department if form_data else '' }}" required>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            {% block manage_agronomist %}
+            {% endblock manage_agronomist %}
+        </div>
+
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+            {% block manage_guide %}
+            {% endblock manage_guide %}
+        </div>
+      </div>
+    </div>
   </div>
-{% endblock %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  document.getElementById('profile-tab').addEventListener('click', function() {
+    window.location.href = '/admin/manage-staff';
+  });
+  document.getElementById('contact-tab').addEventListener('click', function() {
+    window.location.href = '/admin/manage-agronomist';
+  });
+  document.getElementById('disabled-tab').addEventListener('click', function() {
+    window.location.href = '/admin/manage-guide';
+  });
+</script>
+{% endblock scripts %}

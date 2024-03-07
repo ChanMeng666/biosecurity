@@ -16,14 +16,6 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-{#            {% with messages = get_flashed_messages(with_categories=true) %}#}
-{#              {% if messages %}#}
-{#                {% for category, message in messages %}#}
-{#                  <div class="alert alert-{{ category }}">{{ message }}</div>#}
-{#                {% endfor %}#}
-{#              {% endif %}#}
-{#            {% endwith %}#}
-
             <form method="post" id="registration-form" {% block form %}action="/auth/register/agronomist"{% endblock %}>
               <div class="input-group mb-2">
                 <span class="input-group-text">

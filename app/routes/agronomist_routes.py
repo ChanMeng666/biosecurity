@@ -9,3 +9,8 @@ def agronomist_home():  # The name of this function determines the endpoint by d
         return render_template('agronomist/agronomist_home.html', agronomist_info=agronomist_info)
     else:
         return redirect(url_for('errors.errors_index'))
+
+@agronomist_bp.route('/agronomist/view-guide')
+def agronomist_view_guide():
+
+    return render_template('agronomist/agronomist_view_guide.html')

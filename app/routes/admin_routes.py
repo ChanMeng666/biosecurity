@@ -9,3 +9,18 @@ def admin_home():
         return render_template('admin/admin_home.html', admin_info=admin_info)
     else:
         return redirect(url_for('errors.errors_index'))
+
+@admin_bp.route('/admin/manage-staff')
+def admin_manage_staff():
+
+    return render_template('admin/admin_manage_staff.html')
+
+@admin_bp.route('/admin/manage-agronomist')
+def admin_manage_agronomist():
+
+    return render_template('admin/admin_manage_agronomist.html')
+
+@admin_bp.route('/admin/manage-guide')
+def admin_manage_guide():
+
+    return render_template('admin/admin_manage_guide.html')
