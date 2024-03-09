@@ -8,17 +8,53 @@ Manage Agronomist
 {% block active_agronomist_show %}show active{% endblock active_agronomist_show %}
 
 {% block manage_agronomist %}
-  <div class="row">
+<div class="row">
     <div class="col">
-      Column
+        <button type="button" id="add_agronomist" class="btn btn-outline-primary">Add Agronomist</button>
     </div>
     <div class="col">
-      Column
+        <button type="button" id="delete_agronomist" class="btn btn-outline-danger">Delete Agronomist</button>
     </div>
     <div class="col">
-      Column
+        <button type="button" id="edit_agronomist" class="btn btn-outline-warning">Edit Agronomist</button>
     </div>
-  </div>
+    <div class="col-6">
+        <div class="input-group">
+          <select class="form-select" id="">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <input type="text" class="form-control">
+          <button id="search_agronomist" class="btn btn-outline-info" type="button">Search Agronomist</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-success table-striped table-hover">
+
+    </table>
+</div>
+<div class="row">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+</div>
 {% endblock manage_agronomist %}
 
 {% block scripts %}

@@ -40,17 +40,17 @@ function sendUpdate(field, value) {
             const button = document.getElementById(`button-${field}`);
             button.textContent = 'Edit'; // Reset the button to 'Edit' state
         } else {
-            showToast(`Failed to update information: ${data.toast.message}`);
+            showToast(`Failed to update information: ${data.toast.message}`, 'danger');
         }
     }).catch(error => {
         console.error('Error:', error);
     });
 }
 
-
 // showToast function to display Bootstrap toast messages
 function showToast(message, type='success') {
     const toastContainer = document.getElementById('toastContainer');
+
     const toastTemplate = document.getElementById('toastTemplate').cloneNode(true);
     toastTemplate.id = '';
     toastTemplate.classList.remove('hide');
@@ -66,6 +66,7 @@ function showToast(message, type='success') {
     // Show the toast
     const toast = new bootstrap.Toast(toastTemplate);
     toast.show();
+
 }
 
 

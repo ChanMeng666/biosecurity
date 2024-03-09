@@ -281,13 +281,6 @@ def update_user_info():
                 return jsonify(success=False, toast=toast), 409
 
 
-
-        # update_query = f"UPDATE users SET {field} = %s WHERE user_id = %s" if field in ['username',
-        #                                                                                 'password_hash'] else "UPDATE staff_and_administrators SET " + field + " = %s WHERE user_id = %s"
-        #
-        # cursor.execute(update_query, (new_value, user_id))
-
-        # Update logic based on role
         if role == 'agronomist':
             if field in ['phone_number', 'address']:
                 update_query = f"UPDATE agronomists SET {field} = %s WHERE user_id = %s"
@@ -302,8 +295,6 @@ def update_user_info():
             else:
                 update_query = f"UPDATE staff_and_administrators SET {field} = %s WHERE user_id = %s"
                 cursor.execute(update_query, (new_value, user_id))
-
-
 
 
 
