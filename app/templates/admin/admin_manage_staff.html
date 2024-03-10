@@ -8,15 +8,22 @@ Manage Staff
 {% block active_staff_show %}show active{% endblock active_staff_show %}
 
 {% block manage_staff %}
+
 <div class="row mb-4">
     <div class="col">
-        <button type="button" id="add_staff" class="btn btn-outline-dark">Add Staff</button>
+        <button type="button" id="add_staff" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#add_staff_staticBackdrop" aria-controls="add_staff_staticBackdrop">
+            Add Staff
+        </button>
     </div>
     <div class="col">
-        <button type="button" id="delete_staff" class="btn btn-outline-danger">Delete Staff</button>
+        <button type="button" id="delete_staff" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+            Delete Staff
+        </button>
     </div>
     <div class="col">
-        <button type="button" id="edit_staff" class="btn btn-outline-dark">Edit Staff</button>
+        <button type="button" id="edit_staff" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#edit_staff_staticBackdrop" aria-controls="edit_staff_staticBackdrop">
+            Edit Staff
+        </button>
     </div>
     <div class="col-6">
         <form method="POST" action="{{ url_for('admin.admin_manage_staff') }}">
@@ -35,16 +42,28 @@ Manage Staff
                     <option value="department" {% if search_field == 'department' %}selected{% endif %}>Department</option>
                 </select>
                 <input type="text" class="form-control" placeholder="Fuzzy search support" id="input_staff" name="input_staff" value="{{ search_value }}">
-                <button id="search_staff" class="btn btn-outline-dark" type="submit">Search Staff</button>
+                <button id="search_staff" class="btn btn-outline-primary" type="submit">Search Staff</button>
             </div>
         </form>
     </div>
 </div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <div class="row">
     <div class="container">
         <div class="table-responsive-xxl">
             <table class="table table-success table-striped table-hover table-bordered caption-top" id="staff_table">
-                <caption> * Hold down <kbd>Shift</kbd> and use Mouse Wheel <span style="font-family: 'Segoe UI Symbol', 'Arial Unicode MS', 'Symbola';">&#128433;</span> to scroll the table left and right. </caption>
+                <caption> * Hold down <kbd>Shift</kbd> and use <strong>Mouse Wheel</strong> <span style="font-family: 'Segoe UI Symbol', 'Arial Unicode MS', 'Symbola';">&#128433;</span> to scroll the table left and right. </caption>
               <thead class="table-dark">
                 <tr>
                   <th class="text-nowrap">Select</th>
@@ -65,7 +84,10 @@ Manage Staff
                 {% for staff in staff_list %}
                     <tr>
                       <td class="text-nowrap">
-                            <input class="form-check-input" type="radio" name="select_staff" id="select_staff">
+                            <form method="POST" action="{{ url_for('admin.delete_staff') }}" class="delete-staff-form">
+                                <input type="hidden" name="delete_staff_id" value="{{ staff.user_id }}">
+                                <input class="form-check-input delete-staff-radio" type="radio" name="select_staff" id="select_staff_{{ staff.user_id }}" value="{{ staff.user_id }}">
+                            </form>
                       </td>
                       <td class="text-nowrap">{{ staff.user_id }}</td>
                       <td class="text-nowrap">{{ staff.username }}</td>
@@ -109,6 +131,119 @@ Manage Staff
         {% endif %}
       </ul>
     </nav>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="offcanvas  offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="add_staff_staticBackdrop" aria-labelledby="add_staff_staticBackdropLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="add_staff_staticBackdropLabel">Add Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+              <form method="POST" action="{{ url_for('admin.admin_add_staff') }}">
+
+                <div class="row">
+                    <div class="col">
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">
+                            </span>
+                            <input type="text" name="username" id="username" aria-label="Username" class="form-control" placeholder="Username" required>
+                            <div id="usernameFeedback" class="invalid-feedback"></div>
+                        </div>
+
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="password" name="password" id="password" aria-label="Password" class="form-control" placeholder="Password" required>
+                        <div id="passwordFeedback" class="invalid-feedback"></div>
+                      </div>
+
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="text" name="first_name" aria-label="First name" placeholder="First name" class="form-control" required>
+                        <input type="text" name="last_name" aria-label="Last name" placeholder="Last name" class="form-control" required>
+                      </div>
+
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="email" required>
+                      </div>
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">
+                            </span>
+                            <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="phone" name="phone" required>
+                        </div>
+
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="text" aria-label="Position" class="form-control" placeholder="Position" id="position" name="position" required>
+                      </div>
+
+                      <div class="input-group mb-4">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="text" aria-label="Department" class="form-control" placeholder="Department" id="department" name="department" required>
+                      </div>
+
+                      <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-outline-success" id="add_staff_button">Add Staff</button>
+                      </div>
+                    </div>
+                </div>
+                </form>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="offcanvas  offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="staticBackdropLabel">Delete Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="row mb-3">
+                <h6> Please confirm this deletion. </h6>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" form="delete_staff_form" id="delete_staff_confirm" class="btn btn-outline-danger" onclick="document.querySelector('.delete-staff-radio:checked').form.submit();">
+                        Confirm
+                    </button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="offcanvas  offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="edit_staff_staticBackdrop" aria-labelledby="edit_staff_staticBackdropLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="edit_staff_staticBackdropLabel">Edit Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="row">
+                <div class="col">
+
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
 </div>
 {% endblock manage_staff %}
 
