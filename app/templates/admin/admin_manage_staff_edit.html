@@ -1,0 +1,103 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+Edit Staff
+{% endblock title %}
+
+{% block active_staff %}active{% endblock active_staff %}
+{% block active_staff_show %}show active{% endblock active_staff_show %}
+
+{% block manage_staff %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+    <div class="col">
+        <form method="POST" action="{{ url_for('admin.update_staff') }}">
+
+            <input type="hidden" name="edit_staff_id" value="{{ staff_member.user_id }}">
+
+            <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Username
+                </span>
+                <input value="{{ staff_member.username }}" type="text" name="edit_staff_username" id="edit_staff_username" aria-label="Username" class="form-control" required>
+            </div>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+                Password
+            </span>
+            <input value="" type="password" name="edit_staff_password" id="edit_staff_password" aria-label="Password" class="form-control" required>
+          </div>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+                First Name
+            </span>
+            <input value="{{ staff_member.first_name }}" type="text" name="edit_staff_first_name" aria-label="First name" class="form-control" required>
+            <span class="input-group-text">
+                Last Name
+            </span>
+            <input value="{{ staff_member.last_name }}" type="text" name="edit_staff_last_name" aria-label="Last name" class="form-control" required>
+          </div>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+                Email
+            </span>
+            <input value="{{ staff_member.email }}" type="email" aria-label="Email" class="form-control" id="edit_staff_email" name="edit_staff_email" required>
+          </div>
+
+            <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Work Phone Number
+                </span>
+                <input value="{{ staff_member.work_phone_number }}" type="tel" aria-label="Phone" class="form-control" id="edit_staff_phone" name="edit_staff_phone" required>
+            </div>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+                Hire Date
+            </span>
+            <input value="{{ staff_member.hire_date }}" type="text" aria-label="hire_date" class="form-control" id="edit_staff_hire_date" name="edit_staff_hire_date" required>
+          </div>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+                Position
+            </span>
+            <input value="{{ staff_member.position }}" type="text" aria-label="Position" class="form-control" id="edit_staff_position" name="edit_staff_position" required>
+          </div>
+
+          <div class="input-group mb-4">
+            <span class="input-group-text">
+                Department
+            </span>
+            <input value="{{ staff_member.department }}" type="text" aria-label="Department" class="form-control" id="edit_staff_department" name="edit_staff_department" required>
+          </div>
+
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-outline-success" id="edit_staff_button">
+                Edit Staff
+            </button>
+          </div>
+        </form>
+    </div>
+</div>
+
+{% endblock manage_staff %}
+
+{% block scripts %}
+
+{% endblock scripts %}

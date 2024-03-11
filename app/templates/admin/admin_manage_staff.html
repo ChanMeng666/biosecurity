@@ -21,12 +21,9 @@ Manage Staff
         </button>
     </div>
     <div class="col">
-        <form method="POST" action="{{ url_for('admin.admin_manage_staff') }}">
-            <input type="hidden" name="edit_staff_id" id="edit_staff_id" value="">
-            <button type="submit" id="edit_staff" class="btn btn-outline-dark" onclick="editStaff()" disabled>
-                Edit Staff
-            </button>
-        </form>
+        <button type="button" id="edit_staff" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#edit_staff_staticBackdrop" aria-controls="edit_staff_staticBackdrop">
+            Edit Staff
+        </button>
     </div>
     <div class="col-6">
         <form method="POST" action="{{ url_for('admin.admin_manage_staff') }}">
@@ -90,10 +87,6 @@ Manage Staff
                         <form method="POST" action="{{ url_for('admin.delete_staff') }}" class="delete-staff-form">
                             <input type="hidden" name="delete_staff_id" value="{{ staff.user_id }}">
                             <input class="form-check-input delete-staff-radio" type="radio" name="select_staff" id="select_staff_{{ staff.user_id }}" value="{{ staff.user_id }}">
-                        </form>
-                          <!-- 添加一个隐藏的表单用于提交选中的staff_id -->
-                        <form id="edit_staff_form" method="GET" action="{{ url_for('admin.admin_manage_staff') }}" style="display: none;">
-                            <input type="hidden" name="selected_staff_id" id="selected_staff_id" value="">
                         </form>
                       </td>
                       <td class="text-nowrap">{{ staff.user_id }}</td>
@@ -232,140 +225,18 @@ Manage Staff
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col">
-        <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="edit_staff_staticBackdrop" aria-labelledby="edit_staff_staticBackdropLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="edit_staff_staticBackdropLabel">Edit Staff</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <div class="row">
-                <div class="col">
-
-                        <form id="edit_staff_form">
-
-                            <div class="input-group mb-2">
-                                <span class="input-group-text">
-                                    Username
-                                </span>
-                                <input value="{{ edit_staff.username if edit_staff else '' }}" type="text" name="edit_staff_username" id="edit_staff_username" aria-label="Username" class="form-control" required>
-                            </div>
-
-                          <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                Password
-                            </span>
-                            <input value="" type="password" name="edit_staff_password" id="edit_staff_password" aria-label="Password" class="form-control" required>
-                          </div>
-
-                          <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                First Name
-                            </span>
-                            <input value="{{ edit_staff.first_name if edit_staff else '' }}" type="text" name="edit_staff_first_name" aria-label="First name" class="form-control" required>
-                            <span class="input-group-text">
-                                Last Name
-                            </span>
-                            <input value="{{ edit_staff.last_name if edit_staff else '' }}" type="text" name="edit_staff_last_name" aria-label="Last name" class="form-control" required>
-                          </div>
-
-                          <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                Email
-                            </span>
-                            <input value="{{ edit_staff.email if edit_staff else '' }}" type="email" aria-label="Email" class="form-control" id="edit_staff_email" name="edit_staff_email" required>
-                          </div>
-
-                            <div class="input-group mb-2">
-                                <span class="input-group-text">
-                                    Work Phone Number
-                                </span>
-                                <input value="{{ edit_staff.work_phone_number if edit_staff else '' }}" type="tel" aria-label="Phone" class="form-control" id="edit_staff_phone" name="edit_staff_phone" required>
-                            </div>
-
-                          <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                Hire Date
-                            </span>
-                            <input value="{{ edit_staff.hire_date if edit_staff else '' }}" type="text" aria-label="hire_date" class="form-control" id="edit_staff_hire_date" name="edit_staff_hire_date" required>
-                          </div>
-
-                          <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                Position
-                            </span>
-                            <input value="{{ edit_staff.position if edit_staff else '' }}" type="text" aria-label="Position" class="form-control" id="edit_staff_position" name="edit_staff_position" required>
-                          </div>
-
-                          <div class="input-group mb-4">
-                            <span class="input-group-text">
-                                Department
-                            </span>
-                            <input value="{{ edit_staff.department if edit_staff else '' }}" type="text" aria-label="Department" class="form-control" id="edit_staff_department" name="edit_staff_department" required>
-                          </div>
-
-                          <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-outline-success" id="edit_staff_button">
-                                Edit Staff
-                            </button>
-                          </div>
-                        </form>
-                </div>
-            </div>
-          </div>
-        </div>
-    </div>
-</div>
 {% endblock manage_staff %}
-
-
 
 {% block scripts %}
 <script>
-  // 监听添加员工表单的提交事件
-  document.getElementById('add_staff_form').addEventListener('submit', function() {
-    // 将offcanvas的打开状态保存到sessionStorage
-    sessionStorage.setItem('keepOffcanvasOpen', 'true');
-  });
-
-  window.onload = function() {
-    // 页面加载完成后，检查sessionStorage中的状态
-    var keepOffcanvasOpen = sessionStorage.getItem('keepOffcanvasOpen');
-    sessionStorage.removeItem('keepOffcanvasOpen'); // 清除状态，以防止后续的误操作
-
-    // 如果存在flash消息并且keepOffcanvasOpen为'true'，则保持offcanvas打开
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    if (keepOffcanvasOpen === 'true' && {{ messages|length }} > 0) {
-      var addStaffOffcanvas = new bootstrap.Offcanvas(document.getElementById('add_staff_staticBackdrop'));
-      addStaffOffcanvas.show();
+document.getElementById('edit_staff').addEventListener('click', function() {
+    var selectedRadio = document.querySelector('input[name="select_staff"]:checked');
+    if (!selectedRadio) {
+        window.location.href = "{{ url_for('admin.admin_manage_staff') }}?flash_message=staff_not_selected";
+        return;
     }
-    {% endwith %}
-  }
-
-
-      function editStaff() {
-        var selectedRadio = document.querySelector('input[name="select_staff"]:checked');
-        if (!selectedRadio) {
-            alert('请先选择一个staff。');
-            return;
-        }
-        document.getElementById('selected_staff_id').value = selectedRadio.value;
-        document.getElementById('edit_staff_form').submit();
-    }
-
-
-    // 为所有单选按钮添加事件监听器，以启用编辑按钮
-    document.querySelectorAll('input[name="select_staff"]').forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            document.getElementById('edit_staff').disabled = false;
-            document.getElementById('edit_staff_id').value = this.value;
-        });
-    });
-
-
-
-
+    var staffId = selectedRadio.value;
+    window.location.href = "{{ url_for('admin.edit_staff') }}?selected_staff_id=" + staffId;
+});
 </script>
 {% endblock scripts %}
