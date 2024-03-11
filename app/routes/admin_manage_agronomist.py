@@ -1,7 +1,8 @@
-from .admin_blueprint import admin_bp
+from .admin_blueprint import admin_bp, is_password_complex
 from flask import render_template, session, redirect, request, url_for, flash
 from app.database.db_connection import get_db_connection
 from mysql.connector import Error
+from werkzeug.security import generate_password_hash
 
 
 @admin_bp.route('/admin/manage-agronomist', methods=['GET', 'POST'])
@@ -113,36 +114,216 @@ def edit_agronomist():
     # 重定向到新的编辑页面视图函数，并传递user_id
     return redirect(url_for('admin.admin_manage_agronomist_edit', user_id=user_id))
 
-@admin_bp.route('/admin/manage-agronomist/edit', methods=['GET'])
-def admin_manage_agronomist_edit():
+# @admin_bp.route('/admin/manage-agronomist/edit/<int:user_id>', methods=['GET', 'POST'])
+# def admin_manage_agronomist_edit(user_id):
+#     if 'admin_info' not in session:
+#         return redirect(url_for('auth_login.login'))
+#
+#     user_id = request.args.get('user_id')
+#     if not user_id:
+#         flash('No agronomist selected.', 'warning')
+#         return redirect(url_for('admin.admin_manage_agronomist'))
+#
+#     try:
+#         connection = get_db_connection()
+#         cursor = connection.cursor(dictionary=True)
+#         cursor.execute("""
+#             SELECT u.user_id, u.username, a.agronomist_id, a.first_name, a.last_name, a.email,
+#                    a.phone_number, a.address, a.date_joined
+#             FROM users u
+#             JOIN agronomists a ON u.user_id = a.user_id
+#             WHERE u.user_id = %s
+#         """, (user_id,))
+#         agronomist = cursor.fetchone()
+#         if not agronomist:
+#             flash('Agronomist not found.', 'warning')
+#             return redirect(url_for('admin.admin_manage_agronomist'))
+#     except Error as e:
+#         flash(f'An error occurred: {e}', 'danger')
+#         return redirect(url_for('admin.admin_manage_agronomist'))
+#     finally:
+#         cursor.close()
+#         connection.close()
+#
+#     # 渲染编辑页面模板，并传递农学家信息
+#     return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)
+
+@admin_bp.route('/admin/manage-agronomist/edit/<int:user_id>', methods=['GET', 'POST'])
+def admin_manage_agronomist_edit(user_id):
     if 'admin_info' not in session:
         return redirect(url_for('auth_login.login'))
 
-    user_id = request.args.get('user_id')
-    if not user_id:
-        flash('No agronomist selected.', 'warning')
+    if request.method == 'GET':
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute("""
+                SELECT u.user_id, u.username, a.agronomist_id, a.first_name, a.last_name, a.email,
+                       a.phone_number, a.address, a.date_joined
+                FROM users u
+                JOIN agronomists a ON u.user_id = a.user_id
+                WHERE u.user_id = %s
+            """, (user_id,))
+            agronomist = cursor.fetchone()
+            if not agronomist:
+                flash('Agronomist not found.', 'warning')
+                return redirect(url_for('admin.admin_manage_agronomist'))
+        except Error as e:
+            flash(f'An error occurred: {e}', 'danger')
+            return redirect(url_for('admin.admin_manage_agronomist'))
+        finally:
+            cursor.close()
+            connection.close()
+
+        return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)
+
+
+    else:  # POST request
+
+        username = request.form['username']
+
+        password = request.form['password']
+
+        first_name = request.form['first_name']
+
+        last_name = request.form['last_name']
+
+        email = request.form['email']
+
+        phone = request.form['phone']
+
+        address = request.form['address']
+
+        date_joined = request.form['date_joined']
+
+        try:
+
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            # Update password if provided and complex
+
+            if password:
+                if not is_password_complex(password):
+                    flash('Password complexity requirement not met.', 'warning')
+                    # Return to the edit page with the current agronomist information
+                    return render_template('admin/admin_manage_agronomist_edit.html', agronomist=request.form)
+
+                if is_password_complex(password):
+
+                    password_hash = generate_password_hash(password)
+
+                    cursor.execute("""
+
+                            UPDATE users SET password_hash = %s
+
+                            WHERE user_id = %s
+
+                        """, (password_hash, user_id))
+
+                else:
+
+                    flash('Password complexity requirement not met.', 'warning')
+
+                    return redirect(url_for('admin.admin_manage_agronomist_edit', user_id=user_id))
+
+            # Update the rest of the fields
+
+            cursor.execute("""
+
+                    UPDATE agronomists SET 
+
+                        first_name = %s, 
+
+                        last_name = %s, 
+
+                        email = %s, 
+
+                        phone_number = %s, 
+
+                        address = %s, 
+
+                        date_joined = %s
+
+                    WHERE user_id = %s
+
+                """, (first_name, last_name, email, phone, address, date_joined, user_id))
+
+            connection.commit()
+
+            flash('Agronomist updated successfully.', 'success')
+
+
+        except Error as e:
+
+            connection.rollback()
+
+            flash(f'An error occurred: {e}', 'danger')
+
+
+        finally:
+
+            cursor.close()
+
+            connection.close()
+
         return redirect(url_for('admin.admin_manage_agronomist'))
 
+
+@admin_bp.route('/admin/add-agronomist', methods=['POST'])
+def add_agronomist():
+    if 'admin_info' not in session:
+        return redirect(url_for('auth_login.login'))
+
+    username = request.form['add_agronomist_username']
+    password = request.form['add_agronomist_password']
+    first_name = request.form['add_agronomist_first_name']
+    last_name = request.form['add_agronomist_last_name']
+    email = request.form['add_agronomist_email']
+    phone = request.form['add_agronomist_phone']
+    address = request.form['add_agronomist_address']
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
     try:
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT u.user_id, u.username, a.agronomist_id, a.first_name, a.last_name, a.email,
-                   a.phone_number, a.address, a.date_joined
-            FROM users u
-            JOIN agronomists a ON u.user_id = a.user_id
-            WHERE u.user_id = %s
-        """, (user_id,))
-        agronomist = cursor.fetchone()
-        if not agronomist:
-            flash('Agronomist not found.', 'warning')
+        # Check if username already exists
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        if cursor.fetchone():
+            flash('Username already exists.', 'warning')
             return redirect(url_for('admin.admin_manage_agronomist'))
+
+        # Check password complexity
+        if not is_password_complex(password):
+            flash('Password complexity requirement not met.', 'warning')
+            return redirect(url_for('admin.admin_manage_agronomist'))
+
+        # Insert into users table
+        password_hash = generate_password_hash(password)
+        cursor.execute("""
+            INSERT INTO users (username, password_hash, role_name, status) 
+            VALUES (%s, %s, 'agronomist', 'active')
+        """, (username, password_hash))
+        user_id = cursor.lastrowid
+
+        # Insert into agronomists table
+        cursor.execute("""
+            INSERT INTO agronomists (user_id, first_name, last_name, email, phone_number, address, date_joined) 
+            VALUES (%s, %s, %s, %s, %s, %s, CURDATE())
+        """, (user_id, first_name, last_name, email, phone, address))
+
+        connection.commit()
+        flash('Agronomist added successfully.', 'success')
+
     except Error as e:
+        connection.rollback()
         flash(f'An error occurred: {e}', 'danger')
-        return redirect(url_for('admin.admin_manage_agronomist'))
+
     finally:
         cursor.close()
         connection.close()
 
-    # 渲染编辑页面模板，并传递农学家信息
-    return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)
+    return redirect(url_for('admin.admin_manage_agronomist'))
+
+

@@ -8,9 +8,21 @@ Manage Agronomist
 {% block active_agronomist_show %}show active{% endblock active_agronomist_show %}
 
 {% block manage_agronomist %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <div class="row">
     <div class="col">
-        <form>
+        <form method="POST" action="{{ url_for('admin.admin_manage_agronomist_edit', user_id=agronomist.user_id) }}">
             <div class="input-group mb-2">
                 <span class="input-group-text">
                     Username
@@ -58,7 +70,7 @@ Manage Agronomist
                   <input type="text" aria-label="date_joined" class="form-control" id="date_joined" name="date_joined" value="{{ agronomist.date_joined }}" required>
                 </div>
                 <div class="d-grid mb-3">
-                    <button type="button" form="edit_agronomist_form" id="edit_agronomist_confirm" class="btn btn-outline-primary">
+                    <button type="submit" id="edit_agronomist_confirm" class="btn btn-outline-primary">
                         Edit Agronomist
                     </button>
                 </div>

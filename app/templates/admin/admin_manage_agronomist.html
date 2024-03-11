@@ -137,43 +137,44 @@ Manage Agronomist
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <div class="input-group mb-2">
-                    <span class="input-group-text">
-                    </span>
-                    <input type="text" name="add_agronomist_username" id="add_agronomist_username" aria-label="Username" class="form-control" placeholder="Username" value="" required>
-                </div>
-                  <div class="input-group mb-2">
-                    <span class="input-group-text">
-                    </span>
-                    <input type="password" name="add_agronomist_password" id="add_agronomist_password" aria-label="Password" class="form-control" placeholder="Password" value="" required>
-                  </div>
-                  <div class="input-group mb-2">
-                    <span class="input-group-text">
-                    </span>
-                    <input type="text" name="add_agronomist_first_name" id="add_agronomist_first_name" aria-label="First name" placeholder="First name" class="form-control" value="" required>
-                    <input type="text" name="add_agronomist_last_name" id="add_agronomist_last_name" aria-label="Last name" placeholder="Last name" class="form-control" value="" required>
-                  </div>
-                  <div class="input-group mb-2">
-                    <span class="input-group-text">
-                    </span>
-                    <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="add_agronomist_email" id="add_agronomist_email" value="" required>
-                  </div>
+
+                  <form id="add_agronomist_form" method="POST" action="{{ url_for('admin.add_agronomist') }}">
                     <div class="input-group mb-2">
                         <span class="input-group-text">
                         </span>
-                        <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="add_agronomist_phone" name="add_agronomist_phone" value="" required>
+                        <input type="text" name="add_agronomist_username" id="add_agronomist_username" aria-label="Username" class="form-control" placeholder="Username" value="" required>
                     </div>
-                    <div class="input-group mb-2">
+                      <div class="input-group mb-2">
                         <span class="input-group-text">
                         </span>
-                      <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="add_agronomist_address" name="add_agronomist_address" value="" required>
-                    </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" form="add_agronomist_form" id="add_agronomist_confirm" class="btn btn-outline-primary">
-                    Add Agronomist
-                </button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <input type="password" name="add_agronomist_password" id="add_agronomist_password" aria-label="Password" class="form-control" placeholder="Password" value="" required>
+                      </div>
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="text" name="add_agronomist_first_name" id="add_agronomist_first_name" aria-label="First name" placeholder="First name" class="form-control" value="" required>
+                        <input type="text" name="add_agronomist_last_name" id="add_agronomist_last_name" aria-label="Last name" placeholder="Last name" class="form-control" value="" required>
+                      </div>
+                      <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="add_agronomist_email" id="add_agronomist_email" value="" required>
+                      </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">
+                            </span>
+                            <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="add_agronomist_phone" name="add_agronomist_phone" value="" required>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">
+                            </span>
+                          <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="add_agronomist_address" name="add_agronomist_address" value="" required>
+                        </div>
+                    <button type="submit" form="add_agronomist_form" id="add_agronomist_confirm" class="btn btn-outline-primary">
+                        Add Agronomist
+                    </button>
+              </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
