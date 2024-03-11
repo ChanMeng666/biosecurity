@@ -8,47 +8,113 @@ Manage Agronomist
 {% block active_agronomist_show %}show active{% endblock active_agronomist_show %}
 
 {% block manage_agronomist %}
-<div class="row">
+<div class="row mb-4">
     <div class="col">
-        <button type="button" id="add_agronomist" class="btn btn-outline-primary">Add Agronomist</button>
+        <button type="button" id="add_agronomist" class="btn btn-outline-dark">
+            Add Agronomist
+        </button>
     </div>
     <div class="col">
-        <button type="button" id="delete_agronomist" class="btn btn-outline-danger">Delete Agronomist</button>
+        <button type="button" id="delete_agronomist" class="btn btn-outline-dark">
+            Delete Agronomist
+        </button>
     </div>
     <div class="col">
-        <button type="button" id="edit_agronomist" class="btn btn-outline-warning">Edit Agronomist</button>
+        <button type="button" id="edit_agronomist" class="btn btn-outline-dark">
+            Edit Agronomist
+        </button>
     </div>
     <div class="col-6">
-        <div class="input-group">
-          <select class="form-select" id="">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <input type="text" class="form-control">
-          <button id="search_agronomist" class="btn btn-outline-info" type="button">Search Agronomist</button>
+        <form action="{{ url_for('admin.admin_manage_agronomist') }}" method="GET">
+            <div class="input-group">
+              <select class="form-select" id="choose_agronomist" name="search_type">
+                <option selected value="">Choose...</option>
+                <option value="User ID" {% if search_type == "User ID" %}selected{% endif %}>User ID</option>
+                <option value="Username" {% if search_type == "Username" %}selected{% endif %}>Username</option>
+                <option value="Agronomist ID" {% if search_type == "Agronomist ID" %}selected{% endif %}>Agronomist ID</option>
+                <option value="First Name" {% if search_type == "First Name" %}selected{% endif %}>First Name</option>
+                <option value="Last Name" {% if search_type == "Last Name" %}selected{% endif %}>Last Name</option>
+                <option value="Email" {% if search_type == "Email" %}selected{% endif %}>Email</option>
+                <option value="Phone Number" {% if search_type == "Phone Number" %}selected{% endif %}>Phone Number</option>
+                <option value="Address" {% if search_type == "Address" %}selected{% endif %}>Address</option>
+                <option value="Date Joined" {% if search_type == "Date Joined" %}selected{% endif %}>Date Joined</option>
+              </select>
+              <input type="text" class="form-control" placeholder="Fuzzy search support"  id="input_agronomist" name="search_query" value="{{ search_query }}">
+              <button id="search_agronomist" class="btn btn-outline-primary" type="submit">Search Agronomist</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+    <div class="container">
+        <div class="table-responsive-xxl">
+            <table class="table table-primary table-striped table-hover table-bordered caption-top" id="agronomist_table">
+                <caption> * Hold down <kbd>Shift</kbd> and use <strong>Mouse Wheel</strong> <span style="font-family: 'Segoe UI Symbol', 'Arial Unicode MS', 'Symbola';">&#128433;</span> to scroll the table left and right. </caption>
+              <thead class="table-dark">
+                <tr>
+                  <th class="text-nowrap">Select</th>
+                  <th class="text-nowrap">User ID</th>
+                  <th class="text-nowrap">Username</th>
+                  <th class="text-nowrap">Role</th>
+                  <th class="text-nowrap">Agronomist ID</th>
+                  <th class="text-nowrap">First Name</th>
+                  <th class="text-nowrap">Last Name</th>
+                  <th class="text-nowrap">Email</th>
+                  <th class="text-nowrap">Phone Number</th>
+                  <th class="text-nowrap">Address</th>
+                  <th class="text-nowrap">Date Joined</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider" id="staff_table_body">
+                    {% for agronomist in agronomists %}
+                        <tr>
+                          <td class="text-nowrap">
+                                <input class="form-check-input delete-agronomist-radio" type="radio" name="select_agronomist" id="select_agronomist" value="{{ agronomist.user_id }}">
+                          </td>
+                          <td class="text-nowrap">{{ agronomist.user_id }}</td>
+                          <td class="text-nowrap">{{ agronomist.username }}</td>
+                          <td class="text-nowrap">{{ agronomist.role_name }}</td>
+                          <td class="text-nowrap">{{ agronomist.agronomist_id }}</td>
+                          <td class="text-nowrap">{{ agronomist.first_name }}</td>
+                          <td class="text-nowrap">{{ agronomist.last_name }}</td>
+                          <td class="text-nowrap">{{ agronomist.email }}</td>
+                          <td class="text-nowrap">{{ agronomist.phone_number }}</td>
+                          <td class="text-nowrap">{{ agronomist.address }}</td>
+                          <td class="text-nowrap">{{ agronomist.date_joined }}</td>
+                        </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
         </div>
     </div>
 </div>
 <div class="row">
-    <table class="table table-success table-striped table-hover">
-
-    </table>
-</div>
-<div class="row">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
+        <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+          <a class="page-link" href="{{ url_for('admin.admin_manage_agronomist', page=page-1) }}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
+
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item {% if p == page %}active{% endif %}"><a class="page-link" href="{{ url_for('admin.admin_manage_agronomist', page=p) }}">{{ p }}</a></li>
+        {% endfor %}
+        <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+
+          <a class="page-link" href="{{ url_for('admin.admin_manage_agronomist', page=page+1) }}" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
