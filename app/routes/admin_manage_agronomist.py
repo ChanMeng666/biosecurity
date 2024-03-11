@@ -72,3 +72,77 @@ def admin_manage_agronomist():
 
     return render_template('admin/admin_manage_agronomist.html', agronomists=agronomists, page=page, total_pages=total_pages, search_query=search_query, search_type=search_type)
 
+
+@admin_bp.route('/admin/delete-agronomist', methods=['POST'])
+def admin_delete_agronomist():
+    if 'admin_info' not in session:
+        return redirect(url_for('auth_login.login'))
+
+    user_id = request.form.get('user_id')
+    if not user_id:
+        flash('Please select an agronomist first.', 'warning')
+        return redirect(url_for('admin.admin_manage_agronomist'))
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute('DELETE FROM agronomists WHERE user_id = %s', (user_id,))
+        connection.commit()
+        flash('Agronomist deleted successfully.', 'success')
+    except Error as e:
+        flash(f'An error occurred: {e}', 'danger')
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('admin.admin_manage_agronomist'))
+
+
+
+
+@admin_bp.route('/admin/edit-agronomist', methods=['POST'])
+def edit_agronomist():
+    if 'admin_info' not in session:
+        return redirect(url_for('auth_login.login'))
+
+    user_id = request.form.get('user_id')
+    if not user_id:
+        flash('Please select an agronomist first.', 'warning')
+        return redirect(url_for('admin.admin_manage_agronomist'))
+
+    # 重定向到新的编辑页面视图函数，并传递user_id
+    return redirect(url_for('admin.admin_manage_agronomist_edit', user_id=user_id))
+
+@admin_bp.route('/admin/manage-agronomist/edit', methods=['GET'])
+def admin_manage_agronomist_edit():
+    if 'admin_info' not in session:
+        return redirect(url_for('auth_login.login'))
+
+    user_id = request.args.get('user_id')
+    if not user_id:
+        flash('No agronomist selected.', 'warning')
+        return redirect(url_for('admin.admin_manage_agronomist'))
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT u.user_id, u.username, a.agronomist_id, a.first_name, a.last_name, a.email,
+                   a.phone_number, a.address, a.date_joined
+            FROM users u
+            JOIN agronomists a ON u.user_id = a.user_id
+            WHERE u.user_id = %s
+        """, (user_id,))
+        agronomist = cursor.fetchone()
+        if not agronomist:
+            flash('Agronomist not found.', 'warning')
+            return redirect(url_for('admin.admin_manage_agronomist'))
+    except Error as e:
+        flash(f'An error occurred: {e}', 'danger')
+        return redirect(url_for('admin.admin_manage_agronomist'))
+    finally:
+        cursor.close()
+        connection.close()
+
+    # 渲染编辑页面模板，并传递农学家信息
+    return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)

@@ -10,20 +10,21 @@ Manage Agronomist
 {% block manage_agronomist %}
 <div class="row mb-4">
     <div class="col">
-        <button type="button" id="add_agronomist" class="btn btn-outline-dark">
+        <button type="button" id="add_agronomist" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#add_agronomist_staticBackdrop">
             Add Agronomist
         </button>
     </div>
     <div class="col">
-        <button type="button" id="delete_agronomist" class="btn btn-outline-dark">
+        <button type="button" id="delete_agronomist" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Delete Agronomist
         </button>
     </div>
     <div class="col">
-        <button type="button" id="edit_agronomist" class="btn btn-outline-dark">
+        <button type="submit" form="edit_agronomist_form" id="edit_agronomist" class="btn btn-outline-dark">
             Edit Agronomist
         </button>
     </div>
+
     <div class="col-6">
         <form action="{{ url_for('admin.admin_manage_agronomist') }}" method="GET">
             <div class="input-group">
@@ -40,7 +41,7 @@ Manage Agronomist
                 <option value="Date Joined" {% if search_type == "Date Joined" %}selected{% endif %}>Date Joined</option>
               </select>
               <input type="text" class="form-control" placeholder="Fuzzy search support"  id="input_agronomist" name="search_query" value="{{ search_query }}">
-              <button id="search_agronomist" class="btn btn-outline-primary" type="submit">Search Agronomist</button>
+              <button id="search_agronomist" class="btn btn-outline-primary" type="submit">Search</button>
             </div>
         </form>
     </div>
@@ -81,7 +82,10 @@ Manage Agronomist
                     {% for agronomist in agronomists %}
                         <tr>
                           <td class="text-nowrap">
-                                <input class="form-check-input delete-agronomist-radio" type="radio" name="select_agronomist" id="select_agronomist" value="{{ agronomist.user_id }}">
+                            <form method="POST" action="{{ url_for('admin.edit_agronomist') }}">
+                              <input type="hidden" name="user_id" value="{{ agronomist.user_id }}">
+                              <input class="form-check-input edit-agronomist-radio" type="radio" name="select_agronomist" id="select_agronomist_{{ agronomist.user_id }}" value="{{ agronomist.user_id }}" onchange="this.form.submit()" onclick="document.getElementById('delete_agronomist_user_id').value = this.value;">
+                            </form>
                           </td>
                           <td class="text-nowrap">{{ agronomist.user_id }}</td>
                           <td class="text-nowrap">{{ agronomist.username }}</td>
@@ -100,6 +104,7 @@ Manage Agronomist
         </div>
     </div>
 </div>
+
 <div class="row">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
@@ -120,6 +125,87 @@ Manage Agronomist
         </li>
       </ul>
     </nav>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="modal fade" id="add_agronomist_staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title fs-5" id="add_agronomist_staticBackdropLabel">Add Agronomist</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="add_agronomist_username" id="add_agronomist_username" aria-label="Username" class="form-control" placeholder="Username" value="" required>
+                </div>
+                  <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="add_agronomist_password" id="add_agronomist_password" aria-label="Password" class="form-control" placeholder="Password" value="" required>
+                  </div>
+                  <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="add_agronomist_first_name" id="add_agronomist_first_name" aria-label="First name" placeholder="First name" class="form-control" value="" required>
+                    <input type="text" name="add_agronomist_last_name" id="add_agronomist_last_name" aria-label="Last name" placeholder="Last name" class="form-control" value="" required>
+                  </div>
+                  <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="add_agronomist_email" id="add_agronomist_email" value="" required>
+                  </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                        <input type="tel" aria-label="Phone" class="form-control" placeholder="Phone" id="add_agronomist_phone" name="add_agronomist_phone" value="" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">
+                        </span>
+                      <input type="text" aria-label="Address" class="form-control" placeholder="Address" id="add_agronomist_address" name="add_agronomist_address" value="" required>
+                    </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" form="add_agronomist_form" id="add_agronomist_confirm" class="btn btn-outline-primary">
+                    Add Agronomist
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Delete Agronomist</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                        <h6> Please confirm this deletion. </h6>
+                      <div class="modal-footer">
+                        <form id="delete_agronomist_form" method="POST" action="{{ url_for('admin.admin_delete_agronomist') }}">
+                          <input type="hidden" name="user_id" id="delete_agronomist_user_id" value="">
+                          <button type="submit" id="delete_staff_confirm" class="btn btn-outline-danger">
+                            Confirm
+                          </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock manage_agronomist %}
 

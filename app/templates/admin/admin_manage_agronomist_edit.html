@@ -1,0 +1,72 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+Manage Agronomist
+{% endblock title %}
+
+{% block active_agronomist %}active{% endblock active_agronomist %}
+{% block active_agronomist_show %}show active{% endblock active_agronomist_show %}
+
+{% block manage_agronomist %}
+<div class="row">
+    <div class="col">
+        <form>
+            <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Username
+                </span>
+                <input type="text" name="username" id="username" aria-label="Username" class="form-control" value="{{ agronomist.username }}" required>
+            </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Password
+                </span>
+                <input type="password" name="password" id="password" aria-label="Password" class="form-control" value="" required>
+              </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                    First name
+                </span>
+                <input type="text" name="first_name" aria-label="First name" class="form-control" value="{{ agronomist.first_name }}" required>
+                <span class="input-group-text">
+                    Last name
+                </span>
+                <input type="text" name="last_name" aria-label="Last name" class="form-control" value="{{ agronomist.last_name }}" required>
+              </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Email
+                </span>
+                <input type="email" aria-label="Email" class="form-control" name="email" value="{{ agronomist.email }}" required>
+              </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Phone
+                    </span>
+                    <input type="tel" aria-label="Phone" class="form-control" id="phone" name="phone" value="{{ agronomist.phone_number }}" required>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Address
+                    </span>
+                  <input type="text" aria-label="Address" class="form-control" id="address" name="address" value="{{ agronomist.address }}" required>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Date Joined
+                    </span>
+                  <input type="text" aria-label="date_joined" class="form-control" id="date_joined" name="date_joined" value="{{ agronomist.date_joined }}" required>
+                </div>
+                <div class="d-grid mb-3">
+                    <button type="button" form="edit_agronomist_form" id="edit_agronomist_confirm" class="btn btn-outline-primary">
+                        Edit Agronomist
+                    </button>
+                </div>
+        </form>
+    </div>
+</div>
+{% endblock manage_agronomist %}
+
+{% block scripts %}
+
+{% endblock scripts %}
