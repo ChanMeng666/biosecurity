@@ -4,21 +4,67 @@
 View Guide
 {% endblock title %}
 
+{% block style %}
+<style>
+  .card-custom-col {
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+  }
+  .img-custom-size {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+  }
+</style>
+{% endblock style %}
+
 {% block active_guide %}active{% endblock active_guide %}
 {% block active_guide_show %}show active{% endblock active_guide_show %}
 
 {% block view_guide %}
-  <div class="row">
-    <div class="col">
-      Column4
+
+{% for item_chunk in items | batch(5, '&nbsp;') %}
+<div class="row">
+    {% for item in item_chunk %}
+    <div class="col card-custom-col">
+        <div class="card" style="width: 10rem;">
+            <img src="{{ item.image_path }}" class="card-img-top img-custom-size" alt="{{ item.common_name }}">
+            <div class="card-body">
+                <h6 class="card-title">{{ item.common_name }}</h6>
+                <a href="{{ url_for('agronomist.agronomist_view_guide_details', agriculture_id=item.agriculture_id) }}" class="btn btn-outline-success">
+                    Learn more
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="col">
-      Column
-    </div>
-    <div class="col">
-      Column
-    </div>
-  </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<div class="row">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page - 1 }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page + 1 }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+</div>
+
 {% endblock view_guide %}
 
 {% block scripts %}
