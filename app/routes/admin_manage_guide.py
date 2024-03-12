@@ -18,7 +18,7 @@ def admin_manage_guide():
             cursor.close()
             connection.close()
             flash('Guide deleted successfully.', 'success')
-            return redirect(url_for('admin_bp.admin_manage_guide'))
+            return redirect(url_for('admin.admin_manage_guide'))
 
     # Handle the GET request for searching and pagination
     page = request.args.get('page', 1, type=int)

@@ -152,34 +152,6 @@ Manage Guide
       </ul>
     </nav>
 </div>
-
-
-{#<div class="row">#}
-{#    <div class="col">#}
-{#        <div class="modal fade" id="staticBackdrop{{ item.agriculture_id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">#}
-{#          <div class="modal-dialog modal-dialog-centered">#}
-{#                <div class="modal-content">#}
-{#                  <div class="modal-header">#}
-{#                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Delete Guide</h6>#}
-{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#                  </div>#}
-{#                  <div class="modal-body">#}
-{#                        <h6> Please confirm this deletion. </h6>#}
-{#                      <div class="modal-footer">#}
-{#                        <form id="delete_guide_form" method="POST" action="{{ url_for('admin.admin_manage_guide') }}">#}
-{#                          <input type="hidden" name="agriculture_id" id="delete_guide_agriculture_id" value="{{ item.agriculture_id }}">#}
-{#                          <button type="submit" id="delete_guide_confirm" class="btn btn-outline-danger">#}
-{#                            Confirm#}
-{#                          </button>#}
-{#                        </form>#}
-{#                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
 {% endblock manage_guide %}
 
 {% block scripts %}
