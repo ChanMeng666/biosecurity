@@ -17,7 +17,7 @@ def admin_manage_guide():
             connection.commit()
             cursor.close()
             connection.close()
-            flash('Guide deleted successfully.', 'success')
+            flash('Agricultural ID deleted successfully.', 'success')
             return redirect(url_for('admin.admin_manage_guide'))
 
     # Handle the GET request for searching and pagination
@@ -76,3 +76,22 @@ def admin_manage_guide():
         search_value=search_value
     )
 
+
+
+@admin_bp.route('/admin/manage-guide/add', methods=['GET', 'POST'])
+def admin_manage_guide_add():
+    image_fields = request.form.get('image_fields', 1)
+    form_data = request.form.to_dict()
+
+    if request.method == 'POST':
+        if 'add_image' in request.form:
+            image_fields = int(image_fields) + 1
+            form_data['image_fields'] = image_fields
+            # Re-render the template with the incremented image_fields and all previously submitted form data
+            return render_template('admin/admin_manage_guide_add.html', image_fields=image_fields, form_data=form_data)
+        else:
+            # Here you would handle the logic for when the user submits the form to add the guide.
+            # This includes validating the form data and inserting it into the database.
+            pass  # Replace this with your form handling logic.
+
+    return render_template('admin/admin_manage_guide_add.html', image_fields=image_fields, form_data=form_data)

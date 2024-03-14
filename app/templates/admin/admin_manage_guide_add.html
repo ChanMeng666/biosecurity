@@ -9,6 +9,99 @@ Add Guide
 
 
 {% block manage_guide %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+    <div class="col">
+        <h3>Add New Guide</h3>
+        <form id="add_guide_form" method="POST" action="{{ url_for('admin.admin_manage_guide_add') }}">
+            <select class="form-select mb-2" aria-label="Default select example" id="add_guide_type" name="item_type">
+              <option selected>Choose item type...</option>
+              <option value="pest" {% if form_data['item_type'] == 'pest' %}selected{% endif %}>pest</option>
+              <option value="weed" {% if form_data['item_type'] == 'weed' %}selected{% endif %}>weed</option>
+            </select>
+            <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Common Name
+                </span>
+                <input value="{{ form_data.get('common_name', '') }}" type="text" name="common_name" id="common_name" aria-label="common_name" class="form-control" placeholder="Common Name" required>
+            </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Scientific Name
+                </span>
+                  <textarea name="scientific_name" id="scientific_name" aria-label="scientific_name" placeholder="Scientific Name" class="form-control" required>
+                      {{ form_data.get('scientific_name', '') }}
+                  </textarea>
+              </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                    Key Characteristics
+                </span>
+                  <textarea name="key_characteristics" id="key_characteristics" aria-label="key_characteristics" placeholder="Key Characteristics" class="form-control" required>
+                      {{ form_data.get('key_characteristics', '') }}
+                  </textarea>
+              </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Biology
+                    </span>
+                  <textarea name="biology" id="biology" aria-label="biology" placeholder="Biology" class="form-control" required>
+                      {{ form_data.get('biology', '') }}
+                  </textarea>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Impacts
+                    </span>
+                  <textarea name="impacts" id="impacts" aria-label="impacts" placeholder="Impacts" class="form-control" required>
+                      {{ form_data.get('impacts', '') }}
+                  </textarea>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        Control
+                    </span>
+                  <textarea name="control" id="control" aria-label="control" placeholder="Control" class="form-control" required>
+                      {{ form_data.get('control', '') }}
+                  </textarea>
+                </div>
+
+                {% for image_num in range(image_fields|int) %}
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">
+                            Image Path
+                        </span>
+                        <select class="form-select" name="is_primary_{{ image_num }}">
+                          <option selected>Is it set as the primary image?</option>
+                          <option value="1" {% if form_data.get('is_primary_' ~ image_num) == '1' %}selected{% endif %}>Yes</option>
+                          <option value="0" {% if form_data.get('is_primary_' ~ image_num) == '0' %}selected{% endif %}>No</option>
+                        </select>
+                      <textarea name="image_path_{{ image_num }}" id="image_path_{{ image_num }}" aria-label="image_path" placeholder="Accept URL only. " class="form-control" required>
+                          {{ form_data.get('image_path_' ~ image_num, '') }}
+                      </textarea>
+                    </div>
+                {% endfor %}
+
+            <input type="hidden" name="image_fields" value="{{ image_fields|int + 1 }}">
+            <button type="submit" id="add_guide_image" class="btn btn-outline-warning" name="add_image" value="1">
+                + Add more images
+            </button>
+            <button type="submit" form="add_guide_form" id="add_guide_confirm" class="btn btn-outline-primary">
+                Add Guide
+            </button>
+        </form>
+    </div>
+</div>
 
     
 

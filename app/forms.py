@@ -1,1 +1,0 @@
-# Flask-WTF and WTForms removed as per the instructions. Code will use standard HTML forms and manual request processing.

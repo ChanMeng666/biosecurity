@@ -9,6 +9,75 @@ Edit Guide
 
 
 {% block manage_guide %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+    <div class="col">
+        <form id="edit_guide_form">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Choose item type...</option>
+              <option value="">pest</option>
+              <option value="">weed</option>
+            </select>
+            <div class="input-group mb-2">
+                <span class="input-group-text">
+                </span>
+                <input type="text" name="common_name" id="common_name" aria-label="common_name" class="form-control" placeholder="common_name" value="" required>
+            </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                </span>
+                  <textarea name="scientific_name" id="scientific_name" aria-label="scientific_name" placeholder="scientific_name" class="form-control" required></textarea>
+              </div>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                </span>
+                  <textarea name="key_characteristics" id="key_characteristics" aria-label="key_characteristics" placeholder="key_characteristics" class="form-control" required></textarea>
+              </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                  <textarea name="biology" id="biology" aria-label="biology" placeholder="biology" class="form-control" required></textarea>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                  <textarea name="impacts" id="impacts" aria-label="impacts" placeholder="impacts" class="form-control" required></textarea>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                    </span>
+                  <textarea name="control" id="control" aria-label="control" placeholder="control" class="form-control" required></textarea>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        image_path
+                    </span>
+                    <select class="form-select" aria-label="select example">
+                      <option selected>Is it set as the primary image?</option>
+                      <option value="">Yes</option>
+                      <option value="">No</option>
+                    </select>
+                  <textarea name="image_path" id="image_path" aria-label="image_path" placeholder="Accept URL only. " class="form-control" required></textarea>
+                </div>
+                <button type="button" id="edit_guide_image" class="btn btn-outline-warning">
+                    + Add more images
+                </button>
+            <button type="submit" form="edit_guide_form" id="edit_guide_confirm" class="btn btn-outline-primary">
+                Edit Guide
+            </button>
+        </form>
+    </div>
+</div>
 
 
 

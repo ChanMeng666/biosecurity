@@ -169,30 +169,46 @@ def admin_manage_agronomist_edit(user_id):
             cursor = connection.cursor()
 
             # Update password if provided and complex
-
             if password:
-                if not is_password_complex(password):
-                    flash('Password complexity requirement not met.', 'warning')
-                    # Return to the edit page with the current agronomist information
-                    return render_template('admin/admin_manage_agronomist_edit.html', agronomist=request.form)
-
                 if is_password_complex(password):
-
                     password_hash = generate_password_hash(password)
-
                     cursor.execute("""
-
                             UPDATE users SET password_hash = %s
-
                             WHERE user_id = %s
-
                         """, (password_hash, user_id))
-
                 else:
-
                     flash('Password complexity requirement not met.', 'warning')
+                    # # Fetch the agronomist from the database again to pass to the template
+                    # agronomist = ...  # Add the logic to fetch the agronomist here
+                    # return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)
 
                     return redirect(url_for('admin.admin_manage_agronomist_edit', user_id=user_id))
+
+            # # Update password if provided and complex
+            #
+            # if password:
+            #     if not is_password_complex(password):
+            #         flash('Password complexity requirement not met.', 'warning')
+            #         # Return to the edit page with the current agronomist information
+            #         return render_template('admin/admin_manage_agronomist_edit.html', agronomist=agronomist)
+
+                # if is_password_complex(password):
+                #
+                #     password_hash = generate_password_hash(password)
+                #
+                #     cursor.execute("""
+                #
+                #             UPDATE users SET password_hash = %s
+                #
+                #             WHERE user_id = %s
+                #
+                #         """, (password_hash, user_id))
+                #
+                # else:
+                #
+                #     flash('Password complexity requirement not met.', 'warning')
+                #
+                #     return redirect(url_for('admin.admin_manage_agronomist_edit', user_id=user_id))
 
             # Update the rest of the fields
 

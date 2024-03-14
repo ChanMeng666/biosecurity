@@ -11,6 +11,45 @@ Guide Details
     height: 400px;
     object-fit: cover;
   }
+
+
+.carousel-inner,
+.carousel-item {
+  background-color: #537448; /* Set the background color to green */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none; /* Remove the default background images */
+}
+
+.carousel-control-prev-icon:after,
+.carousel-control-next-icon:after {
+  content: ''; /* This will be the new arrow icon */
+  display: inline-block;
+  width: 20px; /* Width of the arrow icon */
+  height: 20px; /* Height of the arrow icon */
+  background: white; /* Color of the arrow */
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triangle shape */
+}
+
+.carousel-control-prev-icon:after {
+  transform: rotate(-90deg); /* Rotate for left arrow */
+}
+
+.carousel-control-next-icon:after {
+  transform: rotate(90deg); /* Rotate for right arrow */
+}
+
+
+.centered-title {
+  text-align: center;
+}
+
+.left-aligned-text {
+  text-align: left;
+}
+
 </style>
 {% endblock style %}
 
@@ -19,7 +58,7 @@ Guide Details
 
 {% block view_guide %}
 
-<div class="row">
+<div class="row mb-5">
     <div class="col">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -47,7 +86,7 @@ Guide Details
 </div>
 
 
-<div class="row">
+<div class="row mb-5">
   <div class="col-4">
     <nav id="navbar-example3" class="h-100 flex-column align-items-stretch pe-4 border-end">
       <nav class="nav nav-pills flex-column">
@@ -64,26 +103,26 @@ Guide Details
 
   <div class="col-8">
     <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
-      <h4 id="item-type">{{ item_details.item_type }}</h4>
+      <h3 id="item-type" class="centered-title">{{ item_details.item_type }}</h3>
       <p>{{ item_details.item_type }}</p>
 
-      <h4 id="common-name">{{ item_details.common_name }}</h4>
+      <h3 id="common-name" class="centered-title">{{ item_details.common_name }}</h3>
       <p>{{ item_details.common_name }}</p>
 
-      <h4 id="scientific-name">{{ item_details.scientific_name }}</h4>
+      <h3 id="scientific-name" class="centered-title">{{ item_details.scientific_name }}</h3>
       <p>{{ item_details.scientific_name }}</p>
 
-      <h4 id="key-characteristics">Key Characteristics</h4>
-      <p>{{ item_details.key_characteristics }}</p>
+      <h3 id="key-characteristics" class="centered-title">Key Characteristics</h3>
+      <p class="left-aligned-text">{{ item_details.key_characteristics }}</p>
 
-      <h4 id="biology">Biology</h4>
-      <p>{{ item_details.biology }}</p>
+      <h3 id="biology" class="centered-title">Biology</h3>
+      <p class="left-aligned-text">{{ item_details.biology }}</p>
 
-      <h4 id="impacts">Impacts</h4>
-      <p>{{ item_details.impacts }}</p>
+      <h3 id="impacts" class="centered-title">Impacts</h3>
+      <p class="left-aligned-text">{{ item_details.impacts }}</p>
 
-      <h4 id="control">Control</h4>
-      <p>{{ item_details.control }}</p>
+      <h3 id="control" class="centered-title">Control</h3>
+      <p class="left-aligned-text">{{ item_details.control }}</p>
     </div>
   </div>
 </div>

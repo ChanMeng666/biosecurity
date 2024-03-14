@@ -12,9 +12,9 @@ Manage Guide
 
 <div class="row mb-4">
     <div class="col">
-        <button type="button" id="add_guide" class="btn btn-outline-dark">
+        <a href="{{ url_for('admin.admin_manage_guide_add') }}" id="add_guide" class="btn btn-outline-dark">
             Add Guide
-        </button>
+        </a>
     </div>
     <div class="col-10">
         <form action="{{ url_for('admin.admin_manage_guide') }}" method="get">
@@ -108,7 +108,7 @@ Manage Guide
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                        <h6> Please confirm this deletion. </h6>
+                                      <h6> Please make sure to delete all the contents corresponding to this <strong>Agricultural ID</strong>. </h6>
                                       <div class="modal-footer">
                                         <form id="delete_guide_form" method="POST" action="{{ url_for('admin.admin_manage_guide') }}">
                                           <input type="hidden" name="agriculture_id" id="delete_guide_agriculture_id" value="{{ item.agriculture_id }}">
