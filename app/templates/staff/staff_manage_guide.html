@@ -74,11 +74,14 @@ Manage Guide
           <tbody class="table-group-divider" id="staff_table_body">
             {% for item in guide_items %}
                 <tr>
-                    <td class="text-nowrap">
-                        <button type="button" id="edit_guide" class="btn btn-outline-dark">
-                            Edit
-                        </button>
-                    </td>
+{#                    <td class="text-nowrap">#}
+{#                        <button type="button" id="edit_guide" class="btn btn-outline-dark">#}
+{#                            Edit#}
+{#                        </button>#}
+{#                    </td>#}
+                  <td class="text-nowrap">
+                    <a href="{{ url_for('staff.staff_manage_guide_edit', agriculture_id=item.agriculture_id) }}" class="btn btn-outline-dark" id="edit_guide">Edit</a>
+                  </td>
                     <td class="text-nowrap">
                         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ item.agriculture_id }}">
                             Delete

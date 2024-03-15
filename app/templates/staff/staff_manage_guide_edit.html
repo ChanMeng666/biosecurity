@@ -1,4 +1,4 @@
-{% extends "admin/admin_base.html" %}
+{% extends "staff/staff_base.html" %}
 
 {% block title %}
 Edit Guide
@@ -7,8 +7,8 @@ Edit Guide
 {% block active_guide %}active{% endblock active_guide %}
 {% block active_guide_show %}show active{% endblock active_guide_show %}
 
-
 {% block manage_guide %}
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
@@ -22,7 +22,7 @@ Edit Guide
 
 <div class="row">
     <div class="col">
-        <form id="edit_guide_form" method="POST" action="{{ url_for('admin.admin_manage_guide_update', agriculture_id=agriculture_item.agriculture_id) }}">
+        <form id="edit_guide_form" method="POST" action="{{ url_for('staff.staff_manage_guide_update', agriculture_id=agriculture_item.agriculture_id) }}">
 {#            <select class="form-select mb-3" aria-label="Default select example" name="item_type">#}
 {#              <option value="pest" {% if agriculture_item.item_type == 'pest' %}selected{% endif %}>pest</option>#}
 {#              <option value="weed" {% if agriculture_item.item_type == 'weed' %}selected{% endif %}>weed</option>#}
