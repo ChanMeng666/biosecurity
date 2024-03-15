@@ -42,7 +42,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="">My Home</a>
+                                    <a class="dropdown-item" href="{{ get_home_url_by_role(session.get('role')) if session.get('role') else url_for('auth.login') }}">My Home</a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li class="dropdown-item">

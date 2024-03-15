@@ -19,7 +19,8 @@ from app.routes.admin_manage_agronomist import admin_manage_agronomist
 from app.routes.admin_manage_guide import admin_manage_guide
 
 
-
+from flask import Flask, g
+from app.utils import get_home_url_by_role
 
 
 app = Flask(__name__)
@@ -32,3 +33,10 @@ app.register_blueprint(agronomist_bp, url_prefix='/agronomist')
 app.register_blueprint(home_bp)
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(errors_bp, url_prefix='/errors')
+
+
+@app.context_processor
+def utility_processor():
+    def get_home_url_by_role_wrapper(role):
+        return get_home_url_by_role(role)
+    return dict(get_home_url_by_role=get_home_url_by_role_wrapper)
