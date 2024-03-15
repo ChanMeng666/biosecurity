@@ -14,3 +14,54 @@
 ### Data Insertion 
 I utilize Navicat database management software's data generation function to insert 'agronomists.address' data and all data for the 'users' table. 
 To insert data in the 'agriculture_items' table and 'images' table, we employed the technique of "view page source code" on the data source website (https://agpest.co.nz/pest-directory/) to filter the needed text information and image paths and insert them into our created database.
+
+## Information required
+
+### PythonAnywhere URL:
+1160210.pythonanywhere.com
+
+### GitHub repository URL:
+https://github.com/ChanMeng666/biosecurity
+
+### Pythonanywhere account:
+
+#### [Admin]
+
+Username: admin0
+Password: 123qweASD@
+
+Username: admin
+Password: 123qweASD@
+
+
+#### [Agronomist]
+
+Username: agro0
+Password: 123qweASD@
+
+Username: agro1
+Password: 123qweASD@
+
+Username: agro2
+Password: 123qweASD@
+
+Username: agro3
+Password: 123qweASD@
+
+Username: agro4
+Password: 123qweASD@
+
+
+#### [Staff]
+
+Username: staff0
+Password: 123qweASD@
+
+
+Username: staff1
+Password: 123qweASD@
+
+
+Username: staff2
+Password: 123qweASD@
+
