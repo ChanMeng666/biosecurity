@@ -1,4 +1,4 @@
-{% extends "admin/admin_base.html" %}
+{% extends "staff/staff_base.html" %}
 
 {% block title %}
 Add Guide
@@ -7,8 +7,8 @@ Add Guide
 {% block active_guide %}active{% endblock active_guide %}
 {% block active_guide_show %}show active{% endblock active_guide_show %}
 
-
 {% block manage_guide %}
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
@@ -23,7 +23,7 @@ Add Guide
 <div class="row">
     <div class="col">
         <h3>Add New Guide</h3>
-        <form id="add_guide_form" method="POST" action="{{ url_for('admin.admin_manage_guide_add') }}">
+        <form id="add_guide_form" method="POST" action="{{ url_for('staff.staff_manage_guide_add') }}">
             <select class="form-select mb-2" aria-label="Default select example" id="add_guide_type" name="item_type">
               <option selected>Choose item type...</option>
               <option value="pest" {% if form_data['item_type'] == 'pest' %}selected{% endif %}>pest</option>
