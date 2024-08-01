@@ -55,7 +55,7 @@ Navigate to `localhost:5000` in your browser to access the web application.
 
 ### Data Insertion
 - Utilises Navicat for efficient data handling and updates.
-- Data sourced responsibly from [AgPest](https://agpest.co.nz/pest-directory/.
+- Data sourced responsibly from [AgPest](https://agpest.co.nz/pest-directory/).
 
 ## Deployment
 Hosted on PythonAnywhere, accessible at [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com/).
