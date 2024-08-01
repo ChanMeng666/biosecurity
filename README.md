@@ -1,67 +1,85 @@
-# Project Implementation Guide This guide includes two primary sections: 
-1. [Database Design and Data Insertion](#database-design-and-data-insertion) 
-## Database Design and Data Insertion 
-### Database Design 
-#### Concept Our database design includes the following features: 
-- **Role Differentiation (Roles)**: The 'roles' table uses 'role_id' and 'role_name' to define different system roles like Agronomist, Staff, and Administrator. This design supports permission management, ensuring users access to the system at the appropriate level based on their role. 
-- **User Table (Users)**: The 'users' table contains basic user information including username, hashed password, and contact information. The 'role_id' field acts as a foreign key, linking to the 'roles' table. This signifies that each user is assigned a specific role. 
-- **Differentiating User Type**: The 'agronomists', 'staff', and 'administrators' tables further breakdown the user types. They each have a foreign key pointing to 'user_id' in the 'users' table, designating them as specific subsets of 'users'. This scheme allows for different user types to have additional specific information - for example, 'agronomists' can have 'address' information. 
-- **Agriculture Project Table (Agriculture Items)**: The 'agriculture_items' table catalogues detailed information on agriculture projects such as the project type, common name, scientific name and descriptions of the biology, impacts, and control methods. 
-- **Image Table (Images)**: The 'images' table is used to store images related to agriculture projects. It is connected to the 'agriculture_items' table via a foreign key, 'agriculture_id'. The 'is_primary' field is used to mark the main image, representing an important feature for front-end display. 
-- **Data Integrity & Normalization**: The database uses foreign keys to assure reference integrity, ensuring that the logical relationship between the data is strictly maintained. By normalizing the information, we reduce data redundancy and improve data consistency. 
-- **Scalability and Modularity**: The database design allows for the flexible addition of new roles and user types.
-#### Software: I use Navicat database management software to create the database and tables and generate an ER diagram in "Database\Database.png". 
-### Data Insertion 
-I utilize Navicat database management software's data generation function to insert 'agronomists.address' data and all data for the 'users' table. 
-To insert data in the 'agriculture_items' table and 'images' table, we employed the technique of "view page source code" on the data source website (https://agpest.co.nz/pest-directory/) to filter the needed text information and image paths and insert them into our created database.
+# Biosecurity Guide for Agricultural Pests and Weeds
 
-## Information required
+## Overview
+This project develops a Flask-based web application serving as a biosecurity guide. It details agricultural pests and weeds prevalent in New Zealand, offering targeted information for different user roles, including Agronomists, Staff, and Administrators.
 
-### PythonAnywhere URL:
-1160210.pythonanywhere.com
+### Project Features:
+- **Responsive Web Design**: Tailored to fit an agricultural theme.
+- **Role-Based Access**: Distinct dashboards and functionalities for different user roles.
+- **Data-Driven**: Utilises a robust database schema to store and manage biosecurity information.
 
-### GitHub repository URL:
-https://github.com/ChanMeng666/biosecurity
+## Getting Started
 
-### Pythonanywhere account:
+### Prerequisites
+- Python 3.8+
+- Flask
+- MySQL
+- Bootstrap CSS
+- JavaScript
 
-#### [Admin]
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ChanMeng666/biosecurity.git
+   ```
+2. Install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Username: admin0
-Password: 123qweASD@
+### Configuration
+- Configure the database using MySQL scripts provided in the `database` folder.
+- Set up your environment variables as outlined in the `env.sample` file.
 
-Username: admin
-Password: 123qweASD@
+## Usage
 
+Launch the application by running:
+```bash
+python app.py
+```
 
-#### [Agronomist]
+Navigate to `localhost:5000` in your browser to access the web application.
 
-Username: agro0
-Password: 123qweASD@
+## Features
 
-Username: agro1
-Password: 123qweASD@
+### User Roles
+- Agronomists: Can view and manage their profile and access detailed pest and weed information.
+- Staff: Have the capabilities to edit and update biosecurity guide details and manage Agronomist profiles.
+- Administrators: Full system access, including user management and content moderation.
 
-Username: agro2
-Password: 123qweASD@
+### Database Design
+- Role Differentiation: Roles defined with specific permissions.
+- User Management: Users are linked to roles, enhancing security and functional access.
+- Data Integrity & Normalization: Ensures accurate and efficient data handling.
+- Scalability: Designed to accommodate future expansions seamlessly.
 
-Username: agro3
-Password: 123qweASD@
+### Data Insertion
+- Utilises Navicat for efficient data handling and updates.
+- Data sourced responsibly from [AgPest](https://agpest.co.nz/pest-directory/.
 
-Username: agro4
-Password: 123qweASD@
+## Deployment
+Hosted on PythonAnywhere, accessible at [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com/).
 
+### Testing Accounts
 
-#### [Staff]
+| Role       | Username | Password   |
+|------------|----------|------------|
+| **Admin**  | admin0   | 123qweASD@ |
+|            | admin    | 123qweASD@ |
+| **Agronomist** | agro0  | 123qweASD@ |
+|            | agro1    | 123qweASD@ |
+|            | agro2    | 123qweASD@ |
+|            | agro3    | 123qweASD@ |
+|            | agro4    | 123qweASD@ |
+| **Staff**  | staff0   | 123qweASD@ |
+|            | staff1   | 123qweASD@ |
+|            | staff2   | 123qweASD@ |
 
-Username: staff0
-Password: 123qweASD@
+## Contributing
+Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
 
+## Versioning
+We use SemVer for versioning. For the versions available, see the tags on this repository.
 
-Username: staff1
-Password: 123qweASD@
-
-
-Username: staff2
-Password: 123qweASD@
-
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
