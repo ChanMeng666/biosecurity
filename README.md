@@ -1,21 +1,38 @@
-# Biosecurity Guide for Agricultural Pests and Weeds
+# Biosecurity Guide for Agricultural Pests and Weeds 🌱
+
+<div align="center">
+<a href="https://github.com/ChanMeng666/biosecurity"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a>
+<a href="https://1160210.pythonanywhere.com"><img src="https://img.shields.io/badge/pythonanywhere-1160210.pythonanywhere.com-green.svg?style=for-the-badge"/></a>
+<img src="https://img.shields.io/badge/python-3.8+-blue.svg?style=for-the-badge&logo=python&logoColor=white"/>
+<img src="https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white"/>
+<img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white"/>
+<img src="https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/>
+</div>
 
 ## Overview
-This project develops a Flask-based web application serving as a biosecurity guide. It details agricultural pests and weeds prevalent in New Zealand, offering targeted information for different user roles, including Agronomists, Staff, and Administrators.
+A Flask-based web application that serves as a comprehensive biosecurity guide for agricultural pests and weeds. This platform provides targeted information and management capabilities for different user roles including Agronomists, Staff, and Administrators.
 
 ### Project Features:
-- **Responsive Web Design**: Tailored to fit an agricultural theme.
-- **Role-Based Access**: Distinct dashboards and functionalities for different user roles.
-- **Data-Driven**: Utilises a robust database schema to store and manage biosecurity information.
+- **User Role Management**: Distinct interfaces and capabilities for Agronomists, Staff, and Administrators
+- **Comprehensive Guide**: Detailed information about agricultural pests and weeds
+- **Responsive Design**: Mobile-friendly interface with Bootstrap CSS
+- **Image Management**: Support for pest and weed image uploads and management
+- **Secure Authentication**: Role-based access control and secure password handling
 
 ## Getting Started
 
 ### Prerequisites
 - Python 3.8+
-- Flask
-- MySQL
-- Bootstrap CSS
-- JavaScript
+- MySQL Server
+- Modern web browser
+
+### Dependencies
+```
+Flask==3.0.2
+mysql-connector-python==8.3.0
+Werkzeug==3.0.1
+WTForms==3.1.2
+```
 
 ### Installation
 1. Clone the repository:
@@ -26,60 +43,53 @@ This project develops a Flask-based web application serving as a biosecurity gui
    ```bash
    pip install -r requirements.txt
    ```
-
-### Configuration
-- Configure the database using MySQL scripts provided in the `database` folder.
-- Set up your environment variables as outlined in the `env.sample` file.
-
-## Usage
-
-Launch the application by running:
-```bash
-python app.py
-```
-
-Navigate to `localhost:5000` in your browser to access the web application.
+3. Configure MySQL database:
+   ```python
+   # config.py
+   class Config(object):
+       SECRET_KEY = '123456'
+       DATABASE_URI = 'mysql://root:123456@localhost/biosecurity'
+   ```
 
 ## Features
 
 ### User Roles
-- Agronomists: Can view and manage their profile and access detailed pest and weed information.
-- Staff: Have the capabilities to edit and update biosecurity guide details and manage Agronomist profiles.
-- Administrators: Full system access, including user management and content moderation.
+- **Agronomists**: View and access detailed pest and weed information
+- **Staff**: Manage guide content and agronomist profiles
+- **Administrators**: Full system access including user management
 
 ### Database Design
-- Role Differentiation: Roles defined with specific permissions.
-- User Management: Users are linked to roles, enhancing security and functional access.
-- Data Integrity & Normalization: Ensures accurate and efficient data handling.
-- Scalability: Designed to accommodate future expansions seamlessly.
-
-### Data Insertion
-- Utilises Navicat for efficient data handling and updates.
-- Data sourced responsibly from [AgPest](https://agpest.co.nz/pest-directory/).
+- Role differentiation with specific permissions
+- User management with role associations
+- Efficient data handling and storage
+- Support for image management
 
 ## Deployment
-Hosted on PythonAnywhere, accessible at [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com/).
+The application is deployed on PythonAnywhere and can be accessed at [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com)
 
 ### Testing Accounts
 
+#### Local Environment
 | Role       | Username | Password   |
-|------------|----------|------------|
-| **Admin**  | admin0   | 123qweASD@ |
-|            | admin    | 123qweASD@ |
-| **Agronomist** | agro0  | 123qweASD@ |
-|            | agro1    | 123qweASD@ |
-|            | agro2    | 123qweASD@ |
-|            | agro3    | 123qweASD@ |
-|            | agro4    | 123qweASD@ |
-| **Staff**  | staff0   | 123qweASD@ |
-|            | staff1   | 123qweASD@ |
-|            | staff2   | 123qweASD@ |
+| ---------- | -------- | ---------- |
+| Agronomist | agro1    | 123qweASD@ |
+| Staff      | staff1   | 123qweASD@ |
+| Admin      | admin1   | 123qweASD@ |
+
+#### PythonAnywhere Environment
+| Role       | Username | Password    |
+| ---------- | -------- | ----------- |
+| Admin      | hello777 | 1234qweASD@ |
+| Admin      | admin0   | 123qweASD@  |
+| Staff      | staff1   | 123qweASD@  |
+| Agronomist | agro1    | 123qweASD@  |
 
 ## Contributing
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
-
-## Versioning
-We use SemVer for versioning. For the versions available, see the tags on this repository.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+- GitHub: [@ChanMeng666](https://github.com/ChanMeng666)
+- PythonAnywhere: [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com)
