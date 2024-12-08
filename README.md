@@ -9,6 +9,18 @@
 <img src="https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/>
 </div>
 
+![screencapture-1160210-pythonanywhere-2024-12-08-13_07_57](https://github.com/user-attachments/assets/9f8960f2-e101-4faa-8e4f-041dd64923da)
+
+![screencapture-1160210-pythonanywhere-auth-login-2024-12-08-13_08_37](https://github.com/user-attachments/assets/3a6b6675-4b95-41e2-b893-b2c865da6563)
+
+![screencapture-1160210-pythonanywhere-admin-home-2024-12-08-13_08_57](https://github.com/user-attachments/assets/729a65b7-b711-424c-b4d2-2ae153eeed3a)
+
+![screencapture-1160210-pythonanywhere-admin-admin-manage-staff-2024-12-08-13_09_12](https://github.com/user-attachments/assets/720678e8-4bbc-4247-9cfb-582dc2345b3e)
+
+![screencapture-1160210-pythonanywhere-admin-admin-manage-guide-add-2024-12-08-13_10_20](https://github.com/user-attachments/assets/e35aa016-1a49-4fe0-8e43-e7090a19f636)
+
+![screencapture-1160210-pythonanywhere-agronomist-agronomist-view-guide-2024-12-08-13_10_49](https://github.com/user-attachments/assets/b6994684-3a55-4772-ba0c-bf3fc51bbca3)
+
 ## Overview
 A Flask-based web application that serves as a comprehensive biosecurity guide for agricultural pests and weeds. This platform provides targeted information and management capabilities for different user roles including Agronomists, Staff, and Administrators.
 
