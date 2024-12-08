@@ -17,6 +17,8 @@
 
 ![screencapture-1160210-pythonanywhere-admin-admin-manage-staff-2024-12-08-13_09_12](https://github.com/user-attachments/assets/720678e8-4bbc-4247-9cfb-582dc2345b3e)
 
+![屏幕截图 2024-12-08 131000](https://github.com/user-attachments/assets/9cb56746-a8aa-4ee4-8fe9-521e6ff2bb6d)
+
 ![screencapture-1160210-pythonanywhere-admin-admin-manage-guide-add-2024-12-08-13_10_20](https://github.com/user-attachments/assets/e35aa016-1a49-4fe0-8e43-e7090a19f636)
 
 ![screencapture-1160210-pythonanywhere-agronomist-agronomist-view-guide-2024-12-08-13_10_49](https://github.com/user-attachments/assets/b6994684-3a55-4772-ba0c-bf3fc51bbca3)
