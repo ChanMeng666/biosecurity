@@ -109,5 +109,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Contact
-- GitHub: [@ChanMeng666](https://github.com/ChanMeng666)
-- PythonAnywhere: [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com)
+PythonAnywhere: [1160210.pythonanywhere.com](https://1160210.pythonanywhere.com)
+
+## 🙋‍♀ Author
+
+Created and maintained by [Chan Meng](https://github.com/ChanMeng666).
