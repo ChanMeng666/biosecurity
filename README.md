@@ -2,7 +2,7 @@
 
 [![Project Banner](https://github.com/user-attachments/assets/02908422-5bc5-40df-b3ed-6fe9e1e049e5)](#)
 
-# 🌱 Biosecurity Guide for Agricultural Pests and Weeds<br/><small>Comprehensive Digital Platform for Agricultural Risk Management</small>
+# 🌱 Biosecurity Guide for Agricultural Pests and Weeds<br/><h3>Comprehensive Digital Platform for Agricultural Risk Management</h3>
 
 An innovative web-based biosecurity platform that leverages modern Flask technology to provide comprehensive agricultural pest and weed management capabilities.<br/>
 Supports role-based access control, detailed species information management, and visual identification tools with image galleries.<br/>
