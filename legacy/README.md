@@ -81,7 +81,7 @@ One-click **FREE** deployment of your agricultural biosecurity system.
 
 <div align="center">
 
-[![Demo Video](https://github.com/user-attachments/assets/02908422-5bc5-40df-b3ed-6fe9e1e049e5)](https://1160210.pythonanywhere.com/)
+[![Demo Video](https://github.com/user-attachments/assets/02908422-5bc5-40df-b3ed-6fe9e1e049e5)](https://biosecurity-guide-app-a582c65bb9ec.herokuapp.com/)
 
 *Click the image above to access the live application*
 
