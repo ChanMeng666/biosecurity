@@ -5,7 +5,7 @@
 A comprehensive digital platform for identifying, understanding, and managing agricultural pests and weeds.<br/>
 Built for agronomists, staff, and administrators with role-based access control and a growing guide library.<br/>
 
-[Issues][github-issues-link]
+**[Live Demo](https://biosecurity.chanmeng-dev.workers.dev)** | [Issues][github-issues-link]
 
 <br/>
 
@@ -35,11 +35,12 @@ Built for agronomists, staff, and administrators with role-based access control 
 <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
 <img src="https://img.shields.io/badge/postgresql-%23336791.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
 <img src="https://img.shields.io/badge/drizzle-%23C5F74F.svg?style=for-the-badge&logo=drizzle&logoColor=black"/>
+<img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white"/>
 
 </div>
 
 > [!IMPORTANT]
-> This project is a modern full-stack biosecurity information system built with Next.js 16, React 19, Better Auth, Drizzle ORM, and Neon PostgreSQL. It provides role-based dashboards for administrators, staff, and agronomists to manage and browse pest and weed identification guides with detailed scientific data, images, and control methods.
+> This project is a modern full-stack biosecurity information system built with Next.js 16, React 19, Better Auth, Drizzle ORM, and Neon PostgreSQL. It is deployed on Cloudflare Workers via the `@opennextjs/cloudflare` adapter for global edge performance. It provides role-based dashboards for administrators, staff, and agronomists to manage and browse pest and weed identification guides with detailed scientific data, images, and control methods.
 
 <details>
 <summary><kbd>Table of Contents</kbd></summary>
@@ -48,6 +49,7 @@ Built for agronomists, staff, and administrators with role-based access control 
 
 - [Introduction](#-introduction)
 - [Key Features](#-key-features)
+- [Architecture](#-architecture)
 - [Tech Stack](#%EF%B8%8F-tech-stack)
 - [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
@@ -55,6 +57,7 @@ Built for agronomists, staff, and administrators with role-based access control 
   - [Environment Setup](#environment-setup)
   - [Database Setup](#database-setup)
   - [Development Mode](#development-mode)
+- [Deployment](#-deployment)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -98,7 +101,7 @@ Agricultural biosecurity is critical for protecting crops, ecosystems, and food 
 > [!NOTE]
 > - Node.js >= 18.0 required
 > - Neon PostgreSQL account required for database
-> - Better Auth secret required for authentication
+> - Cloudflare account required for deployment
 
 [![][back-to-top]](#readme-top)
 
@@ -157,6 +160,175 @@ Browse and search through the guide library with powerful filtering capabilities
 
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
 
+## Architecture
+
+### System Overview
+
+```mermaid
+graph TB
+    subgraph Client["Client (Browser)"]
+        UI[React 19 UI<br/>shadcn/ui + Tailwind CSS 4]
+        AuthClient[Better Auth Client]
+    end
+
+    subgraph CloudflareEdge["Cloudflare Workers (Edge)"]
+        Worker[OpenNext Worker]
+        Middleware[Next.js Middleware<br/>Session Cookie Check]
+        SSR[Next.js SSR<br/>App Router]
+        API[API Routes<br/>REST Endpoints]
+        Assets[Static Assets<br/>Cloudflare CDN]
+    end
+
+    subgraph ExternalServices["External Services"]
+        NeonDB[(Neon PostgreSQL<br/>Serverless HTTP)]
+        R2[Cloudflare R2<br/>Incremental Cache]
+        Pixabay[Pixabay CDN<br/>Guide Images]
+    end
+
+    UI -->|HTTPS| Worker
+    AuthClient -->|Auth API| API
+    Worker --> Middleware
+    Middleware -->|Protected Routes| SSR
+    Middleware -->|Public Routes| SSR
+    Worker -->|Static Files| Assets
+    SSR --> API
+    API -->|Drizzle ORM| NeonDB
+    API -->|Better Auth| NeonDB
+    Worker -->|Cache| R2
+    UI -->|Images| Pixabay
+```
+
+### Request Flow
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant CF as Cloudflare Worker
+    participant MW as Middleware
+    participant Page as Next.js Page
+    participant API as API Route
+    participant Auth as Better Auth
+    participant DB as Neon PostgreSQL
+
+    User->>CF: HTTPS Request
+    CF->>MW: Route Request
+
+    alt Static Asset
+        CF-->>User: Serve from CDN Cache
+    else Public Route (/, /login, /sources)
+        MW->>Page: Allow Access
+        Page-->>User: Render Page
+    else Protected Route (/admin/*, /staff/*, etc.)
+        MW->>MW: Check Session Cookie
+        alt No Session Cookie
+            MW-->>User: Redirect to /login
+        else Has Session Cookie
+            MW->>Page: Allow Access
+            Page->>API: Fetch Data
+            API->>Auth: Verify Session
+            Auth->>DB: Query Session
+            DB-->>Auth: Session Data
+            API->>DB: Query Data
+            DB-->>API: Results
+            API-->>Page: JSON Response
+            Page-->>User: Render Page
+        end
+    end
+```
+
+### Database Schema
+
+```mermaid
+erDiagram
+    user {
+        text id PK
+        text name
+        text email UK
+        text username UK
+        text role "administrator | staff | agronomist"
+        text status "active | inactive"
+        boolean emailVerified
+        text image
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    session {
+        text id PK
+        text userId FK
+        text token UK
+        text ipAddress
+        text userAgent
+        timestamp expiresAt
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    account {
+        text id PK
+        text userId FK
+        text accountId
+        text providerId
+    }
+
+    verification {
+        text id PK
+        text identifier
+        text value
+        timestamp expiresAt
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    agronomists {
+        serial id PK
+        text userId FK
+        text firstName
+        text lastName
+        text phoneNumber
+        text address
+    }
+
+    staff_and_administrators {
+        serial id PK
+        text userId FK
+        text firstName
+        text lastName
+        text position
+        text department
+    }
+
+    agriculture_items {
+        serial id PK
+        enum itemType "pest | weed"
+        text commonName
+        text scientificName
+        text keyCharacteristics
+        text biology
+        text impacts
+        text control
+        text source
+    }
+
+    images {
+        serial id PK
+        integer itemId FK
+        text url
+        text altText
+        boolean isPrimary
+    }
+
+    user ||--o{ session : "has"
+    user ||--o{ account : "has"
+    user ||--o| agronomists : "profile"
+    user ||--o| staff_and_administrators : "profile"
+    agriculture_items ||--o{ images : "has"
+```
+
+[![][back-to-top]](#readme-top)
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
 ## Tech Stack
 
 <div align="center">
@@ -186,6 +358,10 @@ Browse and search through the guide library with powerful filtering capabilities
         <img src="https://cdn.simpleicons.org/drizzle" width="48" height="48" alt="Drizzle" />
         <br>Drizzle ORM
       </td>
+      <td align="center" width="96">
+        <img src="https://cdn.simpleicons.org/cloudflare" width="48" height="48" alt="Cloudflare" />
+        <br>Cloudflare
+      </td>
     </tr>
   </table>
 </div>
@@ -200,15 +376,21 @@ Browse and search through the guide library with powerful filtering capabilities
 - **Notifications**: Sonner toast system
 
 **Backend:**
-- **Runtime**: Next.js API Routes (Node.js)
+- **Runtime**: Next.js API Routes on Cloudflare Workers (edge)
 - **Authentication**: Better Auth with email/password and server-side sessions
 - **Database ORM**: Drizzle ORM with type-safe queries
 - **Validation**: Zod schema validation
 
 **Database:**
-- **Provider**: Neon serverless PostgreSQL
+- **Provider**: Neon serverless PostgreSQL (HTTP driver, edge-compatible)
 - **Migrations**: Drizzle Kit
 - **Schema**: Custom tables for users, guides, images, profiles with role-based enums
+
+**Infrastructure:**
+- **Hosting**: Cloudflare Workers via `@opennextjs/cloudflare` adapter
+- **Static Assets**: Cloudflare CDN (automatic edge caching)
+- **Incremental Cache**: Cloudflare R2 bucket
+- **Build**: Webpack bundler (required for Cloudflare compatibility)
 
 [![][back-to-top]](#readme-top)
 
@@ -225,6 +407,7 @@ Browse and search through the guide library with powerful filtering capabilities
 - npm package manager
 - Git ([Download](https://git-scm.com/))
 - A [Neon](https://neon.tech/) PostgreSQL database account
+- A [Cloudflare](https://dash.cloudflare.com/) account (for deployment)
 
 ### Quick Installation
 
@@ -274,7 +457,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 | `DATABASE_URL` | Yes | Neon PostgreSQL connection string |
 | `BETTER_AUTH_SECRET` | Yes | Auth encryption key (32+ chars) |
 | `BETTER_AUTH_URL` | Yes | Auth base URL |
-| `NEXT_PUBLIC_APP_URL` | Yes | Public-facing app URL |
+| `NEXT_PUBLIC_APP_URL` | Yes | Public-facing app URL (inlined at build time) |
 
 > [!TIP]
 > Use `openssl rand -base64 32` to generate a secure random secret for `BETTER_AUTH_SECRET`.
@@ -308,8 +491,11 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ```bash
 npm run dev          # Start dev server with hot reload
-npm run build        # Production build
-npm run start        # Start production server
+npm run build        # Production build (webpack)
+npm run start        # Start production server (local Node.js)
+npm run build:worker # Build for Cloudflare Workers
+npm run preview      # Preview Cloudflare build locally
+npm run cf:deploy    # Build and deploy to Cloudflare Workers
 npm run lint         # Run ESLint
 npm run db:generate  # Generate Drizzle migration files
 npm run db:push      # Push schema changes to database
@@ -321,44 +507,124 @@ npm run db:studio    # Open Drizzle Studio database GUI
 
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
 
+## Deployment
+
+This project is deployed on **Cloudflare Workers** using the [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare) adapter.
+
+**Live URL:** https://biosecurity.chanmeng-dev.workers.dev
+
+### Deployment Architecture
+
+```mermaid
+graph LR
+    subgraph Build["Build Pipeline"]
+        Next["next build --webpack"]
+        OpenNext["opennextjs-cloudflare build"]
+        Next --> OpenNext
+    end
+
+    subgraph Output["Build Output (.open-next/)"]
+        WorkerJS["worker.js<br/>Entry Point"]
+        ServerFn["server-functions/<br/>SSR + API"]
+        StaticAssets["assets/<br/>CSS, JS, Fonts"]
+    end
+
+    subgraph Cloudflare["Cloudflare Edge Network"]
+        CDN["CDN<br/>Static Assets"]
+        Workers["Workers Runtime<br/>nodejs_compat"]
+        R2["R2 Bucket<br/>Incremental Cache"]
+    end
+
+    subgraph External["External"]
+        Neon["Neon PostgreSQL<br/>HTTP Driver"]
+    end
+
+    OpenNext --> WorkerJS
+    OpenNext --> ServerFn
+    OpenNext --> StaticAssets
+
+    StaticAssets -->|wrangler deploy| CDN
+    WorkerJS -->|wrangler deploy| Workers
+    ServerFn -->|bundled into| Workers
+    Workers -->|Cache Read/Write| R2
+    Workers -->|SQL over HTTP| Neon
+```
+
+### Deploy Steps
+
+```bash
+# 1. Set Cloudflare secrets (first time only)
+wrangler secret put DATABASE_URL
+wrangler secret put BETTER_AUTH_SECRET
+
+# 2. Build and deploy
+NEXT_PUBLIC_APP_URL=https://biosecurity.chanmeng-dev.workers.dev npm run cf:deploy
+```
+
+> [!NOTE]
+> - `NEXT_PUBLIC_APP_URL` must be set at build time (it is inlined into client JavaScript bundles).
+> - The build uses `--webpack` instead of Turbopack for Cloudflare compatibility.
+> - The `nodejs_compat` compatibility flag is enabled in `wrangler.jsonc` to support Node.js APIs used by Better Auth.
+
+### Key Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `wrangler.jsonc` | Cloudflare Worker configuration (bindings, compatibility flags, env vars) |
+| `open-next.config.ts` | OpenNext adapter configuration |
+| `next.config.ts` | Next.js config (`standalone` output, custom image loader) |
+| `src/lib/image-loader.ts` | Custom image loader for Cloudflare (pass-through for external URLs) |
+
+[![][back-to-top]](#readme-top)
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
 ## Project Structure
 
 ```
-src/
-├── app/                          # Next.js App Router
-│   ├── (auth)/                   # Authentication routes
-│   │   ├── login/                # Login page
-│   │   └── register/             # Registration pages
-│   │       ├── admin/            # Admin registration
-│   │       ├── agronomist/       # Agronomist registration
-│   │       └── staff/            # Staff registration
-│   ├── (dashboard)/              # Protected dashboard routes
-│   │   ├── admin/                # Admin dashboard
-│   │   │   ├── manage-guides/    # Guide CRUD management
-│   │   │   ├── manage-agronomists/ # Agronomist management
-│   │   │   └── manage-staff/     # Staff management
-│   │   ├── agronomist/           # Agronomist dashboard
-│   │   │   └── guides/           # Guide browsing
-│   │   └── staff/                # Staff dashboard
-│   │       ├── manage-guides/    # Guide CRUD management
-│   │       └── view-agronomists/ # View agronomist profiles
-│   ├── api/                      # API routes
-│   │   ├── auth/[...all]/        # Better Auth handler
-│   │   ├── guides/               # Guide CRUD endpoints
-│   │   ├── agronomists/          # Agronomist endpoints
-│   │   ├── staff/                # Staff endpoints
-│   │   └── profile/              # Profile endpoints
-│   └── sources/                  # Sources & credits page
-├── components/
-│   ├── ui/                       # shadcn/ui base components
-│   ├── guides/                   # Guide-specific components
-│   ├── layout/                   # Navbar, dashboard shell
-│   ├── shared/                   # Confirm dialog, data table
-│   └── users/                    # Profile editor
-└── lib/
-    ├── auth/                     # Better Auth config & helpers
-    ├── db/                       # Drizzle ORM, schema, migrations
-    └── validators/               # Zod validation schemas
+biosecurity/
+├── src/
+│   ├── app/                          # Next.js App Router
+│   │   ├── (auth)/                   # Authentication routes
+│   │   │   ├── login/                # Login page
+│   │   │   └── register/             # Registration pages
+│   │   │       ├── admin/            # Admin registration
+│   │   │       ├── agronomist/       # Agronomist registration
+│   │   │       └── staff/            # Staff registration
+│   │   ├── (dashboard)/              # Protected dashboard routes
+│   │   │   ├── admin/                # Admin dashboard
+│   │   │   │   ├── manage-guides/    # Guide CRUD management
+│   │   │   │   ├── manage-agronomists/ # Agronomist management
+│   │   │   │   └── manage-staff/     # Staff management
+│   │   │   ├── agronomist/           # Agronomist dashboard
+│   │   │   │   └── guides/           # Guide browsing
+│   │   │   └── staff/                # Staff dashboard
+│   │   │       ├── manage-guides/    # Guide CRUD management
+│   │   │       └── view-agronomists/ # View agronomist profiles
+│   │   ├── api/                      # API routes
+│   │   │   ├── auth/[...all]/        # Better Auth handler
+│   │   │   ├── guides/               # Guide CRUD endpoints
+│   │   │   ├── agronomists/          # Agronomist endpoints
+│   │   │   ├── staff/                # Staff endpoints
+│   │   │   └── profile/              # Profile endpoints
+│   │   └── sources/                  # Sources & credits page
+│   ├── components/
+│   │   ├── ui/                       # shadcn/ui base components
+│   │   ├── guides/                   # Guide-specific components
+│   │   ├── layout/                   # Navbar, dashboard shell
+│   │   ├── shared/                   # Confirm dialog, data table
+│   │   └── users/                    # Profile editor
+│   └── lib/
+│       ├── auth/                     # Better Auth config & helpers
+│       ├── db/                       # Drizzle ORM, schema, migrations
+│       ├── image-loader.ts           # Custom Cloudflare image loader
+│       └── validators/               # Zod validation schemas
+├── wrangler.jsonc                    # Cloudflare Worker configuration
+├── open-next.config.ts               # OpenNext adapter configuration
+├── next.config.ts                    # Next.js configuration
+├── drizzle.config.ts                 # Drizzle ORM configuration
+├── package.json                      # Dependencies and scripts
+└── tsconfig.json                     # TypeScript configuration
 ```
 
 [![][back-to-top]](#readme-top)
